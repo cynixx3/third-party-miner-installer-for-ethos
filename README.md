@@ -1,6 +1,8 @@
 # third-party-miner-installer-for-ethos
 This is an introduction to installing third party miners to ethOS with instructions and examples for miner developers to integrate and make ethOS installers / update scripts
 
+Phoenix Miner is a claymore like miner that we will be using in this example. As you can see from the link below the file description we are installing it by adding it to each claymore function. Other miners may require a lot more intergration effort.
+
 ethOS installs its miners and associated files to /opt/miners/MinerFolder/MinerFiles
 
 ethOS has six scripts to manage miners, they are all in /opt/ethos/
@@ -30,6 +32,8 @@ ethOS has six scripts to manage miners, they are all in /opt/ethos/
     - add miner name to "case "$MINER" in" has 1 instance of the miner to choose the method of pulling the process ID
 
 This Git repository has branches to help with the installation, and reversion of a miner as well as show changes between them, IE https://github.com/cynixx3/third-party-miner-installer-for-ethos/compare/ethos-1.3.3...phoenixminer
+
+Still to add to the installer is installation and reverting version checking to make sure that ethos files of only the same version as the user are installed.  
 
 With the understanding that ethOS users are either very new to linux or are mining farms with many rigs to install to, this repo will suggest using a method to install with a single command rather than the more linux approved method of have them do it. 
 
