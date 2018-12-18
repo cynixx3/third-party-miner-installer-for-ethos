@@ -8,28 +8,26 @@ f.prepminer(){
   cd /tmp
   
   echo "Getting latest release of miner"
-  # Method if miner publishes git releases
-  curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/releases/latest \
-  | grep "browser_download_url.*tar\.gz" \
-  | cut -d '"' -f 4 \
-  | head -1 \
-  | wget -qi -
-  # OR method if you have a direct url
-  #wget https://github.com/cynixx3/third-party-miner-installer-for-ethos/releases/download/phoenixminer-4b/PhoenixMiner_4.0b_Linux.tar.gz
-  
+  if [ -f PhoenixMiner_4.0b_Linux.tar.gz ]; then
+    curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/releases/latest \
+    | grep "browser_download_url.*tar\.gz" \
+    | cut -d '"' -f 4 \
+    | head -1 \
+    | wget -qi -
+  fi
   echo "Comparing download with checksum"
   echo "354307c366d32b37793022aced287f6a76dc1037e98ab18d1af400bc532ba0d2 PhoenixMiner_4.0b_Linux.tar.gz" | sha256sum -c 
-  if [ "$?" -ne "0" ];then echo "checksum of downloaded files failed, please try again";exit 0; fi
+  if [ "$?" -ne "0" ]; then echo "checksum of downloaded files failed, please try again";exit 0; fi
   
   echo "Unpacking miner"
-  tar xzf /tmp/PhoenixMiner_4.0b_Linux.tar.gz 
+  tar xzf /tmp/PhoenixMiner_4.0b_Linux.tar.gz
   if [ "$?" != "0" ]; then
     echo "Unable to extract files package. please try again."
     exit 0
   fi
   
   mkdir -p opt/miners
-  mv PhoenixMiner_4.0b_Linux opt/miners/phoenixminer
+  rsync -a --delete PhoenixMiner_4.0b_Linux opt/miners/phoenixminer
   
   echo "Temporary miner files ready"
 }
@@ -83,7 +81,7 @@ f.install(){
   /opt/ethos/bin/minestop
   
   echo "Installing miner"
-  sudo cp -R opt/* /opt/
+  sudo rsync -a --delete opt/* /opt/
   sudo chown -R ethos.ethos /opt/miners/
   
   echo "Restarting services and miner"
@@ -105,6 +103,7 @@ case "$1" in
   ;;
   revert)
     f.revert
+    rm -r /opt/miners/phoenixminer
     f.install
   ;;
   *)
