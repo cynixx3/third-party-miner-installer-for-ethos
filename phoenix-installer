@@ -19,7 +19,7 @@ f.prepminer(){
   if [ "$?" -ne "0" ]; then echo "checksum of downloaded files failed, please try again";exit 0; fi
   
   echo "Unpacking miner"
-  tar xzf PhoenixMiner.tar.gz -C phoenixminer
+  tar -C phoenixminer -xzf PhoenixMiner.tar.gz
   if [ "$?" != "0" ]; then
     echo "Unable to extract files package. please try again."
     exit 0
