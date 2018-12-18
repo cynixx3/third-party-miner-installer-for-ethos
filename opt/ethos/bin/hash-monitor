@@ -1,0 +1,304 @@
+#!/usr/bin/env php
+<?php
+
+$allowed = intval(trim(file_get_contents("/opt/ethos/etc/allow.file")));
+$selectedgpus = trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`);
+$dualminer_status = trim(`/opt/ethos/sbin/ethos-readconf dualminer`);
+$miner = trim(`/opt/ethos/sbin/ethos-readconf miner`);
+$uptime = trim(`cut -d " " -f1 /proc/uptime | cut -d "." -f 1`);
+$last_mod_secs = time()-filemtime("/var/run/miner.output");
+
+if($miner == "wolf-xmr-cpu") {
+	$instances = trim(`grep "physical id" /proc/cpuinfo |sort -n |uniq |wc -l`);
+} else {
+	$instances = trim(file_get_contents("/var/run/ethos/gpucount.file"));
+}
+
+list($miner_hash, $dualminer_hash, $invalid_shares_per_gpu_array) = get_hashrates();
+$crashed_gpus = check_alive($miner_hash);
+
+if (count($crashed_gpus) > 0) {
+	foreach ($crashed_gpus as $cg) {
+		$miner_hash[$cg] = 0;
+		
+		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled" ){
+			$dualminer_hash[$cg] = 0;
+		}
+	}
+}
+
+$miner_hashes = array(implode(" ", $miner_hash), implode(" ",$dualminer_hash));
+
+if(preg_match("/claymore/",$miner)) {
+	$rejected_shares_array = explode("+", trim(`tail -300 /var/run/miner.output | tac | grep -m 1 -Poi "(?<=Rejected:\s)(.*)(?=\))" | cut -d "(" -f 2`));
+	// claymore dualminer uses a different regex from claymore-zcash and claymore-xmr for rejected shares.  Dualminer shows stats per gpu, the rest do not.
+	if($miner == "claymore" || $miner == "claymore-legacy") {
+		$rejected_shares = implode(" ", $rejected_shares_array);
+	} else {
+		$rejected_shares = trim(`tail -300 /var/run/miner.output | tac | grep -m 1 -Poi "(?<=Rejected:\s)(\d+)"`);
+	}
+	$invalid_share_stats = implode(" ", $invalid_shares_per_gpu_array);
+	$pool_switches = trim(`tail -300 /var/run/miner.output | tac | grep 'Pool switches:' | grep -m 1 -Poi "(?<=ETH\s\-\s|ZEC\s\-\s|XMR\s\-\s)(\d+)"`);
+	if (!$pool_switches) {
+		$pool_switches = "0";
+	}
+	file_put_contents("/var/run/ethos/invalid_shares.file",$invalid_share_stats."\n");
+	file_put_contents("/var/run/ethos/rejected_shares.file",$rejected_shares."\n");
+	file_put_contents("/var/run/ethos/pool_switches.file",$pool_switches."\n");
+
+}
+
+//write the crashed gpu file
+file_put_contents("/var/run/ethos/crashed_gpus.file", ((count($crashed_gpus) > 0) ? trim(implode(" ", $crashed_gpus))."\n" : ""));
+
+if ($miner_hashes[1]) {
+	file_put_contents("/var/run/ethos/dualminer_hashes.file",$miner_hashes[1]."\n",FILE_APPEND);
+}
+file_put_contents("/var/run/ethos/miner_hashes.file",$miner_hashes[0]."\n",FILE_APPEND);
+
+//function to get mining gpu count
+function get_used_gpus() {
+	$mininggpus = array();
+
+	//check for selected gpus first
+	if (($sel = trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`))) {
+		//$mininggpus = count(explode(" ", $sel));
+		$gpulist = explode(" ", $sel);
+
+		//make sure the list contains integer values
+		foreach($gpulist as $g) {
+			$mininggpus[] = intval($g);
+		}
+	}
+		//if none then set all gpus in the list of mining gpus
+	else {
+		$gpu_count = trim(file_get_contents("/var/run/ethos/gpucount.file"));
+		
+		for($i=0;$i<$gpu_count;++$i) {
+			$mininggpus[] = $i;
+		}
+	}
+
+	return $mininggpus;
+}
+
+function check_alive($hashes) {
+	global $uptime, $gpus;
+
+	$gpus = get_used_gpus();
+
+	if (($uptime < 600) || (count($gpus) == 0)) {
+		return array();
+	}
+
+	//get the driver in use
+	$driver = trim(`/opt/ethos/sbin/ethos-readconf driver`);
+	//get current memclocks
+	$mem = trim(`/opt/ethos/sbin/ethos-readdata mem`);
+	$crashed = array();
+	$mems = explode(" ", $mem);
+
+
+	foreach($gpus as $i) {
+		$m = ((isset($mems[$i])) ? $mems[$i] : 0);
+		$h = ((isset($hashes[$i])) ? $hashes[$i] : 0);
+
+		// if hash is > 0.5 we will check against the below cases which indicate a gpu is crashed, and add them to the list of $crashed gpus.
+		if ($h > 0.5) {
+			switch($driver) {
+				case "fglrx":
+					if ($m < 200) {
+						$crashed[] = $i;
+					}
+					break;
+
+				case "amdgpu":
+					if (($m < 601 && $m != 500) || $m > 20000)  {
+						$crashed[] = $i;
+					}
+					break;
+
+				case "nvidia":
+					if ($m < 500) {
+						$crashed[] = $i;
+					}
+					break;
+			}
+		}
+	}
+
+	return $crashed;
+}
+
+
+function get_hashrates(){
+	global $allowed, $crashed_gpus, $instances, $miner, $uptime, $last_mod_secs, $dualminer_status;
+
+	$miner_hash = array();
+	$dualminer_hash = array();
+	$invalid_shares_per_gpu_array = array();
+	if($uptime < 900){ 
+			$tail = 50;
+	} else {
+			$tail = 400;
+	}
+	
+	if(preg_match("/(ccminer|nevermore)/", $miner)){
+		`echo "threads|" | socat stdio tcp-connect:127.0.0.1:4068 > /var/run/ethos/miner.dump`;
+		preg_match_all("/KHS=(\d+\.\d+)/", @file_get_contents("/var/run/ethos/miner.dump"), $ccminer_hashes);
+	}
+
+	if($miner == "dstm-zcash") {
+		$dstmstats = json_decode(`echo "|stats" |socat -t 15 stdio tcp-connect:127.0.0.1:2222`, true);
+	}
+	
+	if(preg_match("/(eth|progpow)miner-single/", $miner)){
+		//todo: grep for apiport from flags to set the connect parameters, otherwise use default
+		$ethminerapi = array(@json_decode(trim(`echo '{"id":0,"jsonrpc":"2.0","method":"miner_getstat1"}' | socat -t 15 stdio tcp-connect:127.0.0.1:3333`), true));
+		if($ethminerapi){
+			$ethminerstats = explode(";", $ethminerapi[0][result][3]);
+		}
+	}
+	
+	if(preg_match("/(sgminer-gm|cgminer-skein|avermore)/", $miner)){
+		`echo "devs|" | socat -t 15 stdio tcp-connect:127.0.0.1:4028 > /var/run/ethos/miner.dump`;
+		$sgminer_5s = explode(" ",trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a "MHS 5s" | cut -d"=" -f2 | xargs`));
+		if($miner == "sgminer-gm-xmr"){
+			$sgminer_5s = explode(" ",trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a "KHS 5s" | cut -d"=" -f2 | awk '{print \$1*1000}'| xargs`));
+		}
+		$sgminer_hwerror = trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a "Hardware Errors"| cut -d"=" -f2 | xargs`);
+	}
+
+	if(preg_match("/ewbf-(zcash|equihash)/", $miner)){
+
+		$ewbfstats = array();
+		$raw_ewbfstats = @json_decode(@file_get_contents("http://127.0.0.1:42000/getstat"),TRUE);		
+		foreach(array_keys($raw_ewbfstats['result']) as $i) {
+			$n = $raw_ewbfstats['result'][$i]['cudaid'];
+			$ewbfstats[$n] = $raw_ewbfstats['result'][$i]['speed_sps'];
+  		}
+	}
+	
+	if ($miner == "lolminer")	{
+		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);	
+	}
+
+	for($i = 0;$i < $instances; $i++){
+		if(preg_match("/(ccminer|nevermore)/",$miner)){
+			
+			$multiplier = 1;
+			
+			if($ccminer_hashes[1][0] > 1000) {
+				$multiplier = 0.001;
+			}
+			if($ccminer_hashes[1][0] < 10 && $ccminer_hashes[1][0] > 0){
+				$multiplier = 1000;
+			}
+			
+			$raw = $ccminer_hashes[1][$i] * $multiplier;
+		}
+
+		if(preg_match("/claymore/",$miner)){
+			$invalid_shares = trim(`tail -300 /var/run/miner.output | grep 'GPU #$i returned incorrect' | wc -l`);
+			$invalid_shares_per_gpu_array[$i] = trim(`tail -300 /var/run/miner.output | grep 'Incorrect ETH shares:' | grep -Poi "(?<=GPU$i\s)(\d+)" | tail -1`);
+			if(!$invalid_count[$i]) { 
+				$invalid_count[$i] = "0";
+			}
+			
+			if($invalid_shares < 5){
+				if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled" ){
+					$dualminer_raw = trim(`tail -300 /var/run/miner.output | egrep "B2S:|DCR:|KC:|SC:|LBC:|PASC:" | grep GPU | grep -v SHARE | grep -Poi "(?<=GPU$i)\s(\d+\.\d+)" | sed 's/ //g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
+				} else {
+					$dualminer_raw = 0;
+				}
+				$raw = trim(`tail -300 /var/run/miner.output | egrep "XMR:|ETH:|ZEC:" | grep GPU | grep -v SHARE | grep -Poi "(?<=GPU$i)\s((\d+)(\.\d+)?)"  | sed 's/ //g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
+			} else {
+				$raw = 0;
+			}
+		}
+
+		if($miner == "dstm-zcash"){
+			$raw = $dstmstats['result'][$i]['sol_ps'];
+			if (!$dstmstats['result'][$i]['sol_ps']){
+				$raw = 0;
+			}
+		}
+		
+		if(preg_match("/(ethminer$|progpowminer$)/", $miner)){
+			$raw = trim(`tail -$tail /var/run/miner.$i.output | sed 's,\x1B\[[0-9;]*[a-zA-Z],,g' | tr -s ' ' | grep Speed | cut -d" " -f6 | tail -100 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'
+`);
+		}
+		
+		if(preg_match("/(eth|progpow)miner-single/", $miner)){
+			$raw = $ethminerstats[$i] * 0.001;
+		}
+	
+		if(preg_match("/ewbf-(zcash|equihash)/", $miner)){
+
+			$raw = $ewbfstats[$i];
+  			if (!$ewbfstats[$i] || !isset($ewbfstats[$i])) {
+				$raw = 0;
+  			}
+		}
+		
+		if($miner == "optiminer-zcash"){
+			$raw = trim(`tail -400 /var/run/miner.output | grep -Poi "(?<=\[GPU$i\]\s\s)(\d+\.\d+\sI\/s\s)(\d+.\d+)" | cut -d" " -f 3 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);	
+		}
+		
+		if($miner == "wolf-xmr-cpu"){
+			$raw = trim(`tail -300 /var/run/miner.output | grep accepted | cut -d "," -f 2 | cut -d " " -f 2 | tail -100 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`)/$instances;
+		}
+		
+		if(preg_match("/(sgminer|cgminer|avermore)/",$miner)){
+
+			$check_gpu = $i+1;
+
+			$alive = trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a Status=Alive | head -$check_gpu | tail -1 | wc -l`);
+			$enabled = trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a Enabled=Y | head -$check_gpu | tail -1 | wc -l`);
+
+			if($alive > 0 && $enabled > 0) {
+				$raw = $sgminer_5s[$i];
+				file_put_contents("/var/run/miner.output","gpu".$i." ".$sgminer_5s[$i]."\n",FILE_APPEND);
+				file_put_contents("/var/run/ethos/hwerror.file", "$sgminer_hwerror");
+			}
+		}
+
+		if(preg_match("/(xmr|xtl)-stak/",$miner)){
+			$raw = trim(`tail -400 /var/run/miner.output | grep -Poi "\|\s+$i\s+\|\s+(\(na\)|[0-9.]+)\s+\|\s+(\(na\)|[0-9.]+)\s+\|" | sed 's/ //g' | sed 's/(na)/0/g' | cut -d"|" -f3 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
+
+			if ($raw == "") {
+				$raw = 0;
+			}
+		}
+
+		if ($miner == "teamredminer") {
+			$raw = trim(`tail -300 /var/run/miner.output | grep -Poi "(?<=GPU $i - )(\S+\: )([0-9.]*)Mh\/s " | cut -d" " -f2 | sed 's/Mh\/s//g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
+
+			if ($raw == "") {
+				$raw = 0;
+			}
+		}
+
+		if ($miner == "lolminer") {
+			$raw = floatval($raw_lolstats["GPU$i"]["Speed(60s)"]);
+		}
+
+		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled"){
+			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
+		}
+
+		if($last_mod_secs < 300){
+			$miner_hash[$i] = sprintf('%05.2f', 0.00 + $raw);
+		} else {
+			$miner_hash[$i] = 0;
+
+			if($uptime > 1800 && $allowed > 0){
+				file_put_contents("/var/run/miner.output","ATTEMPTING MINER RESTART DUE TO STUCK MINER\n",FILE_APPEND);
+				`/opt/ethos/bin/minestop`;
+			}
+		}
+	}
+
+	return array($miner_hash, $dualminer_hash, $invalid_shares_per_gpu_array);
+}
+?>
