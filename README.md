@@ -32,8 +32,8 @@ ethOS has six scripts to manage miners, they are all in /opt/ethos/
 
 With the understanding that ethOS users are either very new to linux or are mining farms with many rigs to install to, this repo will suggest using a method to install with a single command rather than the more linux approved method of have them do it. 
 
-`source <(curl -s https://raw.githubusercontent.com/MinerAuthor/MinerName/master/miner-installer-for-ethos) install`
+`source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/phoenixminer/phoenix-installer) install`
 
 Or suggest updating with 
 
-`source <(curl -s https://raw.githubusercontent.com/MinerAuthor/MinerName/master/miner-installer-for-ethos) update`
+`source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/phoenixminer/phoenix-installer) update`

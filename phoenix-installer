@@ -83,7 +83,7 @@ f.install(){
   /opt/ethos/bin/minestop
   
   echo "Installing miner"
-  sudo cp -R third-party-miner-installer-for-ethos/opt/* /opt/
+  sudo cp -R opt/* /opt/
   sudo chown -R ethos.ethos /opt/miners/
   
   echo "Restarting services and miner"
