@@ -29,6 +29,7 @@ ethOS has six scripts to manage miners, they are all in /opt/ethos/
     - add miner name to "f.validminers", has 1 instance for each kind of gpu the miner works with
     - add miner name to "case "$MINER" in" has 1 instance of the miner to choose the method of pulling the process ID
 
+This Git repository has branches to help with the installation, and reversion of a miner as well as show changes between them, IE https://github.com/cynixx3/third-party-miner-installer-for-ethos/compare/ethos-1.3.3...phoenixminer
 
 With the understanding that ethOS users are either very new to linux or are mining farms with many rigs to install to, this repo will suggest using a method to install with a single command rather than the more linux approved method of have them do it. 
 
@@ -37,3 +38,8 @@ With the understanding that ethOS users are either very new to linux or are mini
 Or suggest updating with 
 
 `source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/phoenixminer/phoenix-installer) update`
+
+Or uninstall with
+
+`source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/phoenixminer/phoenix-installer) revert`
+
