@@ -19,15 +19,14 @@ f.prepminer(){
   if [ "$?" -ne "0" ]; then echo "checksum of downloaded files failed, please try again";exit 0; fi
   
   echo "Unpacking miner"
-  mkdir phoenixminer
-  tar -C phoenixminer -xzf PhoenixMiner.tar.gz
+  tar xzf PhoenixMiner.tar.gz
   if [ "$?" != "0" ]; then
     echo "Unable to extract files package. please try again."
     exit 0
   fi
   
   mkdir -p opt/miners
-  rsync -a --delete phoenixminer opt/miners/phoenixminer
+  rsync -a --delete PhoenixMiner_4.0b_Linux/ opt/miners/phoenixminer
   
   echo "Temporary miner files ready"
 }
@@ -53,7 +52,7 @@ f.prepethos(){
   git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b phoenixminer
   
   mkdir opt/ethos
-  rsync -a --delete third-party-miner-installer-for-ethos/opt/ethos opt/ethos
+  rsync -a --delete third-party-miner-installer-for-ethos/opt/ethos/ opt/ethos
   
 #  echo "Check for dependencies"
 #  if [ $(dpkg-query -W -f='${Status}' gcc-5 2>/dev/null | grep -c "ok installed") -eq 0 ] ; then
@@ -81,7 +80,7 @@ f.install(){
   /opt/ethos/bin/minestop
   
   echo "Installing miner"
-  sudo rsync -a --delete opt/ /opt/
+  sudo rsync -a --delete opt/ /opt
   sudo chown -R ethos.ethos /opt/miners/
   
   echo "Restarting services and miner"
@@ -109,7 +108,7 @@ case "$1" in
   ;;
   revert)
     f.revert
-    rm -r /opt/miners/phoenixminer
+    rm -rf /opt/miners/phoenixminer
     f.install
     f.cleanup
   ;;
