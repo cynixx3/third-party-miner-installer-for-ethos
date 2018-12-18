@@ -38,3 +38,7 @@ With the understanding that ethOS users are either very new to linux or are mini
 Or suggest updating with 
 
 `source <(curl -s https://raw.githubusercontent.com/MinerAuthor/MinerName/master/miner-installer-for-ethos) update`
+
+Or uninstall with
+
+`source <(curl -s https://raw.githubusercontent.com/MinerAuthor/MinerName/master/miner-installer-for-ethos) revert`
