@@ -21,7 +21,7 @@ if (count($crashed_gpus) > 0) {
 	foreach ($crashed_gpus as $cg) {
 		$miner_hash[$cg] = 0;
 		
-		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled" ){
+		if (($miner == "claymore" || $miner == "claymore-legacy" || $miner= "phoenixminer") && $dualminer_status == "enabled" ){
 			$dualminer_hash[$cg] = 0;
 		}
 	}
@@ -29,10 +29,10 @@ if (count($crashed_gpus) > 0) {
 
 $miner_hashes = array(implode(" ", $miner_hash), implode(" ",$dualminer_hash));
 
-if(preg_match("/claymore/",$miner)) {
+if(preg_match("/(claymore|phoenixminer)/",$miner)) {
 	$rejected_shares_array = explode("+", trim(`tail -300 /var/run/miner.output | tac | grep -m 1 -Poi "(?<=Rejected:\s)(.*)(?=\))" | cut -d "(" -f 2`));
 	// claymore dualminer uses a different regex from claymore-zcash and claymore-xmr for rejected shares.  Dualminer shows stats per gpu, the rest do not.
-	if($miner == "claymore" || $miner == "claymore-legacy") {
+	if($miner == "claymore" || $miner == "claymore-legacy" || $miner == "phoenixminer") {
 		$rejected_shares = implode(" ", $rejected_shares_array);
 	} else {
 		$rejected_shares = trim(`tail -300 /var/run/miner.output | tac | grep -m 1 -Poi "(?<=Rejected:\s)(\d+)"`);
@@ -198,7 +198,7 @@ function get_hashrates(){
 			$raw = $ccminer_hashes[1][$i] * $multiplier;
 		}
 
-		if(preg_match("/claymore/",$miner)){
+		if(preg_match("/(claymore|phoenix)/",$miner)){
 			$invalid_shares = trim(`tail -300 /var/run/miner.output | grep 'GPU #$i returned incorrect' | wc -l`);
 			$invalid_shares_per_gpu_array[$i] = trim(`tail -300 /var/run/miner.output | grep 'Incorrect ETH shares:' | grep -Poi "(?<=GPU$i\s)(\d+)" | tail -1`);
 			if(!$invalid_count[$i]) { 
@@ -206,7 +206,7 @@ function get_hashrates(){
 			}
 			
 			if($invalid_shares < 5){
-				if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled" ){
+				if (($miner == "claymore" || $miner == "claymore-legacy" || $miner == "phoenixminer") && $dualminer_status == "enabled" ){
 					$dualminer_raw = trim(`tail -300 /var/run/miner.output | egrep "B2S:|DCR:|KC:|SC:|LBC:|PASC:" | grep GPU | grep -v SHARE | grep -Poi "(?<=GPU$i)\s(\d+\.\d+)" | sed 's/ //g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
 				} else {
 					$dualminer_raw = 0;
@@ -283,7 +283,7 @@ function get_hashrates(){
 			$raw = floatval($raw_lolstats["GPU$i"]["Speed(60s)"]);
 		}
 
-		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled"){
+		if (($miner == "claymore" || $miner == "claymore-legacy" || $miner == "phoenixminer") && $dualminer_status == "enabled"){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
 		}
 

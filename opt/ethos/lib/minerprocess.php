@@ -374,7 +374,7 @@ function start_miner()
 	$dworker = trim(preg_replace("/[^a-zA-Z0-9]+/", "", $dworker));
 	$namedisabled = trim(`/opt/ethos/sbin/ethos-readconf namedisabled`);
 
-	if (!preg_match("/(ethminer|progpowminer|claymore(\-legacy)?\z)/",$miner)) {
+	if (!preg_match("/(ethminer|progpowminer|phoenixminer|claymore(\-legacy)?\z)/",$miner)) {
 		$worker = "." . $worker;
 	}
 
@@ -384,7 +384,7 @@ function start_miner()
 
 	if ($worker != "") {
 		if (preg_match("/dwarfpool.com/",$proxypool1) || preg_match("/dwarfpool.com/",$proxypool2)){
-			if($miner == "ccminer" || $miner == "sgminer-gm-xmr" || $miner == "claymore-xmr" ){
+			if($miner == "ccminer" || $miner == "sgminer-gm-xmr" || $miner == "claymore-xmr" | $miner == "phoenixminer"){
 				$worker = trim(preg_replace("([a-zA-Z])", "1", $worker));
 			}
 		}
@@ -684,7 +684,7 @@ function start_miner()
 	/*******************************
 	* CLAYMORE COMMON
 	********************************/
-	if (preg_match("/claymore/",$miner)){
+	if (preg_match("/(claymore|phoenixminer)/",$miner)){
 		// import legacy stub -> flags configuration for remote conf users first.
 		$stubprefix = trim(@file_get_contents("/home/ethos/$miner.flags"));
 		$config_string = trim(`/opt/ethos/sbin/ethos-readconf flags`);
@@ -713,7 +713,7 @@ function start_miner()
 	/*******************************
 	* CLAYMORE DUALMINER (ETH)
 	********************************/
-	if ($miner == "claymore" || $miner == "claymore-legacy") {
+	if ($miner == "claymore" || $miner == "claymore-legacy" | $miner == "phoenixminer") {
 		$dualminer_status = (trim(`/opt/ethos/sbin/ethos-readconf dualminer`));
 
 		if(!preg_match("/-esm/",$config_string)) {
@@ -1098,6 +1098,7 @@ function start_miner()
 	$miner_path['optiminer-zcash'] = "/bin/bash -c \" cd /opt/miners/optiminer-zcash && /usr/bin/screen -c /opt/ethos/etc/screenrc -dmS optiminer /opt/miners/optiminer-zcash/optiminer-zcash";
 	$miner_path['progpowminer'] = "/opt/miners/progpowminer/progpowminer";
 	$miner_path['progpowminer-single'] = "/opt/miners/progpowminer/progpowminer-single";
+	$miner_path['phoenixminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.phoenixminer -l -L -dmS phoenixminer /opt/miners/phoenixminer/phoenixminer";
 	$miner_path['sgminer-gm'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.sgminer-gm -dmS sgminer /opt/miners/sgminer-gm/sgminer-gm";
 	$miner_path['sgminer-gm-xmr'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.sgminer-gm-xmr -dmS sgminer /opt/miners/sgminer-gm/sgminer-gm-xmr";
 	$miner_path['wolf-xmr-cpu'] = "/opt/miners/wolf-xmr-cpu/wolf-xmr-cpu";
@@ -1133,6 +1134,7 @@ function start_miner()
 		$miner_params['optiminer-zcash'] = "-s $proxypool1 -u $proxywallet$worker -p $poolpass1 --log-file /var/run/miner.output";
 		$miner_params['progpowminer'] =  $config_string . " " . $selecteddevicetype . " " . $start_miner;
 		$miner_params['progpowminer-single'] = $config_string;
+		$miner_params['phoenixminer'] = "$config_string";
 		$miner_params['wolf-xmr-cpu'] = "-o $proxypool1 -p $poolpass1 -u $proxywallet$worker -t $threads";
 		$miner_params['xmr-stak'] = $flags ." ". $config_string ." ". $pools;
 		$miner_params['xtl-stak'] = $flags ." ". $config_string ." ". $pools;
@@ -1157,6 +1159,7 @@ function start_miner()
 		$miner_suffix['optiminer-zcash'] = " " . $mine_with ." " . $extraflags ." \\\"";
 		$miner_suffix['progpowminer'] = " 2>&1 | /usr/bin/tee -a /var/run/miner.output >> /var/run/miner.$start_miner.output &";
 		$miner_suffix['progpowminer-single'] = " >> /var/run/miner.output 2>&1 &";
+		$miner_suffix['phoenixminer'] = " " . $extraflags;
 		$miner_suffix['wolf-xmr-cpu'] = " 2>&1 | /usr/bin/tee -a /var/run/miner.output &";
 		$miner_suffix['xmr-stak'] = " " . $extraflags;
 		$miner_suffix['xtl-stak'] = " " . $extraflags;

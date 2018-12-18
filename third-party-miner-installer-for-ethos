@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This is not meant to be a working script, it is mearly an example of what developers can do
+# This is not intended to be a working script, it is mearly an example of what developers can do
 
 f.prepminer(){
   echo "Getting Miner"
@@ -52,7 +52,7 @@ f.checkdpkg(){
 
 f.prepethos(){
   echo "Download and unpack files needed by ethOS"
-  git clone https://github.com/cynixx3/ethOS-controller.git
+  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b phoenixminer
   
   mkdir opt/ethos
   mv third-party-miner-installer-for-ethos/opt/ethos/* opt/ethos
@@ -72,13 +72,18 @@ f.prepethos(){
   echo "ethOS files ready"
 }
 
+f.revert(){
+  cd /tmp
+  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethso-1.3.3
+}
+
 f.install(){
   echo "Stopping the miner"
   /opt/ethos/bin/disallow
   /opt/ethos/bin/minestop
   
   echo "Installing miner"
-  sudo cp -R opt /
+  sudo cp -R third-party-miner-installer-for-ethos/opt/* /opt/
   sudo chown -R ethos.ethos /opt/miners/
   
   echo "Restarting services and miner"
@@ -98,7 +103,11 @@ case "$1" in
     f.prepminer
     f.install
   ;;
+  revert)
+    f.revert
+    f.install
+  ;;
   *)
-    echo $"Usage: $0 {install|update}"
+    echo $"Usage: $0 {install|update|revert}"
     exit 1
 esac

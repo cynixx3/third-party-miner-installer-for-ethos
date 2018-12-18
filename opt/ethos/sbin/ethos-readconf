@@ -28,10 +28,10 @@ fi
 f.validminers(){
 		case "$DRIVER" in
 			amdgpu | fglrx )
-				VALIDMINERS="avermore claymore claymore-xmr claymore-zcash claymore-legacy cgminer-skein ethminer ethminer-single optiminer-zcash progpowminer progpowminer-single sgminer-gm sgminer-gm-xmr xmr-stak xtl-stak teamredminer lolminer"
+				VALIDMINERS="avermore claymore claymore-xmr claymore-zcash claymore-legacy cgminer-skein ethminer ethminer-single optiminer-zcash progpowminer progpowminer-single phoenixminer sgminer-gm sgminer-gm-xmr xmr-stak xtl-stak teamredminer lolminer"
 			;;
 			nvidia )
-				VALIDMINERS="ccminer claymore dstm-zcash ethminer ethminer-single ewbf-equihash ewbf-zcash nevermore optiminer-zcash progpowminer progpowminer-single xmr-stak xtl-stak lolminer"
+				VALIDMINERS="ccminer claymore dstm-zcash ethminer ethminer-single ewbf-equihash ewbf-zcash nevermore optiminer-zcash progpowminer progpowminer-single phoenixminer xmr-stak xtl-stak lolminer"
 			;;
 			cpu )
 				VALIDMINERS="wolf-xmr-cpu"
@@ -291,7 +291,7 @@ case "$1" in
 					PID=$(ps aux | grep "$MINER" | tr -s "[:space:]" | grep -w "\-\-cuda\-devices $GPUNUM" | grep -m 1 -Poi "(?<=ethos.)(\d+)" | xargs)
 				fi
 			;;
-			avermore | ccminer | cgminer-skein | claymore | claymore-xmr | claymore-zcash | claymore-legacy | dstm-zcash | ethminer-single | ewbf-equihash | ewbf-zcash | lolminer | nevermore | optiminer-zcash | progpowminer-single | sgminer-gm | xmr-stak | xtl-stak | teamredminer )
+			avermore | ccminer | cgminer-skein | claymore | claymore-xmr | claymore-zcash | claymore-legacy | dstm-zcash | ethminer-single | ewbf-equihash | ewbf-zcash | lolminer | nevermore | optiminer-zcash | progpowminer-single | phoenixminer | sgminer-gm | xmr-stak | xtl-stak | teamredminer )
 				PID=$(ps aux | grep -v grep | grep -v screen | grep "$MINER" | tr -s "[:space:]" | grep -m 1 -Poi "(?<=ethos.)(\d+)" | xargs)
 			;;
 			sgminer-gm-xmr )

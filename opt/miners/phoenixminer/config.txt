@@ -1,0 +1,22 @@
+#
+# PhoenixMiner configuration file
+#
+# If there are no command-line parameters when PhoenixMiner is started, it will search
+# for config.txt file in the current directory and will read all command-line options from it
+#
+# You can put one or more command-line parameters on each line (separate them with spaces)
+# If the line starts with '#' it will be ignored as comment
+#
+# NOTE. PhoenixMiner also "understands" the config.txt files of Claymore's dual Ethereum miner
+# (but some of its options are not supported and will be ignored)
+#
+
+#-pool eu1.ethermine.org:4444 -pool2 us1.ethermine.org:4444
+#-wal YourEthWalletAddress.WorkerName
+#-proto 3
+#-cdm 2
+
+# Uncomment this to force the miner to read the dual-mining pools from the dpools.txt file
+# instead of the command-line
+#-dcoin blake2s
+

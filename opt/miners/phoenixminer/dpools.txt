@@ -1,0 +1,21 @@
+#
+# PhoenixMiner secondary coin (dual-ming) pools list
+#
+# The pools specified in this file will be added to the pools specified with the PhoenixMiner's
+# command-line options (see -dpool command line option).
+# 
+# Alternatively, you can omit the -dpool option on the command-line and use only the pools in
+# dpools.txt file. In such case you must add the option
+#   -dcoin blake2s
+# to your command-line or to your config.txt file
+#
+# You must put one pool per line as specified in the examples below
+# If the line starts with '#' it will be ignored as comment
+#
+# NOTE: PhoenixMiner also "understands" the dpools.txt files from Claymore's dual Ethereum miner
+
+POOL: blake2s.eu.nicehash.com:3361, WAL: 15weQAN2Mnw4zApVjd2XVVSLMz3fYEVGVq, WORKER: RigD, COIN: blake2s
+
+# The following line shows all possible pool options. The values for each option must follow the
+# same rules as these specified in the Readme.txt file for the -dpool, -dwal, -dpass, -dworker, -dcoin command-line options
+# POOL: blake2s.eu.nicehash.com:3361, WAL: YourWalletAddress, WORKER: WorkerName, PASS: x, COIN: blake2s
