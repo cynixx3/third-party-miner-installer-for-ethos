@@ -80,7 +80,7 @@ f.install(){
   /opt/ethos/bin/minestop
   
   echo "Installing miner"
-  sudo rsync -a --delete opt/ /opt
+  sudo rsync -a opt/ /opt
   sudo chown -R ethos.ethos /opt/miners/
   
   echo "Restarting services and miner"
