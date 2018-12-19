@@ -1098,7 +1098,7 @@ function start_miner()
 	$miner_path['optiminer-zcash'] = "/bin/bash -c \" cd /opt/miners/optiminer-zcash && /usr/bin/screen -c /opt/ethos/etc/screenrc -dmS optiminer /opt/miners/optiminer-zcash/optiminer-zcash";
 	$miner_path['progpowminer'] = "/opt/miners/progpowminer/progpowminer";
 	$miner_path['progpowminer-single'] = "/opt/miners/progpowminer/progpowminer-single";
-	$miner_path['phoenixminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.phoenixminer -l -L -dmS phoenixminer /opt/miners/phoenixminer/phoenixminer";
+	$miner_path['phoenixminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.phoenixminer -l -L -dmS phoenixminer /opt/miners/phoenixminer/PhoenixMiner";
 	$miner_path['sgminer-gm'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.sgminer-gm -dmS sgminer /opt/miners/sgminer-gm/sgminer-gm";
 	$miner_path['sgminer-gm-xmr'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.sgminer-gm-xmr -dmS sgminer /opt/miners/sgminer-gm/sgminer-gm-xmr";
 	$miner_path['wolf-xmr-cpu'] = "/opt/miners/wolf-xmr-cpu/wolf-xmr-cpu";
