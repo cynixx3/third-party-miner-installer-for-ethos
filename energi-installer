@@ -1,0 +1,115 @@
+#!/bin/bash
+
+# This is not intended to be a working script, it is mearly an example of what developers can do
+TMP_DIR=/tmp/newminer
+echo "Move to a temporary work space"
+mkdir $TMP_DIR
+cd $TMP_DIR
+f.prepminer(){
+  echo "Getting latest release of miner"
+  curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/releases/latest \
+  | grep "browser_download_url.*energi.*tar\.gz" \
+  | cut -d '"' -f 4 \
+  | head -1 \
+  | wget -qi - -O $TMP_DIR/energiminer.tar.gz
+  echo "Comparing download with checksum"
+  echo "ef2f25bf34912c5b34c18263690cf57886db8a594783089cfc0bc0dbac015403 energiminer.tar.gz" | sha256sum -c 
+  if [ "$?" -ne "0" ]; then echo "checksum of downloaded files failed, please try again";exit 0; fi
+  
+  echo "Unpacking miner"
+  tar xzf $TMP_DIR/energiminer.tar.gz
+  if [ "$?" != "0" ]; then
+    echo "Unable to extract files package. please try again."
+    exit 0
+  fi
+  
+  mkdir -p $TMP_DIR/opt/miners
+  rsync -a --delete energiminer/ $TMP_DIR/opt/miners/energiminer
+  
+  echo "Temporary miner files ready"
+}
+
+f.checkdpkg(){
+  DPKGLOCKED=$(lsof /var/lib/dpkg/lock 2>/dev/null | grep -c "/var/lib/dpkg/lock")
+  WAITCOUNT="0"
+  if [ "$DPKGLOCKED" -ge "1" ]; then
+    until [ "$DPKGLOCKED" = "0" ] || [ "$WAITCOUNT" = "60" ]; do
+      DPKGLOCKED=$(lsof /var/lib/dpkg/lock 2>/dev/null | grep -c "/var/lib/dpkg/lock")
+      ((WAITCOUNT++))
+    done
+  fi
+  if [ "$WAITCOUNT" -ge "120" ]; then
+    echo "Timed out waiting on dpkg lock to clear."
+    echo "manually clearing dpkg lock"
+    rm -f /var/lib/dpkg/lock
+  fi
+}
+
+f.prepethos(){
+  echo "Download and unpack files needed by ethOS"
+  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b phoenixminer
+  
+  mkdir -p $TMP_DIR/opt/ethos
+  rsync -a --delete $TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/ $TMP_DIR/opt/ethos
+  
+  echo "Check for dependencies"
+  if [ $(dpkg-query -W -f='${Status}' gcc-5 2>/dev/null | grep -c "ok installed") -eq 0 ] ; then
+    echo "Installing dependencies"
+    mkdir $TMP_DIR/depends
+    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
+    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
+    f.checkdpkg
+    sudo dpkg --configure -a
+    f.checkdpkg
+    sudo dpkg -i $TMP_DIR/depends/*.deb
+  fi
+  
+  echo "ethOS files ready"
+}
+
+f.revert(){
+  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos-1.3.3
+  mkdir -p $TMP_DIR/opt/ethos
+  rsync -a --delete $TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/ $TMP_DIR/opt/ethos
+  chmod ug+x $TMP_DIR/opt/ethos/lib/* $TMP_DIR/opt/ethos/bin/* $TMP_DIR/opt/ethos/sbin/*
+  chmod u+x $TMP_DIR/opt/ethos/etc/*
+}
+
+f.install(){
+  echo "Stopping the miner"
+  /opt/ethos/bin/disallow
+  /opt/ethos/bin/minestop
+  
+  echo "Installing miner"
+  sudo rsync -av $TMP_DIR/opt/ /opt
+  sudo chown -R ethos.ethos /opt/miners/
+  
+  echo "Restarting services and miner"
+  sudo service ethos-miner-daemon restart
+  sudo service ethos-stats-daemon restart
+  sudo service ethos-gpu-stats-daemon restart
+  /opt/ethos/bin/allow
+}
+
+case "$1" in
+  install)
+    f.prepminer
+    f.prepethos
+    f.install
+    f.cleanup
+  ;;
+  update)
+    f.prepminer
+    f.install
+  ;;
+  revert)
+    f.revert
+    f.install
+    rm -rf /opt/miners/energiminer
+  #  rm -rf $TMP_DIR
+  ;;
+  *)
+    echo $"Usage: $0 {install|update|revert}"
+    exit 1
+esac
+cd ~

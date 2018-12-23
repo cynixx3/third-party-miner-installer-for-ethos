@@ -258,6 +258,12 @@ $pool_syntax = array(
     "http"=>"%s",
     ""=>"%s"
   ),
+  "energiminer"=>array(
+    "ssl"=>"%s",
+    "stratum+tcp"=>"%s",
+    "http"=>"%s",
+    ""=>"%s"
+  ),
   "progpowminer"=>array(
     "ssl"=>"%s",
     "stratum+tcp"=>"%s",
@@ -287,6 +293,7 @@ function setup_pools($miner)
       break;
 
     case "ethminer-single":
+    case "energiminer":
     case "progpowminer":
     case "progpowminer-single";	  
     	$miner_syntax = "ethminer";
@@ -374,7 +381,7 @@ function start_miner()
 	$dworker = trim(preg_replace("/[^a-zA-Z0-9]+/", "", $dworker));
 	$namedisabled = trim(`/opt/ethos/sbin/ethos-readconf namedisabled`);
 
-	if (!preg_match("/(ethminer|progpowminer|phoenixminer|claymore(\-legacy)?\z)/",$miner)) {
+	if (!preg_match("/(energiminer|ethminer|progpowminer|claymore(\-legacy)?\z)/",$miner)) {
 		$worker = "." . $worker;
 	}
 
@@ -384,7 +391,7 @@ function start_miner()
 
 	if ($worker != "") {
 		if (preg_match("/dwarfpool.com/",$proxypool1) || preg_match("/dwarfpool.com/",$proxypool2)){
-			if($miner == "ccminer" || $miner == "sgminer-gm-xmr" || $miner == "claymore-xmr" | $miner == "phoenixminer"){
+			if($miner == "ccminer" || $miner == "sgminer-gm-xmr" || $miner == "claymore-xmr"){
 				$worker = trim(preg_replace("([a-zA-Z])", "1", $worker));
 			}
 		}
@@ -432,9 +439,9 @@ function start_miner()
 	}
 
 	/*******************************
-	*  ETHMINER/ETHMINER-SINGLE/PROGPOWMINER/PROGPOWMINER-SINGLE
+	*  ENERGIMINER/ETHMINER/ETHMINER-SINGLE/PROGPOWMINER/PROGPOWMINER-SINGLE
 	********************************/
-	if (preg_match("/(ethminer|ethminer-single|progpowminer|progpowminer-single)/",$miner)) {
+	if (preg_match("/(energiminer|ethminer|ethminer-single|progpowminer|progpowminer-single)/",$miner)) {
 
 		$gpumode = trim(`/opt/ethos/sbin/ethos-readconf gpumode`);
 		$pool = trim(`/opt/ethos/sbin/ethos-readconf fullpool`);
@@ -450,7 +457,7 @@ function start_miner()
 			$flags .= " --dag-load-mode 1 ";
 		}
 		// api port needed for hash gather
-		if (!preg_match("/api-port/", $flags) && (preg_match("/(ethminer-single|progpowminer-single)/",$miner))) {
+		if (!preg_match("/api-port/", $flags) && (preg_match("/(energiminer|ethminer-single|progpowminer-single)/",$miner))) {
 			$flags .= " --api-port -3333 ";
 		}
 		
@@ -483,7 +490,7 @@ function start_miner()
 			// this function is not currently working, will re-enable when ready
 			//$extraflags = check_apu();
 		}
-		if (preg_match("/(ethminer-single|progpowminer-single)/",$miner)){
+		if (preg_match("/(energiminer|ethminer-single|progpowminer-single)/",$miner)){
 			$devices = implode(",",select_gpus());
 			if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
 				$mine_with = $selecteddevicetype . " " . $devices;
@@ -684,7 +691,7 @@ function start_miner()
 	/*******************************
 	* CLAYMORE COMMON
 	********************************/
-	if (preg_match("/(claymore|phoenixminer)/",$miner)){
+	if (preg_match("/claymore/",$miner)){
 		// import legacy stub -> flags configuration for remote conf users first.
 		$stubprefix = trim(@file_get_contents("/home/ethos/$miner.flags"));
 		$config_string = trim(`/opt/ethos/sbin/ethos-readconf flags`);
@@ -713,7 +720,7 @@ function start_miner()
 	/*******************************
 	* CLAYMORE DUALMINER (ETH)
 	********************************/
-	if ($miner == "claymore" || $miner == "claymore-legacy" | $miner == "phoenixminer") {
+	if ($miner == "claymore" || $miner == "claymore-legacy") {
 		$dualminer_status = (trim(`/opt/ethos/sbin/ethos-readconf dualminer`));
 
 		if(!preg_match("/-esm/",$config_string)) {
@@ -1091,6 +1098,7 @@ function start_miner()
 	$miner_path['claymore-xmr'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.claymore-xmr -l -L -dmS claymore-xmr /opt/miners/claymore-xmr/claymore-xmr";
 	$miner_path['claymore-zcash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.claymore-zcash -l -L -dmS claymore-zcash /opt/miners/claymore-zcash/claymore-zcash";
 	$miner_path['claymore-legacy'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.claymore-legacy -l -L -dmS claymore-legacy /opt/miners/claymore-legacy/claymore-legacy";
+	$miner_path['energiminer'] = "/opt/miners/energiminer/energiminer";
 	$miner_path['ethminer'] = "/opt/miners/ethminer/ethminer";
 	$miner_path['ethminer-single'] = "/opt/miners/ethminer/ethminer-single";
 	$miner_path['ewbf-zcash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-zcash -l -L -dmS ewbf-zcash /opt/miners/ewbf-zcash/ewbf-zcash";
@@ -1098,7 +1106,6 @@ function start_miner()
 	$miner_path['optiminer-zcash'] = "/bin/bash -c \" cd /opt/miners/optiminer-zcash && /usr/bin/screen -c /opt/ethos/etc/screenrc -dmS optiminer /opt/miners/optiminer-zcash/optiminer-zcash";
 	$miner_path['progpowminer'] = "/opt/miners/progpowminer/progpowminer";
 	$miner_path['progpowminer-single'] = "/opt/miners/progpowminer/progpowminer-single";
-	$miner_path['phoenixminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.phoenixminer -l -L -dmS phoenixminer /opt/miners/phoenixminer/PhoenixMiner";
 	$miner_path['sgminer-gm'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.sgminer-gm -dmS sgminer /opt/miners/sgminer-gm/sgminer-gm";
 	$miner_path['sgminer-gm-xmr'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.sgminer-gm-xmr -dmS sgminer /opt/miners/sgminer-gm/sgminer-gm-xmr";
 	$miner_path['wolf-xmr-cpu'] = "/opt/miners/wolf-xmr-cpu/wolf-xmr-cpu";
@@ -1125,6 +1132,7 @@ function start_miner()
 		$miner_params['claymore-xmr'] = "-allpools 1 " . $flags . " " . $pools;
 		$miner_params['claymore-zcash'] = "$config_string";
 		$miner_params['claymore-legacy'] = "$config_string";
+		$miner_params['energiminer'] = $config_string;
 		$miner_params['ethminer'] = $config_string . " " . $selecteddevicetype . " " . $start_miner;
 		$miner_params['ethminer-single'] = $config_string;
 		$miner_params['ewbf-zcash'] = "--config /var/run/ethos/ewbf-zcash.conf";
@@ -1134,7 +1142,6 @@ function start_miner()
 		$miner_params['optiminer-zcash'] = "-s $proxypool1 -u $proxywallet$worker -p $poolpass1 --log-file /var/run/miner.output";
 		$miner_params['progpowminer'] =  $config_string . " " . $selecteddevicetype . " " . $start_miner;
 		$miner_params['progpowminer-single'] = $config_string;
-		$miner_params['phoenixminer'] = "$config_string";
 		$miner_params['wolf-xmr-cpu'] = "-o $proxypool1 -p $poolpass1 -u $proxywallet$worker -t $threads";
 		$miner_params['xmr-stak'] = $flags ." ". $config_string ." ". $pools;
 		$miner_params['xtl-stak'] = $flags ." ". $config_string ." ". $pools;
@@ -1150,6 +1157,7 @@ function start_miner()
 		$miner_suffix['claymore-xmr'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['claymore-zcash'] = " " . $extraflags;
 		$miner_suffix['claymore-legacy'] = " " . $extraflags;
+		$miner_suffix['energiminer'] = " >> /var/run/miner.output 2>&1 &";
 		$miner_suffix['ethminer'] = " 2>&1 | /usr/bin/tee -a /var/run/miner.output >> /var/run/miner.$start_miner.output &";
 		$miner_suffix['ethminer-single'] = " >> /var/run/miner.output 2>&1 &";
 		$miner_suffix['ewbf-equihash'] = "";
@@ -1159,7 +1167,6 @@ function start_miner()
 		$miner_suffix['optiminer-zcash'] = " " . $mine_with ." " . $extraflags ." \\\"";
 		$miner_suffix['progpowminer'] = " 2>&1 | /usr/bin/tee -a /var/run/miner.output >> /var/run/miner.$start_miner.output &";
 		$miner_suffix['progpowminer-single'] = " >> /var/run/miner.output 2>&1 &";
-		$miner_suffix['phoenixminer'] = " " . $extraflags;
 		$miner_suffix['wolf-xmr-cpu'] = " 2>&1 | /usr/bin/tee -a /var/run/miner.output &";
 		$miner_suffix['xmr-stak'] = " " . $extraflags;
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
@@ -1181,7 +1188,7 @@ function start_miner()
 		`/tmp/minercmd`;
 
 		// if($debug){ file_put_contents("/home/ethos/debug.log",$date . " " . $command . "\n"); 
-		if (!preg_match("/(ethminer$|progpowminer?$)/",$miner)) {
+		if (!preg_match("/(energiminer$|ethminer$|progpowminer?$)/",$miner)) {
 			break;
 		}
 
