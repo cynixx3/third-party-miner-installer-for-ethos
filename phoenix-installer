@@ -5,28 +5,26 @@ TMP_DIR=/tmp/newminer
 echo "Move to a temporary work space"
 mkdir $TMP_DIR
 cd $TMP_DIR
-
 f.prepminer(){
   echo "Getting latest release of miner"
   curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/releases/latest \
   | grep "browser_download_url.*tar\.gz" \
   | cut -d '"' -f 4 \
   | head -1 \
-  | wget -qi - -O PhoenixMiner.tar.gz
-
+  | wget -qi - -O $TMP_DIR/PhoenixMiner.tar.gz
   echo "Comparing download with checksum"
   echo "354307c366d32b37793022aced287f6a76dc1037e98ab18d1af400bc532ba0d2 PhoenixMiner.tar.gz" | sha256sum -c 
-  if [ "$?" -ne "0" ]; then echo "checksum of downloaded files failed, please try again";exit 1; fi
+  if [ "$?" -ne "0" ]; then echo "checksum of downloaded files failed, please try again";exit 0; fi
   
   echo "Unpacking miner"
   tar xzf $TMP_DIR/PhoenixMiner.tar.gz
   if [ "$?" != "0" ]; then
     echo "Unable to extract files package. please try again."
-    exit 2
+    exit 0
   fi
   
   mkdir -p $TMP_DIR/opt/miners
-  rsync -a --delete $TMP_DIR/PhoenixMiner_4.0b_Linux/ $TMP_DIR/opt/miners/phoenixminer
+  rsync -a --delete PhoenixMiner_4.0b_Linux/ $TMP_DIR/opt/miners/phoenixminer
   
   echo "Temporary miner files ready"
 }
@@ -53,18 +51,20 @@ f.prepethos(){
   
   mkdir -p $TMP_DIR/opt/ethos
   rsync -a --delete $TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/ $TMP_DIR/opt/ethos
-  chmod ug+x $TMP_DIR/opt/ethos/*
-
-  echo "Check for dependencies"
-  if [ $(dpkg-query -W -f='${Status}' libstdc++6 2>/dev/null | grep -c "ok installed") -eq 0 ] ; then
-    echo "Installing dependencies"
-    mkdir $TMP_DIR/depends
-    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
-    f.checkdpkg
-    sudo dpkg --configure -a
-    f.checkdpkg
-    sudo dpkg -i $TMP_DIR/depends/*.deb
-  fi
+  chmod ug+x $TMP_DIR/opt/ethos/lib/* $TMP_DIR/opt/ethos/bin/* $TMP_DIR/opt/ethos/sbin/*
+  chmod u+x $TMP_DIR/opt/ethos/etc/*
+  
+#  echo "Check for dependencies"
+#  if [ $(dpkg-query -W -f='${Status}' gcc-5 2>/dev/null | grep -c "ok installed") -eq 0 ] ; then
+#    echo "Installing dependencies"
+#    mkdir $TMP_DIR/depends
+#    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
+#    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
+#    f.checkdpkg
+#    sudo dpkg --configure -a
+#    f.checkdpkg
+#    sudo dpkg -i $TMP_DIR/depends/*.deb
+#  fi
   
   echo "ethOS files ready"
 }
@@ -93,10 +93,6 @@ f.install(){
   /opt/ethos/bin/allow
 }
 
-f.cleanup(){
-  rm -rf $TMP_DIR
-}
-
 case "$1" in
   install)
     f.prepminer
@@ -107,13 +103,12 @@ case "$1" in
   update)
     f.prepminer
     f.install
-    f.cleanup
   ;;
   revert)
     f.revert
-    rm -rf /opt/miners/phoenixminer
     f.install
-    f.cleanup
+    rm -rf /opt/miners/phoenixminer
+  #  rm -rf $TMP_DIR
   ;;
   *)
     echo $"Usage: $0 {install|update|revert}"
