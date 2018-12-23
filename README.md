@@ -1,7 +1,7 @@
 # third-party-miner-installer-for-ethos
 This is an introduction to installing third party miners to ethOS with instructions and examples for miner developers to integrate and make ethOS installers / update scripts
 
-Energi Miner is a claymore like miner that we will be using in this example. As you can see from the link below the file description we are installing it by adding it to each claymore function. Other miners may require a lot more intergration effort.
+Energi Miner is a ethminer fork that we will be using in this example. As you can see from the link below the file description we are installing it by adding it to each ethminer-single function. Other miners may require a lot more intergration effort.
 
 ethOS installs its miners and associated files to /opt/miners/MinerFolder/MinerFiles
 

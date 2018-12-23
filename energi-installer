@@ -14,13 +14,13 @@ f.prepminer(){
   | wget -qi - -O $TMP_DIR/energiminer.tar.gz
   echo "Comparing download with checksum"
   echo "ef2f25bf34912c5b34c18263690cf57886db8a594783089cfc0bc0dbac015403 energiminer.tar.gz" | sha256sum -c 
-  if [ "$?" -ne "0" ]; then echo "checksum of downloaded files failed, please try again";exit 0; fi
+  if [ "$?" -ne "0" ]; then echo "checksum of downloaded files failed, please try again";exit 1; fi
   
   echo "Unpacking miner"
   tar xzf $TMP_DIR/energiminer.tar.gz
   if [ "$?" != "0" ]; then
     echo "Unable to extract files package. please try again."
-    exit 0
+    exit 2
   fi
   
   mkdir -p $TMP_DIR/opt/miners
@@ -91,6 +91,10 @@ f.install(){
   /opt/ethos/bin/allow
 }
 
+f.cleanup(){
+  rm -rf $TMP_DIR
+}
+
 case "$1" in
   install)
     f.prepminer
@@ -101,12 +105,13 @@ case "$1" in
   update)
     f.prepminer
     f.install
+    f.cleanup
   ;;
   revert)
     f.revert
     f.install
     rm -rf /opt/miners/energiminer
-  #  rm -rf $TMP_DIR
+    f.cleanup
   ;;
   *)
     echo $"Usage: $0 {install|update|revert}"

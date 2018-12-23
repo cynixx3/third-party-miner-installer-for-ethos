@@ -260,7 +260,7 @@ $pool_syntax = array(
   ),
   "energiminer"=>array(
     "ssl"=>"%s",
-    "stratum+tcp"=>"%s",
+    "stratum+tcp"=>"stratum://%s",
     "http"=>"%s",
     ""=>"%s"
   ),
