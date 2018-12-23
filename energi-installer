@@ -47,7 +47,7 @@ f.checkdpkg(){
 
 f.prepethos(){
   echo "Download and unpack files needed by ethOS"
-  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b phoenixminer
+  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b energiminer
   
   mkdir -p $TMP_DIR/opt/ethos
   rsync -a --delete $TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/ $TMP_DIR/opt/ethos
