@@ -457,7 +457,7 @@ function start_miner()
 			$flags .= " --dag-load-mode 1 ";
 		}
 		// api port needed for hash gather
-		if (!preg_match("/api-port/", $flags) && (preg_match("/(energiminer|ethminer-single|progpowminer-single)/",$miner))) {
+		if (!preg_match("/api-port/", $flags) && (preg_match("/(ethminer-single|progpowminer-single)/",$miner))) {
 			$flags .= " --api-port -3333 ";
 		}
 		
