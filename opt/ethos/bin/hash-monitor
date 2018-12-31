@@ -216,6 +216,16 @@ function get_hashrates(){
 				$raw = 0;
 			}
 		}
+		
+		if($miner == "phoenixminer") {
+			$check_gpu = $i+1;
+			$raw = trim(`cat /var/run/miner.output | grep GPUs | tail -2 | tr -d ':' | tr -d 'MH/s' | cut -d' ' '-f2-' | sed -e 's/ /\\n/4;P;D' | awk -F' ' '$1~/$check_gpu/' | awk 'NR==1 {print $2}'`);
+			if($dualminer_status == "enabled") {
+				$dualminer_raw = trim(`cat /var/run/miner.output | grep GPUs | tail -2 | tr -d ':' | tr -d 'MH/s' | cut -d' ' '-f2-' | sed -e 's/ /\\n/4;P;D' | awk -F' ' '$1~/$check_gpu/' | awk 'NR==2 {print $2}'`);
+			} else {
+				$dualminer_raw = 0;
+			}
+		}
 
 		if($miner == "dstm-zcash"){
 			$raw = $dstmstats['result'][$i]['sol_ps'];
@@ -283,7 +293,7 @@ function get_hashrates(){
 			$raw = floatval($raw_lolstats["GPU$i"]["Speed(60s)"]);
 		}
 
-		if (($miner == "claymore" || $miner == "claymore-legacy" || $miner == "phoenixminer") && $dualminer_status == "enabled"){
+		if (($miner == ("claymore" || "claymore-legacy" || "phoenixminer")) && $dualminer_status == "enabled"){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
 		}
 

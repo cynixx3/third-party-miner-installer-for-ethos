@@ -713,17 +713,27 @@ function start_miner()
 	/*******************************
 	* CLAYMORE DUALMINER (ETH)
 	********************************/
-	if ($miner == "claymore" || $miner == "claymore-legacy" | $miner == "phoenixminer") {
+	if ($miner == ("claymore" || "claymore-legacy" || "phoenixminer")) {
 		$dualminer_status = (trim(`/opt/ethos/sbin/ethos-readconf dualminer`));
 
-		if(!preg_match("/-esm/",$config_string)) {
-			if ($stratumtype == "nicehash") {
-				$config_string .= " -esm 3 ";
-			} elseif ($stratumtype == "coinotron" ) {
-				$config_string .= " -esm 2 ";
-			} else {
-				$config_string .= " -esm 0 ";
-			}
+		if((!preg_match("/-esm/",$config_string) && $miner == "/claymore/")) {
+		    if ($stratumtype == "nicehash") {
+		        $config_string .= " -esm 3 ";
+		    } elseif ($stratumtype == "coinotron" ) {
+		        $config_string .= " -esm 2 ";
+		    } else {
+		        $config_string .= " -esm 0 ";
+		    }
+		}
+		
+		if((!preg_match("/-proto/",$config_string) && $miner == "phoenixminer")) {
+		    if ($stratumtype == "nicehash") {
+		        $config_string .= " -proto 4 ";
+		    } elseif ($stratumtype == "coinotron" ) {
+		        $config_string .= " -proto 1 ";
+		    } else {
+		        $config_string .= " -proto 2 ";
+		    }
 		}
 
 		if ($worker != "") {
