@@ -8,8 +8,8 @@ cd $TMP_DIR
 
 f.prepminer(){
   echo "Getting latest release of miner"
-  curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/releases/latest \
-  | grep "browser_download_url.*Phoenix*tar\.gz" \
+  curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/releases \
+  | grep "browser_download_url.*Phoenix.*tar\.gz" \
   | cut -d '"' -f 4 \
   | head -1 \
   | wget -qi - -O PhoenixMiner.tar.gz
