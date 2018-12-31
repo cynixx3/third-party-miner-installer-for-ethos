@@ -55,17 +55,17 @@ f.prepethos(){
   rsync -a --delete $TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/ $TMP_DIR/opt/ethos
   chmod ug+x $TMP_DIR/opt/ethos/*
 
-  echo "Check for dependencies"
-  if [ $(dpkg-query -W -f='${Status}' libstdc++6 2>/dev/null | grep -c "ok installed") -eq 0 ] ; then
-    echo "Installing dependencies"
-    mkdir $TMP_DIR/depends
-    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
-    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
-    f.checkdpkg
-    sudo dpkg --configure -a
-    f.checkdpkg
-    sudo dpkg -i $TMP_DIR/depends/*.deb
-  fi
+#  echo "Check for dependencies"
+#  if [ $(dpkg-query -W -f='${Status}' libstdc++6 2>/dev/null | grep -c "ok installed") -eq 0 ] ; then
+#    echo "Installing dependencies"
+#    mkdir $TMP_DIR/depends
+#    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
+#    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
+#    f.checkdpkg
+#    sudo dpkg --configure -a
+#    f.checkdpkg
+#    sudo dpkg -i $TMP_DIR/depends/*.deb
+#  fi
   
   echo "ethOS files ready"
 }
