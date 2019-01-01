@@ -20,7 +20,7 @@ f.prepminer(){
   | wget -qi - -O "$MINER_BRANCH.tar.gz"
 
   echo "Comparing download with checksum"
-  if echo "$RELEASE_CHECKSUM $MINER_BRANCH.tar.gz" | sha256sum -c ; then
+  if ! echo "$RELEASE_CHECKSUM $MINER_BRANCH.tar.gz" | sha256sum -c ; then
     echo "checksum of downloaded files failed, please try again"
     exit 1
   fi
