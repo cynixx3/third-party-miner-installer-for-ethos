@@ -78,7 +78,7 @@ f.revert(){
   chmod u+x $TMP_DIR/opt/ethos/etc/*
   mkdir $TMP_DIR/depends
   wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-4.8/gcc-4.8-base_4.8.4-2ubuntu1~14.04.4_amd64.deb -P depends
-  wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-4.8/libstdc++6_4.8.4-2ubuntu1~14.04.4_amd64.deb -P depends
+  wget https://launchpad.net/~ubuntu-toolchain-r/+archive/ubuntu/test/+build/14981774/+files/gcc-8-base_8.1.0-5ubuntu1~14.04_amd64.deb -P depends
   f.checkdpkg
   sudo dpkg --configure -a
   f.checkdpkg
