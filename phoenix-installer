@@ -76,6 +76,13 @@ f.revert(){
   rsync -a --delete $TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/ $TMP_DIR/opt/ethos
   chmod ug+x $TMP_DIR/opt/ethos/lib/* $TMP_DIR/opt/ethos/bin/* $TMP_DIR/opt/ethos/sbin/*
   chmod u+x $TMP_DIR/opt/ethos/etc/*
+  mkdir $TMP_DIR/depends
+  wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-4.8/gcc-4.8-base_4.8.4-2ubuntu1~14.04.4_amd64.deb -P depends
+  wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-4.8/libstdc++6_4.8.4-2ubuntu1~14.04.4_amd64.deb -P depends
+  f.checkdpkg
+  sudo dpkg --configure -a
+  f.checkdpkg
+  sudo dpkg -i $TMP_DIR/depends/*.deb
 }
 
 f.install(){
