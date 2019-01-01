@@ -1,5 +1,7 @@
 # third-party-miner-installer-for-ethos
-This is an introduction to installing third party miners to ethOS with instructions and examples for miner developers to integrate and make ethOS installers / update scripts
+This is an introduction to installing third party miners to ethOS with instructions and examples for miner developers to integrate and make ethOS installers / update scripts.
+
+The instructions here are not supported by ethOS. This will install the files for one miner and use with another miner will overwrite previous installs.
 
 ethOS installs its miners and associated files to /opt/miners/MinerFolder/MinerFiles
 
@@ -15,6 +17,8 @@ ethOS has six scripts to manage miners, they are all in /opt/ethos/
     - add "$miner_path"
     - add "$miner_params"
     - add "$miner_suffix"
+- lib/functions.php
+  - This file sets where to get hash 
 - bin/minestop (ez)
   - This file stops the miner
     - add miner name to the "ps uax" line.
