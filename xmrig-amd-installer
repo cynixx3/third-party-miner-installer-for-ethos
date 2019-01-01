@@ -2,8 +2,8 @@
 
 # This is not intended to be a working script, it is mearly an example of what developers can do
 MINER_BRANCH="xmrig-amd"
-MINER_ARCHIVE_FOLDER="xmrig-amd"
-RELEASE_CHECKSUM="3a40c4ce4d777b69f81c346162506637ac96c2d33902e07563af4f3b58d204b5"
+MINER_ARCHIVE_FOLDER="xmrig-amd-2.8.6"
+RELEASE_CHECKSUM="7fe9ad1949278fa6b71fe4209fd0838a0eda13dcdd41f40ee84d983f4fe70edb"
 TMP_DIR="/tmp/newminer"
 
 echo "Move to a temporary work space"
@@ -13,14 +13,14 @@ cd "$TMP_DIR" || exit
 # Get miner files and setup temporary opt/
 f.prepminer(){
   echo "Getting latest release of miner"
-  curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/releases \
-  | grep -i "browser_download_url.*$MINER_BRANCH.*tar\..z" \
+  curl -s https://api.github.com/repos/xmrig/xmrig-amd/releases \
+  | grep -i "browser_download_url.*tar\..z" \
   | cut -d '"' -f 4 \
   | head -1 \
   | wget -qi - -O "$MINER_BRANCH.tar.gz"
 
   echo "Comparing download with checksum"
-  if echo "$RELEASE_CHECKSUM $MINER_BRANCH.tar.gz" | sha256sum -c ; then
+  if ! echo "$RELEASE_CHECKSUM $MINER_BRANCH.tar.gz" | sha256sum -c ; then
     echo "checksum of downloaded files failed, please try again"
     exit 1
   fi
