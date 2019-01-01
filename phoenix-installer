@@ -62,7 +62,7 @@ f.prepethos(){
   
   mkdir -p $TMP_DIR/opt/ethos
   rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/" "$TMP_DIR/opt/ethos"
-  chmod ug+x "$TMP_DIR/opt/ethos/*"
+  chmod ug+x "$TMP_DIR"/opt/ethos/*
 
   echo "Check for dependencies"
   if [ $(dpkg-query -W -f='${Status}' gcc-5-base 2>/dev/null | grep -c "ok installed") -eq 0 ] ; then
@@ -73,7 +73,7 @@ f.prepethos(){
     f.checkdpkg
     sudo dpkg --configure -a
     f.checkdpkg
-    sudo dpkg -i "$TMP_DIR/depends/*.deb"
+    sudo dpkg -i "$TMP_DIR"/depends/*.deb
   fi
   
   echo "ethOS files ready"
@@ -85,8 +85,8 @@ f.revert(){
   git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos-1.3.3
   mkdir -p "$TMP_DIR/opt/ethos"
   rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/" "$TMP_DIR/opt/ethos"
-  chmod ug+x "$TMP_DIR/opt/ethos/lib/*" "$TMP_DIR/opt/ethos/bin/*" "$TMP_DIR/opt/ethos/sbin/*"
-  chmod u+x "$TMP_DIR/opt/ethos/etc/*"
+  chmod ug+x "$TMP_DIR"/opt/ethos/lib/* "$TMP_DIR"/opt/ethos/bin/* "$TMP_DIR"/opt/ethos/sbin/*
+  chmod u+x "$TMP_DIR"/opt/ethos/etc/*
 # Reinstall stock dependencies
 #todo add ethos version checking
   mkdir "$TMP_DIR/depends"
@@ -95,7 +95,7 @@ f.revert(){
   f.checkdpkg
   sudo dpkg --configure -a
   f.checkdpkg
-  sudo dpkg -i "$TMP_DIR/depends/*.deb"
+  sudo dpkg -i "$TMP_DIR"/depends/*.deb
 }
 
 f.install(){
