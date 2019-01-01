@@ -65,7 +65,7 @@ f.prepethos(){
   chmod ug+x "$TMP_DIR/opt/ethos/*"
 
   echo "Check for dependencies"
-  if [ "$(dpkg-query -W -f='${Status}' gcc-5-base 2>/dev/null | grep -c "ok installed")" -eq 0 ] ; then
+  if [ $(dpkg-query -W -f='${Status}' gcc-5-base 2>/dev/null | grep -c "ok installed") -eq 0 ] ; then
     echo "Installing dependencies"
     mkdir "$TMP_DIR/depends"
     wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
