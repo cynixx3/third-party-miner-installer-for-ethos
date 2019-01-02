@@ -152,7 +152,7 @@ function get_hashrates(){
 		$dstmstats = json_decode(`echo "|stats" |socat -t 15 stdio tcp-connect:127.0.0.1:2222`, true);
 	}
 	
-	if(preg_match("/(energi|eth|progpow)miner-single/", $miner)){
+	if(preg_match("/(eth|progpow)miner-single/", $miner)){
 		//todo: grep for apiport from flags to set the connect parameters, otherwise use default
 		$ethminerapi = array(@json_decode(trim(`echo '{"id":0,"jsonrpc":"2.0","method":"miner_getstat1"}' | socat -t 15 stdio tcp-connect:127.0.0.1:3333`), true));
 		if($ethminerapi){
@@ -224,15 +224,19 @@ function get_hashrates(){
 			}
 		}
 		
-		if(preg_match("/(energiminer|ethminer$|progpowminer$)/", $miner)){
+		if(preg_match("/(ethminer$|progpowminer$)/", $miner)){
 			$raw = trim(`tail -$tail /var/run/miner.$i.output | sed 's,\x1B\[[0-9;]*[a-zA-Z],,g' | tr -s ' ' | grep Speed | cut -d" " -f6 | tail -100 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'
 `);
 		}
 		
-		if(preg_match("/(energi|eth|progpow)miner-single/", $miner)){
+		if(preg_match("/(eth|progpow)miner-single/", $miner)){
 			$raw = $ethminerstats[$i] * 0.001;
 		}
-	
+		
+		if($miner == "energiminer")){
+            $raw = trim(`tail -50 miner.dump | grep Speed | cut -d' ' '-f10-' | sed -e 's/[/]//g' -e 's/GPU[0-99]//g' | awk '{print $$i}' | tail -1`);
+		}
+		
 		if(preg_match("/ewbf-(zcash|equihash)/", $miner)){
 
 			$raw = $ewbfstats[$i];
