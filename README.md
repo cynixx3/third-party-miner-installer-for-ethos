@@ -31,7 +31,7 @@ ethOS has six scripts to manage miners, they are all in /opt/ethos/
            - add miner name to "f.validminers", has 1 instance for each kind of gpu the miner works with
            - add miner name to "case "$MINER" in" has 1 instance of the miner to choose the method of pulling the process ID
 
-*This repository is for upgrading to XMR-Stak 2.7.1 with correct hashrate reporting (which at this time is broken in Ethos 1.3.3 when dual threading) 
+*This repository is for upgrading to XMR-Stak 2.7.1 with correct hashrate reporting (which at this time is broken in ethOS 1.3.3 when dual threading) 
 
 This Git repository has branches to help with the installation, and reversion of a miner as well as show changes between them, IE https://github.com/cynixx3/third-party-miner-installer-for-ethos/compare/ethos-1.3.3...xmr-stak
 
