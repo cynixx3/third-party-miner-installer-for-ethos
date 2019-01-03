@@ -927,61 +927,71 @@ function start_miner()
 	* XMR-STAK/XTL-STAK
 	********************************/
 	if (preg_match("/(xmr|xtl)-stak/",$miner)) {
-		/*
-		$devices = implode(",",select_gpus());
-		if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`)){
-			$mine_with = "-d $devices";
-		}*/
-
-		if(!preg_match("/--currency/",$flags)) {
-			$flags .= " --currency cryptonight_v8 ";
-		}
-
-		if(!preg_match("/--cpu/",$flags)) {
-			$flags .= " --noCPU ";
-		}
-
-		$tworker = trim($worker, ". ");
-		if ($tworker != "") {
-			$tworker = "-r ".$tworker;
-		}
-
-		$pools="-o $proxypool1 -u $proxywallet $tworker -p $poolpass1 ";
-
-		if($proxypool2 != "") {
-			$pools .= " -o $proxypool2 -u $proxywallet $tworker -p $poolpass2 ";
-		}
-
-		//delete cache files and copy default configs
-		shell_exec("rm /var/run/ethos/".$miner."*.txt");
-		shell_exec("su - ethos -c \"cp /opt/ethos/etc/xmr-stak-config.txt /var/run/ethos/$miner-config.txt\"");
-		shell_exec("su - ethos -c \"cp /opt/ethos/etc/xmr-stak-pools.txt /var/run/ethos/$miner-pools.txt\"");
-
-		if ($driver == "nvidia") {
-			$stakgpu = " --noAMD ";
-
-		 	if (!preg_match("/--nvidia/",$flags)) {
-   			$stakgpu .= "--nvidia /var/run/ethos/".$miner."-nvidia.txt ";
-   		}
-		}
-	 	else {
-	 		$stakgpu = " --noNVIDIA ";
-
-	 		if(!preg_match("/--amd/",$flags)) {
-	 			$stakgpu .= "--amd /var/run/ethos/".$miner."-amd.txt ";
-	 		}
-	 	}
-
-		if (!preg_match("/(-C | --poolconf )/",$flags)){
-			$stakpoolconf = " --poolconf /var/run/ethos/".$miner."-pools.txt";
-		}
-
-		if (!preg_match("/(-c | --config )/",$flags)){
-			$stakconf = "--config /var/run/ethos/".$miner."-config.txt";
-		}
-
-		$config_string = $stakconf . $stakpoolconf . $stakgpu;
-
+	    /*
+	     $devices = implode(",",select_gpus());
+	     if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`)){
+	     $mine_with = "-d $devices";
+	     }*/
+	    delete_old_api_port();
+	    $apiport = select_api_port();
+	    
+	    if(!preg_match("/--currency/",$flags)) {
+	        $flags .= " --currency monero7 ";
+	    }
+	    
+	    if(!preg_match("/--cpu/",$flags)) {
+	        $flags .= " --noCPU ";
+	    }
+	    
+	    // Fix for UX on nicehash mining, removes need for manual intervention
+	    if ($stratumtype == "nicehash") {
+	        $flags .= " --use-nicehash ";
+	    }
+	    
+	    $tworker = trim($worker, ". ");
+	    if ($tworker != "") {
+	        $tworker = "-r ".$tworker;
+	    }
+	    
+	    // Another nicehash fix, also some pools accepting wallet.worker format
+	    if ($namedisabled != true) {
+	        $proxywallet .= "$worker";
+	    }
+	    
+	    $pools="-o $proxypool1 -u $proxywallet $tworker -p $poolpass1 ";
+	    
+	    if($proxypool2 != "") {
+	        $pools .= " -o $proxypool2 -u $proxywallet $tworker -p $poolpass2 ";
+	    }
+	    
+	    // delete cache files and copy default configs
+	    shell_exec("rm /var/run/ethos/".$miner."*.txt");
+	    shell_exec("su - ethos -c \"cp /opt/ethos/etc/xmr-stak-config.txt /var/run/ethos/$miner-config.txt\"");
+	    shell_exec("su - ethos -c \"cp /opt/ethos/etc/xmr-stak-pools.txt /var/run/ethos/$miner-pools.txt\"");
+	    
+	    // fixes CL_Enqueue errors when user defines stub
+	    if($driver == "nvidia") {
+	        if(!preg_match("/--nvidia/",$flags)) {
+	            $stakgpu = " --nvidia /var/run/ethos/".$miner."-nvidia.txt ";
+	        }
+	        $flags .= " --noAMD";
+	    }
+	    
+	    if ($driver == ("fglrx" || "amdgpu")) {
+	        if(!preg_match("/--amd/",$flags)){
+	            $stakgpu = " --amd /var/run/ethos/".$miner."-amd.txt ";
+	        }
+	        $flags .= " --noNVIDIA";
+	    }
+	    
+	    if (!preg_match("/(-C | --poolconf )/",$flags)){
+	        $stakpoolconf = " --poolconf /var/run/ethos/".$miner."-pools.txt";
+	    }
+	    if (!preg_match("/(-c | --config )/",$flags)){
+	        $stakconf = "--config /var/run/ethos/".$miner."-config.txt";
+	    }
+	    $config_string = $stakconf . $stakpoolconf . $stakgpu . " --httpd $apiport";
+	    
 	}
 
 	/*******************************
