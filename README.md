@@ -5,7 +5,6 @@ This is an introduction to installing third party miners to ethOS with instructi
 ethOS installs its miners and associated files to /opt/miners/MinerFolder/MinerFiles
 
 ethOS has six scripts to manage miners, they are all in /opt/ethos/
-
    - bin/hash-monitor
     - "function get_hashrates()" is responsable for setting the method to connect to the miners api, pull the hash rate, and making it readable
            - add an IF miner condition with a json_decoded raw variable
