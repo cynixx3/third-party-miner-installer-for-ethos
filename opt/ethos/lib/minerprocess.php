@@ -684,8 +684,8 @@ function start_miner()
 	/*******************************
 	* CLAYMORE COMMON
 	********************************/
-	if (preg_match("/(claymore|phoenixminer)/",$miner)){
-		// import legacy stub -> flags configuration for remote conf users first.
+	if (preg_match(("/claymore|phoenixminer/"),$miner)){
+	    // import legacy stub -> flags configuration for remote conf users first.
 		$stubprefix = trim(@file_get_contents("/home/ethos/$miner.flags"));
 		$config_string = trim(`/opt/ethos/sbin/ethos-readconf flags`);
 		
@@ -713,8 +713,8 @@ function start_miner()
 	/*******************************
 	* CLAYMORE DUALMINER (ETH)
 	********************************/
-	if ($miner == ("claymore" || "claymore-legacy" || "phoenixminer")) {
-		$dualminer_status = (trim(`/opt/ethos/sbin/ethos-readconf dualminer`));
+	if (preg_match(("/claymore|claymore-legacy|phoenixminer/"),$miner)) {
+	    $dualminer_status = (trim(`/opt/ethos/sbin/ethos-readconf dualminer`));
 
 		if((!preg_match("/-esm/",$config_string) && $miner == "/claymore/")) {
 		    if ($stratumtype == "nicehash") {
