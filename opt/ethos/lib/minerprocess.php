@@ -490,7 +490,7 @@ function start_miner()
 			// this function is not currently working, will re-enable when ready
 			//$extraflags = check_apu();
 		}
-		if (preg_match("/(ethminer-single|progpowminer-single)/",$miner)){
+		if (preg_match("/(energiminer|ethminer-single|progpowminer-single)/",$miner)){
 			$devices = implode(",",select_gpus());
 			if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
 				$mine_with = $selecteddevicetype . " " . $devices;
