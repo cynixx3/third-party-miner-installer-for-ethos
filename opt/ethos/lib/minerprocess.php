@@ -295,7 +295,7 @@ function setup_pools($miner)
     case "ethminer-single":
     case "energiminer":
     case "progpowminer":
-    case "progpowminer-single";	  
+    case "progpowminer-single";
     	$miner_syntax = "ethminer";
     	break;
 	}
@@ -531,7 +531,11 @@ function start_miner()
 							$pool_string = $poolparts[1]."://".$proxywallet.$worker."@".$poolparts[2];
 						}
 						else {
-							$pool_string = (($stratumtype == "nicehash") ? "stratum2" : "stratum" )."+tcp://".$proxywallet.$worker."@".$p;
+						    if(preg_match("/energiminer/",$miner)){
+						        $pool_string = "stratum://".$proxywallet.$worker."@".$p;
+						    } else {
+                                $pool_string = (($stratumtype == "nicehash") ? "stratum2" : "stratum" )."+tcp://".$proxywallet.$worker."@".$p;
+						    }
 						}
 
 						if (($poolemail != "") && (preg_match("/(ethosdistro.com|nanopool.org)/",$p))) {

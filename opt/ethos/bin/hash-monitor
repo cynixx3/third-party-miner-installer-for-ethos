@@ -233,8 +233,9 @@ function get_hashrates(){
 			$raw = $ethminerstats[$i] * 0.001;
 		}
 		
-		if($miner == "energiminer")){
-            $raw = trim(`tail -50 miner.dump | grep Speed | cut -d' ' '-f10-' | sed -e 's/[/]//g' -e 's/GPU[0-99]//g' | awk '{print $$i}' | tail -1`);
+		if($miner == "energiminer"){
+            		$lasthash = trim(`tail -50 /var/run/miner.output | grep Speed | cut -d' ' '-f10-' | sed -e 's/[/]//g' -e 's/GPU[0-99]//g' | tail -1 | awk '{print $($i+1)" "}'`);
+			$raw = preg_replace('#\\x1b[[][^A-Za-z]*[A-Za-z]#', '', $lasthash);
 		}
 		
 		if(preg_match("/ewbf-(zcash|equihash)/", $miner)){
