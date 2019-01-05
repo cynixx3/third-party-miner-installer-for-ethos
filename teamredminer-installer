@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# This is not intended to be a working script, it is mearly an example of what developers can do
-TMP_DIR=/tmp/newminer
+# This is not intended to be a working script, it is merely an example of what developers can do
+TMP_DIR=/tmp/teamredminer
 echo "Move to a temporary work space"
 mkdir $TMP_DIR
 cd $TMP_DIR
@@ -9,27 +9,27 @@ cd $TMP_DIR
 f.prepminer(){
   echo "Getting latest release of miner"
 # Method for getting latest git release
-  curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/releases/latest \
-  | grep "browser_download_url.*tar\.gz" \
+  curl -s https://api.github.com/repos/todxx/teamredminer/releases/latest \
+  | tr ',' '\n' \
+  | grep "browser_download_url.*.tgz" \
   | cut -d '"' -f 4 \
-  | head -1 \
-  | wget -qi - -O PhoenixMiner.tar.gz
+  | wget -qi - -O teamredminer.tar.gz
 # OR method if you have a direct url
-#  wget https://github.com/cynixx3/third-party-miner-installer-for-ethos/raw/master/opt/miners/phoenixminer-4b.tar.gz
+#  wget https://github.com/todxx/teamredminer/releases/download/v0.3.8/teamredminer-v0.3.8-linux.tgz
 
   echo "Comparing download with checksum"
-  echo "354307c366d32b37793022aced287f6a76dc1037e98ab18d1af400bc532ba0d2 PhoenixMiner.tar.gz" | sha256sum -c 
+  echo "10ea8d06053b6958ebbd3a58100a6d07aae1af5e8d0246bd65ef88e278799957 teamredminer.tar.gz" | sha256sum -c 
   if [ "$?" -ne "0" ]; then echo "checksum of downloaded files failed, please try again";exit 1; fi
   
   echo "Unpacking miner"
-  tar xzf $TMP_DIR/PhoenixMiner.tar.gz
+  tar xzf $TMP_DIR/teamredminer.tar.gz
   if [ "$?" != "0" ]; then
     echo "Unable to extract files package. please try again."
     exit 2
   fi
   
   mkdir -p $TMP_DIR/opt/miners
-  rsync -a --delete $TMP_DIR/PhoenixMiner_4.0b_Linux/ $TMP_DIR/opt/miners/phoenixminer
+  rsync -a --delete $TMP_DIR/teamredminer/ $TMP_DIR/opt/miners/teamredminer
   
   echo "Temporary miner files ready"
 }
@@ -52,23 +52,11 @@ f.checkdpkg(){
 
 f.prepethos(){
   echo "Download and unpack files needed by ethOS"
-  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b phoenixminer
+  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b teamredminer
   
   mkdir -p $TMP_DIR/opt/ethos
   rsync -a --delete $TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/ $TMP_DIR/opt/ethos
   chmod ug+x $TMP_DIR/opt/ethos/*
-
-#  echo "Check for dependencies"
-#  if [ $(dpkg-query -W -f='${Status}' gcc-5 2>/dev/null | grep -c "ok installed") -eq 0 ] ; then
-#    echo "Installing dependencies"
-#    mkdir $TMP_DIR/depends
-#    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
-#    wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb -P depends
-#    f.checkdpkg
-#    sudo dpkg --configure -a
-#    f.checkdpkg
-#    sudo dpkg -i $TMP_DIR/depends/*.deb
-#  fi
   
   echo "ethOS files ready"
 }
