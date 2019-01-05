@@ -29,7 +29,7 @@ f.prepminer(){
   fi
   
   mkdir -p $TMP_DIR/opt/miners
-  rsync -a --delete $TMP_DIR/teamredminer $TMP_DIR/opt/miners/
+  rsync -a --delete $TMP_DIR/teamredminer-v0.3.8-linux/* $TMP_DIR/opt/miners/teamredminer/
   
   echo "Temporary miner files ready"
 }
