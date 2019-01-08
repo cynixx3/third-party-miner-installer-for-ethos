@@ -285,7 +285,6 @@ function get_hashrates(){
 			$check_gpu = $i+1;
 
 			$alive = trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a Status=Alive | head -$check_gpu | tail -1 | wc -l`);
-			print($alive);
 			$enabled = trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a Enabled=Y | head -$check_gpu | tail -1 | wc -l`);
 
 			if($alive > 0 && $enabled > 0) {
