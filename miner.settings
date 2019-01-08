@@ -1,0 +1,4 @@
+GIT_USER_REPO="technobyl/CryptoDredge"
+RELEASE_SHASUM="c2056f6529f4a834c2f9a2758d69ee3bb5533bbdbaf70a362b43b03eb58a0036"
+MINER_ARCHIVE_FOLDER="CryptoDredge_0.16.0"
+DEPENDS="http://ftp.br.debian.org/debian/pool/main/libu/libuv1/libuv1_1.9.1-3_amd64.deb"
