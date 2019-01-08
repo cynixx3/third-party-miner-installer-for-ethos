@@ -1,30 +1,34 @@
 #!/bin/bash
 
-# This is not intended to be a working script, it is mearly an example of what developers can do
-#GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
-#RELEASE_SHASUM="sha256sum of archive"
-#MINER_ARCHIVE_FOLDER="Miner_Folder"
-#DEPENDS="URL URL"
+# 
 MINER_BRANCH="$1"
 CMD="$0"
 ACTION="$2"
+
+# Default miner.settings
 TMP_DIR="/tmp/newminer"
+GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
+MINER_ARCHIVE_FOLDER="$MINER_BRANCH"
+#RELEASE_SHASUM="sha256sum of archive"
+#DEPENDS="URL URL"
 
 # Get miner files and setup temporary opt/
 f.PREPMINER(){
   echo "Getting latest release of miner"
   curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
-  | grep -i "browser_download_url.*$MINER_BRANCH.*tar\..z" \
+  | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
   | cut -d '"' -f 4 \
   | head -1 \
   | wget -qi - -O "$MINER_BRANCH.tar.gz"
 
-  echo "Comparing download with checksum"
-  if ! echo "$RELEASE_SHASUM $MINER_BRANCH.tar.gz" | sha256sum -c ; then
-    echo "checksum of downloaded files failed, please try again or update miner.settings in repo"
-    exit 3
+  if [ $RELEASE_SHASUM ] ; then
+    echo "Comparing download with checksum"
+    if ! echo "$RELEASE_SHASUM $MINER_BRANCH.tar.gz" | sha256sum -c ; then
+      echo "checksum of downloaded files failed, please try again or update miner.settings in repo"
+      exit 3
+    fi
   fi
-  
+
   echo "Unpacking miner"
   if ! tar xzf "$TMP_DIR/$MINER_BRANCH.tar.gz" ; then
     echo "Unable to extract files package. please try again."
@@ -115,7 +119,7 @@ f.REVERT(){
 f.INSTALL(){
   echo "Stopping the miner"
   /opt/ethos/bin/disallow
-  /opt/ethos/bin/minestop
+ps uax | egrep "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|lolminer" | grep -Ev '(curl|update-miner|miner-manager|grep)' | awk '{print $2}' | sudo xargs kill -9
   
   echo "Installing miner"
   sudo rsync -av "$TMP_DIR/opt/" /opt
@@ -130,11 +134,12 @@ f.INSTALL(){
 
 f.CLEANUP(){
   rm -rf "$TMP_DIR"
+  echo "temporary files removed"
 }
 
 f.HELP (){
   echo "$1
-Usage $CMD [miner] ( install | update | revert )
+Usage $CMD [ Miner ] ( install | update | revert )
 
 Miners Available:
 $(curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | cut -d '"' -f 4 | grep -Ev '(1.3|master)')"
@@ -175,7 +180,7 @@ case "$2" in
     f.CLEANUP
   ;;
   *)
-    f.HELP "Invalid action, options are install, update, or revert"
+    f.HELP "Invalid instruction, options are install, update, or revert"
     exit 3
 esac
 cd ~ || exit
