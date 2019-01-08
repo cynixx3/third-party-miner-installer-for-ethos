@@ -28,14 +28,14 @@ f.PREPMINER(){
     echo "Comparing download with checksum"
     if ! echo "$RELEASE_SHASUM $MINER_BRANCH.tar.gz" | sha256sum -c ; then
       echo "checksum of downloaded files failed, please try again or update miner.settings in repo"
-      exit 3
+      exit 11
     fi
   fi
 
   echo "Unpacking miner"
   if ! tar xzf "$TMP_DIR/$MINER_BRANCH.tar.gz" ; then
     echo "Unable to extract files package. please try again."
-    exit 4
+    exit 12
   fi
   
   mkdir -p "$TMP_DIR/opt/miners"
@@ -122,7 +122,7 @@ f.REVERT(){
 f.INSTALL(){
   echo "Stopping the miner"
   /opt/ethos/bin/disallow
-ps uax | egrep "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|lolminer" | grep -Ev '(curl|update-miner|miner-manager|grep)' | awk '{print $2}' | sudo xargs kill -9
+ps uax | egrep "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|lolminer|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|$MINER_BRANCH" | grep -Ev '(curl|update-miner|miner-manager|grep)' | awk '{print $2}' | sudo xargs kill -9
   
   echo "Installing miner"
   sudo rsync -av "$TMP_DIR/opt/" /opt
@@ -162,7 +162,7 @@ source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-ins
 
 echo "Move to a temporary work space"
 mkdir "$TMP_DIR"
-cd "$TMP_DIR" || exit
+cd "$TMP_DIR" || exit 10
 
 case "$2" in
   install)
@@ -186,4 +186,4 @@ case "$2" in
     f.HELP "Invalid instruction, options are install, update, or revert"
     exit 3
 esac
-cd ~ || exit
+cd ~ || exit 20
