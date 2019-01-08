@@ -1,6 +1,9 @@
 #!/bin/bash
 
-# 
+# to use run `source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action` Where the miner is the branch in the repo and the actions are install, update, or revert
+# IE `source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) phoenixminer install`
+# Any setting changes to this should be made to the miner.settings file in the miners branch of this repo
+
 MINER_BRANCH="$1"
 CMD="$0"
 ACTION="$2"
