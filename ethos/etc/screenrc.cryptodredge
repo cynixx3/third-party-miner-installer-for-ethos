@@ -1,7 +1,0 @@
-logfile /var/run/miner.output
-chdir /opt/miners/cryptodredge
-setenv LD_LIBRARY_PATH /opt/miners/cryptodredge
-caption always
-caption string "%{= RW} $STY | %c:%s | host:%H | load:%l | Return to terminal: Ctrl-A D"
-multiuser on
-acladd root
