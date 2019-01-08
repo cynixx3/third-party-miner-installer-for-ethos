@@ -1,0 +1,7 @@
+logfile /var/run/miner.output
+chdir /opt/miners/wildrig-multi
+setenv LD_LIBRARY_PATH /opt/miners/wildrig-multi
+caption always
+caption string "%{= RW} $STY | %c:%s | host:%H | load:%l | Return to terminal: Ctrl-A D"
+multiuser on
+acladd root
