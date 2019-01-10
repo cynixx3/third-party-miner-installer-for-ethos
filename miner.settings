@@ -1,3 +1,3 @@
-RELEASE_SHASUM="354307c366d32b37793022aced287f6a76dc1037e98ab18d1af400bc532ba0d2"
-MINER_ARCHIVE_FOLDER="PhoenixMiner_4.0b_Linux"
+RELEASE_SHASUM="8875882c2ff7714eafd26c11aa68115ff453159b2a3ca8464469dd3c1f7c3b22"
+MINER_ARCHIVE_FOLDER="PhoenixMiner_4.1a_Linux"
 DEPENDS="http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.10_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb"
