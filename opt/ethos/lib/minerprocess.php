@@ -466,7 +466,7 @@ function start_miner()
 		}
 		
 		if (!preg_match("/cl-global-work/", $flags) && ($driver == "amdgpu" || $driver == "fglrx" )) {
-			$flags .= " --cl-global-work 8192 ";
+			$flags .= " --cl-global-work 8192 --cl-only ";
 		}
 		
 		if (!preg_match("/cuda-parallel-hash/", $flags) && $driver == "nvidia") {
@@ -1192,7 +1192,7 @@ function start_miner()
 		`/tmp/minercmd`;
 
 		// if($debug){ file_put_contents("/home/ethos/debug.log",$date . " " . $command . "\n"); 
-		if (!preg_match("/(energiminer$|ethminer$|progpowminer?$)/",$miner)) {
+		if (!preg_match("/(ethminer$|progpowminer?$)/",$miner)) {
 			break;
 		}
 
