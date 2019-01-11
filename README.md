@@ -1,48 +1,71 @@
-# third-party-miner-installer-for-ethos
-This is an introduction to installing third party miners to ethOS with instructions and examples for miner developers to integrate and make ethOS installers / update scripts.
+# Third Party Miner Manager for ethOS
 
-The instructions here are not supported by ethOS. This will install the files for one miner and use with another miner will overwrite previous installs.
+This UNOFFICIAL miner manager will install, update, or revert the install of cryptodredge, energiminer, phoenixminer, teamredminer, wildrig-multi, and xmrig-amd to ethOS version 1.3.3
 
-ethOS installs its miners and associated files to /opt/miners/MinerFolder/MinerFiles
+This manager was not written by ethOS and neither the scirpt or the installed miners are supported by their policies. 
 
-ethOS has six scripts to manage miners, they are all in /opt/ethos/
-- bin/hash-monitor
-  - "function get_hashrates()" is responsable for setting the method to connect to the miners api, pull the hash rate, and making it readable
-    - add an IF miner condition with a json_decoded raw variable
-    - add an IF miner condition to clean the output for each gpu from the raw json input
-- lib/minerprocess.php
-  - This file sets all flags the miner uses when it starts, set any and all conditions it needs and then build the start command. 
-    - add IF miner condition to function start_miner()
-      - If ethOS has a config setting that would apply to the miner this is where it is set
-    - add "$miner_path"
-    - add "$miner_params"
-    - add "$miner_suffix"
-- lib/functions.php
-  - This file sets where to get hash 
-- bin/minestop (ez)
-  - This file stops the miner
-    - add miner name to the "ps uax" line.
-- etc/screenrc.miner (ez)
-  - This file holds the parameters for the screen session
-    - replace an example with miner name
-- sbin/ethos-miner-monitor (ez)
-  - This file grabs the miner version and sets autoreboot conditions
-    - append miner name and version to "miner.versions"
-- sbin/ethos-readconf (ez)
-  - This file shows the user what miner is valid for their gpus and allows ethos to choose that miner
-    - add miner name to "f.validminers", has 1 instance for each kind of gpu the miner works with
-    - add miner name to "case "$MINER" in" has 1 instance of the miner to choose the method of pulling the process ID
+## Getting Started
 
-This Git repository has branches to help with the installation, and reversion of a miner as well as show changes between them, IE https://github.com/cynixx3/third-party-miner-installer-for-ethos/compare/ethos-1.3.3...phoenixminer
+Following these instructions will install the chosen miner and its intergration files on your ethOS machine. Each miner intergration is stored in a branch of github for you to review.
 
-With the understanding that ethOS users are either very new to linux or are mining farms with many rigs to install to, this repo will suggest using a method to install with a single command rather than the more linux approved method of have them do it. 
+### Prerequisites
 
-`source <(curl -s https://raw.githubusercontent.com/MinerAuthor/MinerName/master/miner-installer-for-ethos) install`
+You need to be running ethos 1.3.3 to install a miner with this script.
 
-Or suggest updating with 
+### Installing
 
-`source <(curl -s https://raw.githubusercontent.com/MinerAuthor/MinerName/master/miner-installer-for-ethos) update`
+This script was designed for ease of use. You can run a single command to install, update, or remove a miner and any dependencies with it.
 
-Or uninstall with
+You can download the miner-manager script, give it execute permissions and run it. Or run the manager from the github repo in which case the command would look like
 
-`source <(curl -s https://raw.githubusercontent.com/MinerAuthor/MinerName/master/miner-installer-for-ethos) revert`
+```
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action`
+```
+
+Where the miner is the branch in the repo and the actions are install, update, or revert
+IE
+
+```
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) phoenixminer install
+```
+
+### Updating
+
+The miner can be easily updated when new releases are out by just changing the action argument to "update"
+IE
+
+```
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) energiminer update
+```
+
+### UnInstalling
+
+The miner can be easily uninstalled by changing the action argument to "revert"
+IE
+
+```
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi revert
+```
+
+## Development
+
+If you are a developer please check the "developers" branch for information on how to add your miner.
+
+Any setting changes to the miner-manager should be made to the miner.settings file in each miners branch of this repo.
+
+## Contributing
+
+If you got a new miner working using these tools please submit a pull request with a new branch for the miner you added.
+
+## Authors
+
+* **cYnIxX3** - *Initial work* - [cYnIxX3](https://github.com/cynixx3)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Contributers
+
+* **Unsivil** - *additional miners* - [Unsivil](https://github.com/unsivilaudio)
+* **Kahlid74** - *added cryptodredge* - [Phaelon74](https://github.com/phaelon74)
