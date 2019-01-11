@@ -40,6 +40,7 @@ f.PREPMINER(){
   
   mkdir -p "$TMP_DIR/opt/miners"
   rsync -a --delete "$TMP_DIR/$MINER_ARCHIVE_FOLDER/" "$TMP_DIR/opt/miners/$MINER_BRANCH"
+  sudo chown -R ethos.ethos "$TMP_DIR"/opt/miners/
   
   echo "Temporary miner files ready"
 }
@@ -77,6 +78,8 @@ f.PREPETHOS(){
   if [ -f  "$TMP_DIR"/opt/ethos/lib/functions.php ] ; then
     chmod 755 "$TMP_DIR"/opt/ethos/lib/functions.php
   fi
+  sudo chown -R root.root "$TMP_DIR"/opt/ethos/
+  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/etc/screenrc.* "$TMP_DIR"/opt/ethos/bin/minestop
 
   echo "Check for dependencies"
   if [ "$DEPENDS" ] ; then
@@ -108,6 +111,8 @@ f.REVERT(){
   if [ -f  "$TMP_DIR"/opt/ethos/lib/functions.php ] ; then
     chmod 755 "$TMP_DIR"/opt/ethos/lib/functions.php
   fi
+  sudo chown -R root.root "$TMP_DIR"/opt/ethos/
+  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/etc/screenrc.* "$TMP_DIR"/opt/ethos/bin/minestop
 # Reinstall stock dependencies
 #todo add ethos version checking
   mkdir "$TMP_DIR/depends"
@@ -126,8 +131,7 @@ ps uax | egrep "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf
   
   echo "Installing miner"
   sudo rsync -av "$TMP_DIR/opt/" /opt
-  sudo chown -R ethos.ethos /opt/miners/
-  
+
   echo "Restarting services and miner"
   sudo service ethos-miner-daemon restart
   sudo service ethos-stats-daemon restart
