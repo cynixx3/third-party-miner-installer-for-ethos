@@ -35,14 +35,9 @@ fi
       exit 11
     fi
   fi
-  SUBDIR="."
-  if ! tar ztf "$TMP_DIR/$MINER_BRANCH.tar.gz" | grep -qv "^$(tar ztf "$TMP_DIR/$MINER_BRANCH.tar.gz" | (read line; echo $line))" ; then
-    SUBDIR="$MINER_BRANCH" 
-    mkdir "$SUBDIR"
-    echo "WARNING: tarbomb detected. Opening in subdirectory, $SUBDIR." >&2
-  fi
+
   echo "Unpacking miner"
-  if ! tar xzf "$TMP_DIR/$MINER_BRANCH.tar.gz" --directory "$SUBDIR" ; then
+  if ! tar xzf "$TMP_DIR/$MINER_BRANCH.tar.gz" ; then
     echo "Unable to extract files package. please try again."
     exit 12
   fi
