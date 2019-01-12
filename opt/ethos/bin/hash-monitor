@@ -180,7 +180,7 @@ function get_hashrates(){
 	}
 	
 	if ($miner == "lolminer")	{
-		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);	
+		$raw_lolstats = @json_decode(@file_get_contents("http://127.0.0.1:42000/summary"),TRUE);
 	}
 
 	for($i = 0;$i < $instances; $i++){
@@ -280,7 +280,7 @@ function get_hashrates(){
 		}
 
 		if ($miner == "lolminer") {
-			$raw = floatval($raw_lolstats["GPU$i"]["Speed(60s)"]);
+			$raw = $raw_lolstats["GPUs"][$i]["Performance"];
 		}
 
 		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled"){
