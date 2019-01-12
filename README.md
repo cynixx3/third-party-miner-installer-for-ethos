@@ -1,8 +1,15 @@
 # Third Party Miner Manager for ethOS
 
-This UNOFFICIAL miner manager will install, update, or revert the install of cryptodredge, energiminer, phoenixminer, teamredminer, wildrig-multi, and xmrig-amd to ethOS version 1.3.3
+This UNOFFICIAL miner manager will install, update, or revert the install of unsupported miners to ethOS version 1.3.3
+## List of currently supported miners
+	* [NVIDIA] cryptodredge
+	* [BOTH] energiminer
+	* [BOTH] phoenixminer
+	* [AMD] teamredminer
+	* [AMD] wildrig-multi
+	* [AMD] xmrig-amd 
 
-This manager was not written by ethOS and neither the scirpt or the installed miners are supported by their policies. 
+This manager was not written by ethOS and neither the scirpt or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
 
 ## Getting Started
 
@@ -59,7 +66,7 @@ If you got a new miner working using these tools please submit a pull request wi
 
 ## Authors
 
-* **cYnIxX3** - *Initial work* - [cYnIxX3](https://github.com/cynixx3)
+* **cYnIxX3** - *Initial work* - [cYnIxX3](https://github.com/cynixx3) <== MVP
 
 ## License
 
@@ -67,5 +74,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Contributers
 
-* **Unsivil** - *additional miners* - [Unsivil](https://github.com/unsivilaudio)
+* **unsivil** - *additional miners* - [unsivil](https://github.com/unsivilaudio)
 * **Kahlid74** - *added cryptodredge* - [Phaelon74](https://github.com/phaelon74)
