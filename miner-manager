@@ -170,6 +170,7 @@ fi
 # Get miner settings
 source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings)
 
+if [ -d "$TMP_DIR" ] ; then rm -rf "$TMP_DIR" ; fi
 echo "Move to a temporary work space"
 mkdir "$TMP_DIR"
 cd "$TMP_DIR" || exit 10
