@@ -1019,68 +1019,70 @@ function start_miner()
 	* LOLMINER
 	********************************/
 	if ($miner == "lolminer") {
-		$devices = select_gpus();
-		$apiport = select_api_port();
-		$lolconfig_path = "/var/run/ethos/lolminer_config.json";
-
-		$lolconfig = array(
-			"DEFAULTS"=>array(
-				"DEVICES"=>(($driver == "nvidia") ? "NVIDIA" : "AMD" ),
-				"APIPORT"=>$apiport
-			),
-			"ETHOS"=>array(
-				"COIN"=>"ZER",
-				"POOLS"=>array()
-			)
-		);
-
-		if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
-			foreach($devices as $idx=>$dev) {
-				$devices[$idx] = intval($dev);
-			}
-
-			$lolconfig["DEFAULTS"]["DEVICES"] = $devices;
-		}
-
-		//read coin from flags and remove option from flags
-		if(preg_match("/(-coin=(\S+)).*/", $flags, $coin_matches)) {
-			$lolconfig["ETHOS"]["COIN"] = $coin_matches[2];
-			$flags = str_replace($coin_matches[1], "", $flags);
-		}
-
-		//set pool array
-		foreach($poolarr as $poolidx=>$pool) {
-			if ($pool != "") {
-				$poolpass = $poolpass_arr[$poolidx];
-
-				if(preg_match("/^(.+\:\/\/)?(.+)\:(\d+)$/", $pool, $pool_matches)) {
-					$lolconfig["ETHOS"]["POOLS"][] = array(
-						"POOL"=>$pool_matches[2],
-						"PORT"=>$pool_matches[3],
-						"USER"=>$proxywallet.$worker,
-						"PASS"=>(($poolpass == "") ? "x" : $poolpass)
-					);
-				}
-			}
-		}
-
-		//output json
-		file_put_contents($lolconfig_path, json_encode($lolconfig, JSON_PRETTY_PRINT));
-
-		//remove -profile option from flags and force our own
-		if(preg_match("/(-profile=(\S+)).*/", $flags, $flag_matches)) {
-			$flags = str_replace($flag_matches[1], "", $flags);
-		}
-
-		//remove -usercfg option from flags and force our own
-		if(preg_match("/(-usercfg=(\S+)).*/", $flags, $flag_matches)) {
-			$flags = str_replace($flag_matches[1], "", $flags);
-		}
-
-		$flags = "-profile=ETHOS -usercfg=".$lolconfig_path." ".$flags;
-
+	    $devices = select_gpus();
+	    $selgpu = implode(",", select_gpus());
+	    $apiport = select_api_port();
+	    $lolconfig_path = "/var/run/ethos/lolminer_config.json";
+	    
+	    $lolconfig = array(
+	        "DEFAULTS"=>array(
+	            "DEVICES"=>(($driver == "nvidia") ? "NVIDIA" : "AMD" ),
+	            "APIPORT"=>$apiport
+	        ),
+	        "ETHOS"=>array(
+	            "COIN"=>"ZER",
+	            "POOLS"=>array()
+	        )
+	    );
+	    
+	    if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
+	        foreach($devices as $idx=>$dev) {
+	            $devices[$idx] = intval($dev);
+	        }
+	        
+	        $lolconfig["DEFAULTS"]["DEVICES"] = $devices;
+	    }
+	    
+	    //read coin from flags and remove option from flags
+	    if(preg_match("/(--coin(\s+).*)/", $flags, $coin_matches)) {
+	        $coin = explode(" ", $coin_matches[0]);
+	        $lolconfig["ETHOS"]["COIN"] = $coin[1];
+	        $flags = str_replace($coin_matches[1], "", $flags);
+	    }
+	    
+	    //set pool array
+	    foreach($poolarr as $poolidx=>$pool) {
+	        if ($pool != "") {
+	            $poolpass = $poolpass_arr[$poolidx];
+	            
+	            if(preg_match("/^(.+\:\/\/)?(.+)\:(\d+)$/", $pool, $pool_matches)) {
+	                $lolconfig["ETHOS"]["POOLS"][] = array(
+	                    "POOL"=>$pool_matches[2],
+	                    "PORT"=>$pool_matches[3],
+	                    "USER"=>$proxywallet.$worker,
+	                    "PASS"=>(($poolpass == "") ? "x" : $poolpass)
+	                );
+	            }
+	        }
+	    }
+	    
+	    //output json
+	    file_put_contents($lolconfig_path, json_encode($lolconfig, JSON_PRETTY_PRINT));
+	    
+	    //remove -profile option from flags and force our own
+	    if(preg_match("/(--profile(\S+)).*/", $flags, $flag_matches)) {
+	        $flags = str_replace($flag_matches[1], "", $flags);
+	    }
+	    
+	    //remove -usercfg option from flags and force our own
+	    if(preg_match("/(--userCFG(\S+)).*/", $flags, $flag_matches)) {
+	        $flags = str_replace($flag_matches[1], "", $flags);
+	    }
+	    
+	    $flags = "--profile ETHOS --usercfg ".$lolconfig_path." --devices " . $selgpu .$flags;
+	    
 	}
-
+	
 	//begin miner commandline buildup
 
 	$miner_path['avermore'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.avermore -dmS avermore /opt/miners/avermore/avermore";
