@@ -8,6 +8,7 @@ This UNOFFICIAL miner manager will install, update, or revert the install of uns
 	* [AMD] teamredminer
 	* [AMD] wildrig-multi
 	* [AMD] xmrig-amd 
+	* [AMD] lolminer 0.7a (equihash 150/5 only)
 
 This manager was not written by ethOS and neither the scirpt or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
 
