@@ -38,7 +38,7 @@ fi
   echo "Unpacking miner"
   SUBDIR=""
   if tar ztf "$MINER_BRANCH.tar.gz" | grep -qv "^$(tar ztf "$MINER_BRANCH.tar.gz" | sort | head -n1 )" ; then
-    SUBDIR="--directory $MINER_ARCHIVE_FOLDER" 
+    SUBDIR="--directory=$MINER_ARCHIVE_FOLDER" 
     mkdir "$MINER_ARCHIVE_FOLDER"
     echo "WARNING: tarbomb detected. Opening in subdirectory, $MINER_ARCHIVE_FOLDER."
   fi
