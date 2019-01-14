@@ -20,7 +20,7 @@ $crashed_gpus = check_alive($miner_hash);
 if (count($crashed_gpus) > 0) {
 	foreach ($crashed_gpus as $cg) {
 		$miner_hash[$cg] = 0;
-		
+
 		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled" ){
 			$dualminer_hash[$cg] = 0;
 		}
@@ -73,7 +73,7 @@ function get_used_gpus() {
 		//if none then set all gpus in the list of mining gpus
 	else {
 		$gpu_count = trim(file_get_contents("/var/run/ethos/gpucount.file"));
-		
+
 		for($i=0;$i<$gpu_count;++$i) {
 			$mininggpus[] = $i;
 		}
@@ -137,12 +137,12 @@ function get_hashrates(){
 	$miner_hash = array();
 	$dualminer_hash = array();
 	$invalid_shares_per_gpu_array = array();
-	if($uptime < 900){ 
+	if($uptime < 900){
 			$tail = 50;
 	} else {
 			$tail = 400;
 	}
-	
+
 	if(preg_match("/(ccminer|nevermore)/", $miner)){
 		`echo "threads|" | socat stdio tcp-connect:127.0.0.1:4068 > /var/run/ethos/miner.dump`;
 		preg_match_all("/KHS=(\d+\.\d+)/", @file_get_contents("/var/run/ethos/miner.dump"), $ccminer_hashes);
@@ -151,15 +151,15 @@ function get_hashrates(){
 	if($miner == "dstm-zcash") {
 		$dstmstats = json_decode(`echo "|stats" |socat -t 15 stdio tcp-connect:127.0.0.1:2222`, true);
 	}
-	
-	if(preg_match("/(eth|progpow)miner-single/", $miner)){
+
+	if(preg_match("/(eth|progpow|ubqminer)miner-single/", $miner)){
 		//todo: grep for apiport from flags to set the connect parameters, otherwise use default
 		$ethminerapi = array(@json_decode(trim(`echo '{"id":0,"jsonrpc":"2.0","method":"miner_getstat1"}' | socat -t 15 stdio tcp-connect:127.0.0.1:3333`), true));
 		if($ethminerapi){
 			$ethminerstats = explode(";", $ethminerapi[0][result][3]);
 		}
 	}
-	
+
 	if(preg_match("/(sgminer-gm|cgminer-skein|avermore)/", $miner)){
 		`echo "devs|" | socat -t 15 stdio tcp-connect:127.0.0.1:4028 > /var/run/ethos/miner.dump`;
 		$sgminer_5s = explode(" ",trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a "MHS 5s" | cut -d"=" -f2 | xargs`));
@@ -172,43 +172,39 @@ function get_hashrates(){
 	if(preg_match("/ewbf-(zcash|equihash)/", $miner)){
 
 		$ewbfstats = array();
-		$raw_ewbfstats = @json_decode(@file_get_contents("http://127.0.0.1:42000/getstat"),TRUE);		
+		$raw_ewbfstats = @json_decode(@file_get_contents("http://127.0.0.1:42000/getstat"),TRUE);
 		foreach(array_keys($raw_ewbfstats['result']) as $i) {
 			$n = $raw_ewbfstats['result'][$i]['cudaid'];
 			$ewbfstats[$n] = $raw_ewbfstats['result'][$i]['speed_sps'];
   		}
 	}
-	
+
 	if ($miner == "lolminer")	{
-		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);	
-	}
-	
-	if ($miner == "t-rex") {
-		$raw_trx_stats = @json_decode(trim(`echo 'summary' | socat -t 15 stdio tcp-connect:127.0.0.1:4068`), true);
+		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);
 	}
 
 	for($i = 0;$i < $instances; $i++){
 		if(preg_match("/(ccminer|nevermore)/",$miner)){
-			
+
 			$multiplier = 1;
-			
+
 			if($ccminer_hashes[1][0] > 1000) {
 				$multiplier = 0.001;
 			}
 			if($ccminer_hashes[1][0] < 10 && $ccminer_hashes[1][0] > 0){
 				$multiplier = 1000;
 			}
-			
+
 			$raw = $ccminer_hashes[1][$i] * $multiplier;
 		}
 
 		if(preg_match("/claymore/",$miner)){
 			$invalid_shares = trim(`tail -300 /var/run/miner.output | grep 'GPU #$i returned incorrect' | wc -l`);
 			$invalid_shares_per_gpu_array[$i] = trim(`tail -300 /var/run/miner.output | grep 'Incorrect ETH shares:' | grep -Poi "(?<=GPU$i\s)(\d+)" | tail -1`);
-			if(!$invalid_count[$i]) { 
+			if(!$invalid_count[$i]) {
 				$invalid_count[$i] = "0";
 			}
-			
+
 			if($invalid_shares < 5){
 				if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled" ){
 					$dualminer_raw = trim(`tail -300 /var/run/miner.output | egrep "B2S:|DCR:|KC:|SC:|LBC:|PASC:" | grep GPU | grep -v SHARE | grep -Poi "(?<=GPU$i)\s(\d+\.\d+)" | sed 's/ //g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
@@ -227,16 +223,16 @@ function get_hashrates(){
 				$raw = 0;
 			}
 		}
-		
-		if(preg_match("/(ethminer$|progpowminer$)/", $miner)){
+
+		if(preg_match("/(ethminer$|progpowminer$|ubqminer$)/", $miner)){
 			$raw = trim(`tail -$tail /var/run/miner.$i.output | sed 's,\x1B\[[0-9;]*[a-zA-Z],,g' | tr -s ' ' | grep Speed | cut -d" " -f6 | tail -100 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'
 `);
 		}
-		
-		if(preg_match("/(eth|progpow)miner-single/", $miner)){
+
+		if(preg_match("/(eth|progpow|ubqminer)miner-single/", $miner)){
 			$raw = $ethminerstats[$i] * 0.001;
 		}
-	
+
 		if(preg_match("/ewbf-(zcash|equihash)/", $miner)){
 
 			$raw = $ewbfstats[$i];
@@ -244,15 +240,15 @@ function get_hashrates(){
 				$raw = 0;
   			}
 		}
-		
+
 		if($miner == "optiminer-zcash"){
-			$raw = trim(`tail -400 /var/run/miner.output | grep -Poi "(?<=\[GPU$i\]\s\s)(\d+\.\d+\sI\/s\s)(\d+.\d+)" | cut -d" " -f 3 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);	
+			$raw = trim(`tail -400 /var/run/miner.output | grep -Poi "(?<=\[GPU$i\]\s\s)(\d+\.\d+\sI\/s\s)(\d+.\d+)" | cut -d" " -f 3 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
 		}
-		
+
 		if($miner == "wolf-xmr-cpu"){
 			$raw = trim(`tail -300 /var/run/miner.output | grep accepted | cut -d "," -f 2 | cut -d " " -f 2 | tail -100 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`)/$instances;
 		}
-		
+
 		if(preg_match("/(sgminer|cgminer|avermore)/",$miner)){
 
 			$check_gpu = $i+1;
@@ -289,13 +285,6 @@ function get_hashrates(){
 
 		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled"){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
-		}
-		
-		if ($miner == "t-rex") {
-			$raw = $raw_trx_stats["gpus"][$i]["hashrate_minute"];
-			if ($raw > 1000*1000) {
-				$raw = $raw / 1000 / 1000;
-			}
 		}
 
 		if($last_mod_secs < 300){

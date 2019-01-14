@@ -36,6 +36,8 @@ cat /opt/miners/nevermore/nevermore-version.txt >> /var/run/ethos/miner.versions
 /opt/miners/optiminer-zcash/optiminer-zcash --version | grep Opti | awk '{print "optiminer-zcash "$NF}'  >> /var/run/ethos/miner.versions
 cat /opt/miners/progpowminer/version.txt | awk '{print "progpowminer "$NF}'>> /var/run/ethos/miner.versions
 cat /opt/miners/progpowminer/version.txt | awk '{print "progpowminer-single "$NF}'>> /var/run/ethos/miner.versions
+cat /opt/miners/ubqminer/version.txt | awk '{print "ubqminer "$NF}'>> /var/run/ethos/miner.versions
+cat /opt/miners/ubqminer/version.txt | awk '{print "ubqminer-single "$NF}'>> /var/run/ethos/miner.versions
 /opt/miners/sgminer-gm/sgminer-gm --version | awk '{print "sgminer-gm "$NF}' >> /var/run/ethos/miner.versions
 /opt/miners/sgminer-gm/sgminer-gm --version | awk '{print "sgminer-gm-xmr "$NF}' >> /var/run/ethos/miner.versions
 /opt/miners/ewbf-zcash/ewbf-zcash -h | grep -Poi "(?<=miner\. )(.*)(?:\s+)" | awk '{print "ewbf-zcash "$NF}' >> /var/run/ethos/miner.versions
@@ -46,7 +48,6 @@ cat /opt/miners/ethminer/version.txt | awk '{print "ethminer-single "$NF}' >> /v
 cat /opt/miners/teamredminer/version.txt | awk '{print "teamredminer "$1}' >> /var/run/ethos/miner.versions
 /opt/miners/ewbf-equihash/ewbf-equihash -h | grep -Poi "(?<=miner\. )(.*)(?:\s+)" | awk '{print "ewbf-equihash "$NF}' >> /var/run/ethos/miner.versions
 /opt/miners/lolminer/lolMiner | grep -Poi "(?<=lolMiner[[:space:]])([0-9.]+)" | awk '{print "lolMiner "$1}' >> /var/run/ethos/miner.versions
-/opt/miners/t-rex/t-rex --version | awk '{print "t-rex " $5}' >> /var/run/ethos/miner.versions
 
 function f.autoreboot(){
 	if [ "$AUTOREBOOT" -gt "0" ]; then
@@ -172,7 +173,7 @@ while true; do
 	if [ "$driverless" != "enabled" ] && [ "$nextboot" -eq "4" ] && [ -z "$manualdriverless" ]; then
 		/usr/sbin/grub-reboot 0
 	fi
-	
+
 	if [ "$UPTIME" -gt 3600 ] && [ "$HANGHAPPENED" -ge "1" ];then
 		f.autoreboot
 	fi
