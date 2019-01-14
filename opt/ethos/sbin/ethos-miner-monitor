@@ -1,0 +1,180 @@
+#!/bin/bash
+
+# LICENSE AGREEMENT
+#
+# Version 1.2 (c) 2016 Dale Chapman, sling00@gmail.com (“Author”).
+#
+# By using this file, you agree to the following:
+#
+# This file has been licensed to gpuShack for the exclusive use and distribution as part of ethOS. All other previous licenses
+# of this file have been revoked. This license does not expire and allows for any modification, distribution, and/or derivative work
+# by gpuShack and by the Author. This license extends to gpuShack’s owners, operators, officers, and contractors, where
+# applicable.
+#
+# The Author expressly forbids and revokes usage of this file, as well as any previous iterations of this file, in any
+# operating system other than ethOS. Any fork of ethOS, third party or otherwise, may not use this file without express written
+# permission from the Author.
+#
+# Personal Use
+#
+# End users may modify and use this script for personal use, but may not redistribute or include in a larger work, in whole, or
+# in part, without express written permission from the Author.
+
+## Get version information
+`/opt/ethos/bin/bootlog ethos-miner-monitor`;
+/opt/ethos/bin/check-xorg
+DRIVER=$(/opt/ethos/sbin/ethos-readconf driver)
+echo -n "" > /var/run/ethos/miner.versions
+cat /opt/miners/ccminer/ccminer-version.txt >> /var/run/ethos/miner.versions
+/opt/miners/cgminer-skein/cgminer-skein --version | awk '{print "cgminer-skein "$NF}' >> /var/run/ethos/miner.versions
+cat /opt/miners/claymore/History.txt | grep '^v' | cut -d" " -f1 | head -1 | awk '{print "claymore "$1}' >> /var/run/ethos/miner.versions
+cat /opt/miners/claymore-xmr/History.txt | grep '^v' | cut -d" " -f1 | head -1 | awk '{print "claymore-xmr "$1}' >> /var/run/ethos/miner.versions
+cat /opt/miners/claymore-zcash/History.txt | grep '^v' | cut -d" " -f1 | head -1 | awk '{print "claymore-zcash "$1}' >> /var/run/ethos/miner.versions
+/opt/miners/avermore/avermore --version | awk '{print "avermore "$NF}' >> /var/run/ethos/miner.versions
+cat /opt/miners/nevermore/nevermore-version.txt >> /var/run/ethos/miner.versions
+/opt/miners/dstm-zcash/dstm-zcash | grep -Poi "(?<=ZM\s)(.*)(?=,)" |awk '{print "dstm-zcash "$1}' >> /var/run/ethos/miner.versions
+/opt/miners/optiminer-zcash/optiminer-zcash --version | grep Opti | awk '{print "optiminer-zcash "$NF}'  >> /var/run/ethos/miner.versions
+cat /opt/miners/progpowminer/version.txt | awk '{print "progpowminer "$NF}'>> /var/run/ethos/miner.versions
+cat /opt/miners/progpowminer/version.txt | awk '{print "progpowminer-single "$NF}'>> /var/run/ethos/miner.versions
+/opt/miners/sgminer-gm/sgminer-gm --version | awk '{print "sgminer-gm "$NF}' >> /var/run/ethos/miner.versions
+/opt/miners/sgminer-gm/sgminer-gm --version | awk '{print "sgminer-gm-xmr "$NF}' >> /var/run/ethos/miner.versions
+/opt/miners/ewbf-zcash/ewbf-zcash -h | grep -Poi "(?<=miner\. )(.*)(?:\s+)" | awk '{print "ewbf-zcash "$NF}' >> /var/run/ethos/miner.versions
+cat /opt/miners/ethminer/version.txt | awk '{print "ethminer "$NF}' >> /var/run/ethos/miner.versions
+cat /opt/miners/ethminer/version.txt | awk '{print "ethminer-single "$NF}' >> /var/run/ethos/miner.versions
+/opt/miners/xmr-stak/xmr-stak --version | cut -d' ' -f 3 | awk '{print "xmr-stak "$1}' >> /var/run/ethos/miner.versions
+/opt/miners/xtl-stak/xtl-stak --version | cut -d' ' -f 3 | awk '{print "xtl-stak "$1}' >> /var/run/ethos/miner.versions
+cat /opt/miners/teamredminer/version.txt | awk '{print "teamredminer "$1}' >> /var/run/ethos/miner.versions
+/opt/miners/ewbf-equihash/ewbf-equihash -h | grep -Poi "(?<=miner\. )(.*)(?:\s+)" | awk '{print "ewbf-equihash "$NF}' >> /var/run/ethos/miner.versions
+/opt/miners/lolminer/lolMiner | grep -Poi "(?<=lolMiner[[:space:]])([0-9.]+)" | awk '{print "lolMiner "$1}' >> /var/run/ethos/miner.versions
+/opt/miners/t-rex/t-rex --version | awk '{print "t-rex " $5}' >> /var/run/ethos/miner.versions
+
+function f.autoreboot(){
+	if [ "$AUTOREBOOT" -gt "0" ]; then
+		oldnum=`cat /opt/ethos/etc/autorebooted.file`
+		newnum=`expr $oldnum + 1`
+		sed -i "s/$oldnum\$/$newnum/g" /opt/ethos/etc/autorebooted.file
+		/bin/bash /opt/ethos/bin/hard-reboot
+	fi
+}
+
+while true; do
+	AUTOREBOOT=$(/opt/ethos/sbin/ethos-readconf autoreboot)
+	MINER=$(/opt/ethos/sbin/ethos-readconf miner)
+	OVERHEAT=$(cat /var/run/ethos/overheat.file)
+	UPTIME=$(cut -d " " -f1 /proc/uptime | cut -d "." -f 1)
+	## Check uptime before doing the nvidia check, as this cannot happen after the system is running for a long time, but occurs on boot/init
+	if [ "$UPTIME" -lt "600" ] && [ "$DRIVER" == "nvidia" ];then
+		NVPOWERPROBLEM=$( dmesg | tail -500 | grep -c "GPU does not have the necessary power cables connected." )
+		if [ "$NVPOWERPROBLEM" -gt "0" ]; then
+			echo "1" > /var/run/ethos/nvidia_error.file
+		fi
+	fi
+	HANGHAPPENED=$(dmesg | egrep -c "ASIC hang happened|failed to send pre message 201 ret is 0|failed to send message 201 ret is 0")
+	PERSISTENTLOGS=$(/opt/ethos/sbin/ethos-readconf persistentlogs)
+	/opt/ethos/sbin/ethos-getcputemp
+	if [ -e "/opt/ethos/etc/.disallowedprogramatically" ] && [ ! -e "/tmp/newfirmware" ];then
+		rm /opt/ethos/etc/.disallowedprogramatically
+		/opt/ethos/bin/allow
+	fi
+	if [ "$OVERHEAT" = "0" ];then
+		if [ "$MINER" = "ethminer" ];then
+			DAGCHANGE=$(for i in `seq 0 16`; do tail -200 /var/run/miner.$i.output; done  | grep clEnqueueNDRangeKernel | wc -l)
+			if [ "$DAGCHANGE" -ge "1" ];then
+				/opt/ethos/bin/minestop
+				for i in `seq 0 16`; do echo "DAG CHANGE ERROR, MINERS RESTARTED" > /var/run/miner.$i.output; done
+			fi
+		fi
+		if [ "$MINER" = "optiminer-zcash" ];then
+			OPTIRESULTS=$(tail -500 /var/run/miner.output | grep "Total" | wc -l)
+			OPTIWORK=$(tail -1000 /var/run/miner.output | grep "Share accepted" | wc -l)
+			OPTIHASH=$(tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1 | tr ' ' '\n' | awk '{sum +=$1} END {print sum}')
+			OPTIOUTOFRANGE=$(tail -50 /var/run/miner.output | grep -ci "solution")
+			OPTICRASH=$(tail -50 /var/run/miner.output | grep -iv "solution" | grep -v "OPTIMINER CRASHED, MINER RESTARTED" |egrep -i 'IO/Error|ERROR|CRASH' | wc -l)
+			OPTIPOOLDOWN=$(tail -50 /var/run/miner.output | grep -ic "Waiting for work from pool" )
+			if [ "$OPTICRASH" -ge "1" ];then
+				/opt/ethos/bin/minestop
+				echo "OPTIMINER CRASHED, MINER RESTARTED" > /var/run/miner.output
+			fi
+			if [ "$OPTIOUTOFRANGE" -ge "10" ];then
+				/opt/ethos/bin/minestop
+				echo "OPTIMINER CRASHED, MINER RESTARTED" > /var/run/miner.output
+			fi
+			if [ "$OPTIPOOLDOWN" -ge "3" ] && [ "$OPTIRESULTS" -ge "200" ];then
+				/opt/ethos/bin/minestop
+				echo "OPTIMINER DISCONNECT FROM POOL AFTER 200 RESULTS, MINER RESTARTED" > /var/run/miner.output
+			fi
+			if [ "$OPTIWORK" -lt "1" ] && [ "$OPTIRESULTS" -ge "20" ];then
+				/opt/ethos/bin/minestop
+				echo "OPTIMINER HASHING BUT NO SHARES ACCEPTED FOR A WHILE, MINER RESTARTED" > /var/run/miner.output
+			fi
+			if [ "$OPTIHASH" -lt "5" ] && [ "$OPTIRESULTS" -ge "200" ];then
+				/opt/ethos/bin/minestop
+				echo "OPTIMINER TOTAL HASHRATE IS TOO LOW AFTER 200 RESULTS, MINER RESTARTED" > /var/run/miner.output
+			fi
+		fi
+	fi
+	if [ "$MINER" = "claymore-zcash" ]; then
+		su - ethos -c "screen -S claymore -X stuff 's'"
+	fi
+	MINEROFF=$(/opt/ethos/sbin/ethos-readconf off)
+	PID=$(/opt/ethos/sbin/ethos-readconf pid)
+	if [ "$MINEROFF" -ge "1" ] && [ ! -z "$PID" ]; then
+		/opt/ethos/bin/minestop
+	fi
+	if [ "$MINER" = "claymore" ]; then
+		su - ethos -c "screen -S claymore -X stuff 's'"
+	fi
+	if [ "$MINER" = "claymore-xmr" ]; then
+		su - ethos -c "screen -S claymore-xmr -X stuff 's'"
+	fi
+	case "$PERSISTENTLOGS" in
+		enabled )
+			/opt/ethos/bin/toggle-logs enabled
+		;;
+		disabled )
+			/opt/ethos/bin/toggle-logs disabled
+		;;
+	esac
+	if [ -f /run/initramfs/espsetup.conf ]; then
+		chmod -x /usr/share/initramfs-tools/scripts/init-top/setupefi
+		update-initramfs -u
+		rm /run/initramfs/espsetup.conf
+	fi
+	if [ -f /tmp/nfqsed.txt ]; then
+		echo "nfqsed.txt present" > /var/run/ethos/possible_intrusion_detected.file
+	fi
+	if [ "$DRIVER" != "nvidia" ]; then
+		legacy_driver=$(/opt/ethos/sbin/ethos-readconf legacy-driver)
+		if [ "$legacy_driver" = "amdgpu" ]; then
+			if [ "$(cat /run/initramfs/legacy-driver.conf)" != "amdgpu" ] && [ "$(cat /tmp/initramfs.updated)" != "amdgpu" ]; then
+				echo "amdgpu" > /opt/ethos/etc/legacy-driver.conf
+				update-initramfs -u
+				echo "amdgpu" > /tmp/initramfs.updated
+			fi
+		fi
+		if [ "$legacy_driver" = "fglrx" ]; then
+			if [ "$(cat /run/initramfs/legacy-driver.conf)" != "fglrx" ] && [ "$(cat /tmp/initramfs.updated)" != "fglrx" ]; then
+				echo "fglrx" > /opt/ethos/etc/legacy-driver.conf
+				update-initramfs -u
+				echo "fglrx" > /tmp/initramfs.updated
+			fi
+		fi
+	fi
+	nextboot=$(grep -Poi "(?<=next_entry\=)(\d+)" /boot/grub/grubenv)
+	if [ -z $nextboot ];then
+		nextboot="0"
+	fi
+	driverless=$(/opt/ethos/sbin/ethos-readconf driverless)
+	manualdriverless=$(cat /var/run/ethos/driverless.file)
+	if [ "$driverless" = "enabled" ] && [ "$nextboot" -eq "0" ];then
+		/usr/sbin/grub-reboot 4
+	fi
+	if [ "$driverless" != "enabled" ] && [ "$nextboot" -eq "4" ] && [ -z "$manualdriverless" ]; then
+		/usr/sbin/grub-reboot 0
+	fi
+	
+	if [ "$UPTIME" -gt 3600 ] && [ "$HANGHAPPENED" -ge "1" ];then
+		f.autoreboot
+	fi
+	sleep 3
+done

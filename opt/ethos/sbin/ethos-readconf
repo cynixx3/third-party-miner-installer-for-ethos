@@ -1,0 +1,434 @@
+#!/bin/bash
+# LICENSE AGREEMENT
+#
+# Version 1.2 (c) 2016-2017 Dale Chapman, sling00@gmail.com (“Author”).
+#
+# By using this file, you agree to the following:
+#
+# This file has been licensed to gpuShack for the exclusive use and distribution as part of ethOS. All other previous licenses
+# of this file have been revoked. This license does not expire and allows for any modification, distribution, and/or derivative work
+# by gpuShack and by the Author. This license extends to gpuShack’s owners, operators, officers, and contractors, where
+# applicable.
+#
+# The Author expressly forbids and revokes usage of this file, as well as any previous iterations of this file, in any
+# operating system other than ethOS. Any fork of ethOS, third party or otherwise, may not use this file without express written
+# permission from the Author.
+#
+# Personal Use
+#
+# End users may modify and use this script for personal use, but may not redistribute or include in a larger work, in whole, or
+# in part, without express written permission from the Author.
+
+CONF=/home/ethos/local.conf
+
+DRIVER=$(xargs </run/initramfs/driver.conf)
+if [ -z "$DRIVER" ]; then
+	DRIVER="fglrx"
+fi
+f.validminers(){
+		case "$DRIVER" in
+			amdgpu | fglrx )
+				VALIDMINERS="avermore claymore claymore-xmr claymore-zcash claymore-legacy cgminer-skein ethminer ethminer-single optiminer-zcash progpowminer progpowminer-single sgminer-gm sgminer-gm-xmr xmr-stak xtl-stak teamredminer lolminer"
+			;;
+			nvidia )
+				VALIDMINERS="ccminer claymore dstm-zcash ethminer ethminer-single ewbf-equihash ewbf-zcash nevermore optiminer-zcash progpowminer progpowminer-single xmr-stak xtl-stak lolminer t-rex"
+			;;
+			cpu )
+				VALIDMINERS="wolf-xmr-cpu"
+			;;
+		esac
+		IFS=" "; VALIDMINERSA=( $VALIDMINERS )
+		unset IFS;
+}
+f.whichminer(){
+	f.validminers
+	MINERC=$(grep -m 1 -Poi "^\s*miner\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+	if [ -z "$MINERC" ];then
+		MINERC=$(grep -m 1 -Poi "^\s*globalminer\s+\K(.*)(?=#?)" "$CONF" | xargs)
+	fi
+	if [ ! -z "$MINERC" ]; then
+		# tdxminer renamed teamredminer
+		if [ "$MINERC" = "tdxminer" ]; then
+			MINERC="teamredminer"
+		fi
+
+		for i in "${VALIDMINERSA[@]}"; do
+			if [ "$i" = "$MINERC" ]; then
+				MINER="$i"
+				echo "0" > /var/run/ethos/invalid.file
+			fi
+		done
+		# If Miner is defined but invalid for gpu type or typo'd, we should set invalid miner.
+		if [ -z "$MINER" ];then
+			MINER="ethminer"
+			echo "1" > /var/run/ethos/invalid.file
+		fi
+	else
+		# We don't want "no miner configured" to trigger invalid miner.
+		MINER="ethminer"
+		echo "0" > /var/run/ethos/invalid.file
+	fi
+
+}
+f.poolpass(){
+	#Note we do not allow inline comments in any poolpass fields
+	f.whichminer
+		POOLPASS=$(grep -m 1 -Poi "^\s*rigpoolpass$1\s+$HOSTNAME\s+\K(.*)" "$CONF" | xargs)
+	if [ -z "$POOLPASS" ]; then
+		POOLPASS=$(grep -m 1 -Poi "^\s*$MINER\=poolpass$1\s+\K(.*)" "$CONF" | xargs)
+	fi
+	if [ -z "$POOLPASS" ]; then
+		POOLPASS=$(grep -m 1 -Poi "^\s*poolpass$1\s+\K(.*)" "$CONF" | xargs)
+	fi
+	POOLPASS[$1]="$POOLPASS"
+}
+f.proxypool(){
+	f.whichminer
+	PROXYPOOL=$(grep -m 1 -Poi "^\s*rigpool$1\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+	if [ -z "$PROXYPOOL" ]; then
+		PROXYPOOL=$(grep -m 1 -Poi "^\s*$MINER\=proxypool$1\s+\K(.*)(?=#?)" "$CONF" | xargs)
+	fi
+	if [ -z "$PROXYPOOL" ]; then
+		PROXYPOOL=$(grep -m 1 -Poi "^\s*proxypool$1\s+\K(.*)(?=#?)" "$CONF" | xargs)
+	fi
+	PROXYPOOL[$1]="$PROXYPOOL"
+}
+f.proxywallet(){
+	#Note we do not allow inline comments in any proxywallet fields
+	f.whichminer
+	PROXYWALLET=$(grep -m 1 -Poi "^\s*wallet\s+$HOSTNAME\s+\K(.*)" "$CONF" | xargs)
+	if [ -z "$PROXYWALLET" ];then
+		PROXYWALLET=$(grep -m 1 -Poi "^\s*$MINER\=proxywallet\s+\K(.*)" "$CONF" | xargs)
+	fi
+	if [ -z "$PROXYWALLET" ];then
+		PROXYWALLET=$(grep -m 1 -Poi "^\s*proxywallet\s+\K(.*)" "$CONF" | xargs)
+	fi
+}
+f.poolemail(){
+		POOLEMAIL=$(grep -m 1 -Poi "^\s*poolemail\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs )		
+		if [ -z "$POOLEMAIL" ];then
+			POOLEMAIL=$(grep -m 1 -Poi "^\s*poolemail\s+\K(.*)(?=#?)" "$CONF" | xargs )
+		fi
+}
+
+f.whichpdu(){
+		PDU=$(grep -m 1 -Poi "^\s*PDU\s+$HOSTNAME\s+\K(.*)(?=\s)" "$CONF" | xargs )
+		PDUPORT=$(grep -m 1 -Poi "^\s*PDU\s+$HOSTNAME\s+\w+\K(.*)(?=#?)" "$CONF" | xargs)
+		PDUIP=$(grep -m 1 -Poi "^\s*PDUINFO\s+$PDU\s+\K(.*)(?=#?)" "$CONF")
+		#echo "PDU: $PDU"
+		#echo "PDU PORT: $PDUPORT"
+		#echo "PDU IP: $PDUIP"
+#		if [ -z "$POOLEMAIL" ];then
+#			POOLEMAIL=$(grep -m 1 -Poi "^\s*poolemail\s+\K(.*)(?=#?)" "$CONF" | xargs )		
+#		fi
+}
+#Main functions below
+case "$1" in
+	autoreboot )
+		VALUE=$(grep -m 1 -Poi "^\s*autoreboot\s+\K(\d+)(?=#?)" "$CONF" | xargs)
+		echo "$VALUE"
+	;;
+	autorebootmode )
+		VALUE=$(grep -m 1 -Poi "^\s*autorebootmode\s+\K(\w+)(?=#?)" "$CONF" | xargs)
+		if [ -z "$VALUE" ]; then
+			VALUE="0"
+		fi
+		echo "$VALUE"
+	;;
+	custompanel )
+		VALUE=$(grep -m 1 -Poi "^\s*custompanel\s+\K(.*)(?=#?)" "$CONF" | xargs)
+	 		echo "$VALUE"
+	;;
+	driver )
+		echo "$DRIVER"
+	;;
+	driverless )
+		DRIVERLESS=$(grep -m 1 -Poi "^\s*driverless\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | sed -e 's/ //g' | xargs)
+		echo "$DRIVERLESS"
+	;;
+	dualminer )
+		DATA=$(grep -m 1 -Poi "^\s*dualminer\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" |xargs)
+		if [ -z "$DATA" ]; then
+			DATA=$(grep -m 1 -Poi "^\s*dualminer\s+\K(enabled)(?=#?)" "$CONF" | xargs)
+		fi
+		echo "$DATA"
+	;;
+	dualminer-coin )
+		DATA=$(grep -m 1 -Poi "^\s*dualminer-coin\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" |xargs)
+		if [ -z "$DATA" ]; then
+			DATA=$(grep -m 1 -Poi "^\s*dualminer-coin\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		fi
+		echo "$DATA"
+	;;
+	dualminer-pool )
+		DATA=$(grep -m 1 -Poi "^\s*dualminer-pool\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" |xargs)
+		if [ -z "$DATA" ]; then
+			DATA=$(grep -m 1 -Poi "^\s*dualminer-pool\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		fi
+		echo "$DATA"
+	;;
+	dualminer-poolpass )
+ 		DATA=$(grep -m 1 -Poi "^\s*dualminer-poolpass\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" |xargs)
+ 		if [ -z "$DATA" ]; then
+ 			DATA=$(grep -m 1 -Poi "^\s*dualminer-poolpass\s+\K(.*)(?=#?)" "$CONF" | xargs)
+ 		fi
+ 		echo "$DATA"
+ 	;;
+	dualminer-wallet )
+		DATA=$(grep -m 1 -Poi "^\s*dualminer-wallet\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" |xargs)
+		if [ -z "$DATA" ]; then
+			DATA=$(grep -m 1 -Poi "^\s*dualminer-wallet\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		fi
+		echo "$DATA"
+	;;
+	externalapi )
+		DATA=$(grep -m 1 -Poi "^\s*externalapi\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		echo "$DATA"
+	;;
+	flags | rigflags )
+		f.whichminer
+		#Note: We do not allow inline comments on flag lines.
+		FLAGS=$(grep -m 1 -Poi "^\s*$MINER\=flg\s+$HOSTNAME\s+\K(.*)" "$CONF" | xargs)
+		if [ -z "$FLAGS" ]; then
+			FLAGS=$(grep -m 1 -Poi "^\s*flg\s+$HOSTNAME\s+\K(.*)" "$CONF" | xargs)
+		fi
+		if [ -z "$FLAGS" ]; then
+			FLAGS=$(grep -m 1 -Poi "^\s*$MINER\=flags\s+\K(.*)" "$CONF" | xargs)
+		fi
+		if [ -z "$FLAGS" ]; then
+			FLAGS=$(grep -m 1 -Poi "^\s*flags\s+\K(.*)" "$CONF" | xargs)
+		fi
+		if [ "$MINER" != "ethminer" ]; then
+			 FLAGS=$(echo "$FLAGS" | egrep -v "farm-recheck|cl-local-work|cl-global-work" | xargs)
+		fi
+		echo "$FLAGS"
+	;;
+	fullpool )
+		#Note: we do not allow inline comments on getwork pool line.
+		FULLPOOL=$(grep -m 1 -Poi "^\s*pool\s+\K(.*)" "$CONF" | xargs)
+		echo "$FULLPOOL"
+	;;
+	gpumode )
+		GPUMODE=$(grep -m 1 -Poi "^\s*gpumode\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		echo "$GPUMODE"
+	;;
+	guienabled )
+		if [ "$DRIVER" = "amdgpu" ]; then
+			GUIENABLED=$(grep -m 1 -Poi "^\s*desktop\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+			if [ -z "$GUIENABLED" ]; then
+				GUIENABLED=$(grep -m 1 -Poi "^\s*globaldesktop\s+\K(.*)(?=#?)" "$CONF" | xargs)
+			fi
+			echo "$GUIENABLED"
+		fi
+	;;
+	legacy-driver )
+		DATA=$(grep -m 1 -Poi "^\s*legacydriver\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		if [ -z "$DATA" ]; then
+			DATA=$(grep -m 1 -Poi "^\s*globallegacydriver\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		fi
+		echo "$DATA"
+	;;
+	loc )
+		LOC=$(grep -m 1 -Poi "^\s*loc\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		echo "$LOC"
+	;;
+	lockscreen )
+		LOCK=$(grep -m 1 -Poi "^\s*lockscreen\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		echo "$LOCK"
+	;;
+	maxtemp | globalmaxtemp )
+		MAXGPUTEMP=$(grep -m 1 -Poi "^\s*mxt\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		if [ -z "$MAXGPUTEMP" ]; then
+			MAXGPUTEMP=$(grep -m 1 -Poi "^\s*(maxtemp|maxgputemp)\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		fi
+		if [ -z "$MAXGPUTEMP" ]; then
+			MAXGPUTEMP="85"
+		fi
+		echo "$MAXGPUTEMP"
+	;;
+	miner )
+		f.whichminer
+		echo "$MINER"
+	;;
+	off )
+		OFF=$(grep -cPo "^\s*off\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		if [ "$OFF" -gt "0" ]; then
+			echo "1"
+		else
+			echo "0"
+		fi
+	;;
+	pduname )
+#		PDUNAME=$(grep -m 1 -Poi "^\s*pdu\s+$HOSTNAME\s+\K(.*)(?=\s)" "$CONF" | xargs)
+		f.whichpdu
+		echo "$PDU"
+	;;
+	pduport )
+		f.whichpdu
+		echo "$PDUPORT"
+#		PDUPORT=$(grep -m 1 -Poi "^\s*pdu\s+$HOSTNAME\s+\K(.*)" "$CONF" | xargs)
+	;;
+	pduip )
+		f.whichpdu
+		#PDUIP=$(grep -m 1 -Poi "^\s*pduip\s+$PDU\s+\K(.*)" "$CONF" | xargs)
+		echo "$PDUIP"
+	;;
+	persistentlogs )
+		DATA=$(grep -m 1 -Poi "^\s*persistentlogs\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		echo "$DATA"
+	;;
+	pid )
+		f.whichminer
+		case "$MINER" in
+			ethminer | progpowminer )
+				GPUNUM="$2"
+				if [ -z "$GPUNUM" ]; then
+					GPUNUM="0"
+				fi
+				if [ "$DRIVER" = "amdgpu" -o "$DRIVER" = "fglrx" ];then
+					PID=$(ps aux | grep "$MINER" | tr -s "[:space:]" | grep -w "\-\-opencl\-devices $GPUNUM" | grep -m 1 -Poi "(?<=ethos.)(\d+)" | xargs)
+				elif [ "$DRIVER" = "nvidia" ]; then
+					PID=$(ps aux | grep "$MINER" | tr -s "[:space:]" | grep -w "\-\-cuda\-devices $GPUNUM" | grep -m 1 -Poi "(?<=ethos.)(\d+)" | xargs)
+				fi
+			;;
+			avermore | ccminer | cgminer-skein | claymore | claymore-xmr | claymore-zcash | claymore-legacy | dstm-zcash | ethminer-single | ewbf-equihash | ewbf-zcash | lolminer | nevermore | optiminer-zcash | progpowminer-single | sgminer-gm | xmr-stak | xtl-stak | teamredminer | t-rex )
+				PID=$(ps aux | grep -v grep | grep -v screen | grep "$MINER" | tr -s "[:space:]" | grep -m 1 -Poi "(?<=ethos.)(\d+)" | xargs)
+			;;
+			sgminer-gm-xmr )
+				PID=$(ps aux | grep -v grep | grep -v screen | grep sgminer | tr -s "[:space:]" | grep -m 1 -Poi "(?<=ethos.)(\d+)" | xargs)
+			;;
+		esac
+		echo "$PID"
+	;;
+	pool )
+		#Note we do not allow inline comments in getwork pool line.
+		POOL=$(grep -m 1 -Poi "^\s*pool\s+\K(.*)" "$CONF" | cut -d "/" -f 3 | xargs)
+		echo "$POOL"
+	;;
+	poolemail )
+		f.poolemail
+		echo "$POOLEMAIL"	
+	;;
+	poolinfo )
+		f.proxywallet;f.poolemail;f.proxypool "1";f.proxypool "2";f.proxypool "3";f.proxypool "4"
+		echo "proxywallet $PROXYWALLET"
+		if [ ! -z "$POOLEMAIL" ]; then echo "poolemail $POOLEMAIL"; fi
+		if [ ! -z "${PROXYPOOL[1]}" ]; then echo "proxypool1 ${PROXYPOOL[1]}"; fi
+		if [ ! -z "${PROXYPOOL[2]}" ]; then echo "proxypool2 ${PROXYPOOL[2]}"; fi
+		if [ ! -z "${PROXYPOOL[3]}" ]; then echo "proxypool3 ${PROXYPOOL[3]}"; fi
+		if [ ! -z "${PROXYPOOL[4]}" ]; then echo "proxypool4 ${PROXYPOOL[4]}"; fi
+	;;
+	poolpass1 )
+		f.poolpass "1"
+		echo "${POOLPASS[1]}"
+	;;
+	poolpass2 )
+		f.poolpass "2"
+		echo "${POOLPASS[2]}"
+	;;
+	poolpass3 )
+		f.poolpass "3"
+		echo "${POOLPASS[3]}"
+	;;
+	poolpass4 )
+		f.poolpass "4"
+		echo "${POOLPASS[4]}"
+	;;
+	proxypool1 )
+		f.proxypool "1"
+		echo "${PROXYPOOL[1]}"
+	;;
+	proxypool2 )
+		f.proxypool "2"
+		echo "${PROXYPOOL[2]}"
+	;;
+	proxypool3 )
+		f.proxypool "3"
+		echo "${PROXYPOOL[3]}"
+	;;
+	proxypool4 )
+		f.proxypool "4"
+		echo "${PROXYPOOL[4]}"
+	;;
+	proxywallet )
+		f.proxywallet
+		echo "$PROXYWALLET"
+	;;
+	reboots )
+		REBOOTS=$(grep -m 1 -Poi "^\s*reb\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		echo "$REBOOTS"
+	;;
+	namedisabled )
+		DATA=$(grep -m 1 -Poi "^\s*name\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		if [ -z "$DATA" ];then
+			DATA=$(grep -m 1 -Poi "^\s*$MINER\=name\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		fi
+		if [ -z "$DATA" ];then
+			DATA=$(grep -m 1 -Poi "^\s*globalname\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		fi
+		echo "$DATA"
+	;;
+	safevolt )
+		SAFEVOLT=$(grep -m 1 -Poi "^\s*safevolt\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		echo "$SAFEVOLT"
+	;;
+	selectedgpus )
+		SELECTEDGPUS=$(grep -m 1 -Poi "^\s*sel\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs)
+		echo "$SELECTEDGPUS"
+	;;
+	stratumenabled )
+		STRATUMENABLED=$(grep -m 1 -Poi "^\s*stratumproxy\s+\K(.*)(?=#?)" "$CONF"|xargs)
+		echo "$STRATUMENABLED"
+	;;
+	worker )
+		WORKER=$(grep -m 1 -Poi "^\s*loc\s+$HOSTNAME.\K(.*)(?=#?)" "$CONF" | xargs)
+		if [ -z "$WORKER" ];then
+			WORKER=$(xargs </etc/hostname)
+		fi
+		echo "$WORKER"
+	;;
+	validminers )
+	f.validminers
+		echo "$VALIDMINERS"
+	;;
+	* )
+		echo ""
+		echo "USAGE"
+		echo "======================================================================"
+		echo "autoreboot	 number of autoreboots before rig stops autorebooting"
+		echo "custompanel	 12-digit farm id to replace randomly generated id"
+		echo "driver		 currently used gpu driver"
+		echo "driverless	 driverless option set for next boot"
+		echo "dualminer 	 for claymore miner, enables dualminer functionality"
+		echo "dualminer-coin 	 dualminer coin selection"
+		echo "dualminer-pool	 pool to use for dualminer"
+		echo "dualminer-wallet wallet to use for dualminer"
+		echo "externalapi	 used by some miner programs to allow api access to rig ip"
+		echo "fullpool	 full pool url"
+		echo "flags 		 miner configuration flags"
+		echo "gpumode		 gpu mode, a type of miner flag"
+		echo "guienabled 	 shows if desktop is enabled (amdgpu driver only)"
+		echo "legacy-driver	 shows driver used for legacy gpus (AMD Tahiti, Tonga, Hawaii, Fiji)"
+		echo "loc		 location/rack/customworker"
+		echo "lockscreen	 auto lock option set"
+		echo "maxtemp		 gpu overheat temperature threshold"
+		echo "miner		 currently used miner"
+		echo "namedisabled	 controls if worker name is sent to pool"
+		echo "off		 miner turned off"
+		echo "persistentlogs	 shows if logs are stored on disk (enabled) ram (disabled)"
+		echo "pool		 pool data"
+		echo "poolemail	 pool email setting (for nanopool and others)"
+		echo "poolpass[1-4]	 poolpass[1-4] details"
+		echo "proxypool[1-4]	 proxypool[1-4] details"
+		echo "proxywallet	 stratum proxy wallet address"
+		echo "pid <gpu>	 processid of <gpu>'s miner"
+		echo "reboots		 number of issued reboots via server reb string"
+		echo "safevolt		 safe voltage control"
+		echo "selectedgpus	 gpus selected for mining"
+		echo "stratumenabled	 use local stratum proxy"
+		echo "validminers 	 shows which miners work with the installed GPUs"
+		echo "worker		 worker id which is sent to the pool"
+		echo "======================================================================"
+	 	exit 1
+	;;
+esac

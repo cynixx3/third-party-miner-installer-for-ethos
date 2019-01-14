@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PROXYINSTANCE=$(pgrep -fc "python /opt/eth-proxy/eth-proxy.py" )
+sudo killall -9 sa-solver 2> /dev/null
+sudo killall -9 sgminer-gm 2> /dev/null
+
+ps uax| egrep "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|lolminer|t-rex" | grep -v "curl" | grep -v "update-miner" | grep -v grep | awk '{print $2}' | sudo xargs kill -9
+
+if [ "$EUID" -eq "0" ]; then
+	su - ethos -c "screen -wipe" 2>&1 >/dev/null
+else
+	screen -wipe 2>&1 >/dev/null
+fi
+echo 'miner STOPPED'
+  
+  if [ "$PROXYINSTANCE" -ge "1" ]; then
+    ps uax| grep "python /opt/eth-proxy/eth-proxy.py" | grep -v grep | awk '{print $2}' | xargs kill -9
+    echo "Stratum Proxy Process(es) Terminated"
+  fi
