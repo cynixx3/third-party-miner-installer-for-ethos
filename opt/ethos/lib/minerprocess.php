@@ -948,20 +948,21 @@ function start_miner()
 	        $flags .= " --use-nicehash ";
 	    }
 	    
-	    $tworker = trim($worker, ". ");
-	    if ($tworker != "") {
-	        $tworker = "-r ".$tworker;
-	    }
+	    $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
 	    
 	    // Another nicehash fix, also some pools accepting wallet.worker format
-	    if ($namedisabled != true) {
-	        $proxywallet .= "$worker";
+	    if ($namedisabled != "disabled") {
+	        $proxywallet .= ".$worker";
 	    }
 	    
-	    $pools="-o $proxypool1 -u $proxywallet $tworker -p $poolpass1 ";
+	    if (($poolemail != "") && (preg_match("/(ethosdistro.com|nanopool.org)/",$proxypool1))) {
+	        $proxywallet .= "/" . $poolemail;
+	    }
+	    
+	    $pools="-o $proxypool1 -u $proxywallet -r $worker -p $poolpass1 ";
 	    
 	    if($proxypool2 != "") {
-	        $pools .= " -o $proxypool2 -u $proxywallet $tworker -p $poolpass2 ";
+	        $pools .= " -o $proxypool2 -u $proxywallet -r $worker -p $poolpass2 ";
 	    }
 	    
 	    // delete cache files and copy default configs
@@ -975,9 +976,7 @@ function start_miner()
 	            $stakgpu = " --nvidia /var/run/ethos/".$miner."-nvidia.txt ";
 	        }
 	        $flags .= " --noAMD";
-	    }
-	    
-	    if ($driver == ("fglrx" || "amdgpu")) {
+	    } else {
 	        if(!preg_match("/--amd/",$flags)){
 	            $stakgpu = " --amd /var/run/ethos/".$miner."-amd.txt ";
 	        }

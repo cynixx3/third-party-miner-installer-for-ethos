@@ -185,24 +185,26 @@ function get_hashrates(){
 	
 	if ($miner == "xmr-stak"){
 	        $driver = trim(`ethos-readconf driver`);
-        	if($driver == "nvidia"){
-                	$platform = "--nvidia";
+	        if($driver == "nvidia"){
+	                $platform = "--nvidia";
 	        } else {
 	                $platform = "--amd";
-        	}
+	        }
 	        $filepath = trim(`cat /tmp/minercmd | tr ' ' '\n' | grep -e '$platform' -A1 | awk 'NR==2 {print $1}'`);
 	        $stakcfg = `cat $filepath | sed -e 's/["]//g' -e '/[*|/]/ { N; d; }' | grep -P '{ index :' | sed -e 's/[{]//' -e 's/[:]//' -e 's/,//' | awk '{print $2}' | xargs | sed 's/ /,/g'`;
 	        $stakid = array(str_getcsv($stakcfg, ","));
 	        $xmrstakstats = array();
 	        $xmrstakraw = @json_decode(@file_get_contents("http://127.0.0.1:42000/api.json"), true);
-        	foreach($stakid[0] as $idhash){
-                	$gpu = $idhash[0];
-	                $hash = floatval($xmrstakraw["hashrate"]["threads"][$gpu][0]);
-        	        if (!isset($xmrstakstats[$gpu])) {
-	                	$xmrstakstats[$gpu] = 0.00;
+	        $i = 0;
+	        foreach($stakid[0] as $idhash){
+	                $gpu = $idhash[0];
+	                $hash = floatval($xmrstakraw["hashrate"]["threads"][$i][0]);
+	                if (!isset($xmrstakstats[$gpu])) {
+	                        $xmrstakstats[$gpu] = 0.00;
 	                }
-    	    $xmrstakstats[$gpu] += $hash;
-        	}
+	                $xmrstakstats[$gpu] += $hash;
+	                $i++;
+	        }
 	}
 
 	for($i = 0;$i < $instances; $i++){
