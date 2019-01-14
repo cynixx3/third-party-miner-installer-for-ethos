@@ -1,2 +1,3 @@
-# Stock ethOS 1.3.3 files
-These are the stock ethOS 1.3.3 files here only so that miners can be uninstalled.
+## Third-party-miner-installer-for-ethos
+
+This repository will install the latest version of xmr-stak and includes a potential fix for the long standing hashrate reporting issue on AMD gpus with multiple threads.  Please see the master branch for installation instructions.
