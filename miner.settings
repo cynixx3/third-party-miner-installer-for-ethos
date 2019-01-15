@@ -1,18 +1,3 @@
-# Default miner.settings
-# All config lines are optional and can be removed if not used
-
-# The directory of the temporary file, There really is no need to set this
-TMP_DIR="/tmp/newminer"
-
-# User/repo of github release repository
-GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
-
-# This is the folder of the miner inside the tar archive
-MINER_ARCHIVE_FOLDER="$MINER_BRANCH"
-
-# If the folder is version specific set its shasum so we can update the folder and sha upon relase otherwise updates are automattic
-#RELEASE_SHASUM="sha256sum of archive"
-
-# If the miner has dependencies then add each .deb url here
-#DEPENDS="URL URL"
-
+GIT_USER_REPO="mimblewimble/grin-miner"
+MINER_ARCHIVE_FOLDER="grin-miner-v1.0.0"
+RELEASE_SHASUM="ec3093c4bd136948b6826306c2389adb93a507df7b29f505ca35927bd277e240"

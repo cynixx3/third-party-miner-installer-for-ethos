@@ -1,0 +1,8 @@
+logfile /var/run/miner.output
+chdir /opt/miners/grin-miner
+setenv LD_LIBRARY_PATH /opt/miners/grin-miner
+caption always
+caption string "%{= RW} $STY | %c:%s | host:%H | load:%l | Return to terminal: Ctrl-A D"
+multiuser on
+acladd root
+
