@@ -3,8 +3,11 @@
 This UNOFFICIAL miner manager will install, update, or revert the install of unsupported miners to ethOS version 1.3.3
 ## List of currently supported miners
 	* [NVIDIA] cryptodredge
+	* [NVIDIA] t-rex
+	* [BOTH] ubqminer
 	* [BOTH] energiminer
 	* [BOTH] phoenixminer
+	* [BOTH] xmr-stak -- hashrate reporting fix for multiple threads
 	* [AMD] teamredminer
 	* [AMD] wildrig-multi
 	* [AMD] xmrig-amd 
