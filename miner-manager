@@ -78,9 +78,9 @@ f.PREPETHOS(){
 #todo add ethos version checking
   git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b "$MINER_BRANCH"
 
-  if [ -f "$TMP_DIR/$MINER_ARCHIVE_FOLDER/opt/ethos/$MINER_BRANCH.stub.conf" ] ; then
+  if [ -f "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/$MINER_BRANCH.stub.conf" ] ; then
     mkdir -p "$TMP_DIR/home/ethos/"
-    mv "$TMP_DIR/$MINER_ARCHIVE_FOLDER/opt/ethos/$MINER_BRANCH.stub.conf" "$TMP_DIR/home/ethos/"
+    mv "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/$MINER_BRANCH.stub.conf" "$TMP_DIR/home/ethos/"
     sudo chmod 644 "$TMP_DIR/home/ethos/$MINER_BRANCH.stub.conf"
     sudo chown -R ethos.ethos "$TMP_DIR/home/ethos/$MINER_BRANCH.stub.conf"
   fi
