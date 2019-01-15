@@ -76,7 +76,14 @@ f.PREPETHOS(){
   echo "Download and unpack files needed by ethOS"
 #todo add ethos version checking
   git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b "$MINER_BRANCH"
-  
+
+  if [ -f "$TMP_DIR/$MINER_ARCHIVE_FOLDER/opt/ethos/$MINER_BRANCH.stub.conf" ] ; then
+    mkdir -p "$TMP_DIR/home/ethos/"
+    mv "$TMP_DIR/$MINER_ARCHIVE_FOLDER/opt/ethos/$MINER_BRANCH.stub.conf" "$TMP_DIR/home/ethos/"
+    sudo chmod 644 "$TMP_DIR/home/ethos/$MINER_BRANCH.stub.conf"
+    sudo chown -R ethos.ethos "$TMP_DIR/home/ethos/$MINER_BRANCH.stub.conf"
+  fi
+
   mkdir -p $TMP_DIR/opt/ethos
   rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/" "$TMP_DIR/opt/ethos"
   chmod 775 "$TMP_DIR"/opt/ethos/bin/* "$TMP_DIR"/opt/ethos/sbin/* 
@@ -88,7 +95,7 @@ f.PREPETHOS(){
     chmod 755 "$TMP_DIR"/opt/ethos/lib/functions.php
   fi
   sudo chown -R root.root "$TMP_DIR"/opt/ethos/
-  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/etc/screenrc.* "$TMP_DIR"/opt/ethos/bin/minestop
+  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/etc/screenrc.* "$TMP_DIR/opt/ethos/bin/minestop"
 
   echo "Check for dependencies"
   if [ "$DEPENDS" ] ; then
@@ -142,6 +149,9 @@ f.INSTALL(){
   
   echo "Installing miner"
   sudo rsync -av "$TMP_DIR/opt/" /opt
+  if [ -f "$TMP_DIR/home/ethos/$MINER_BRANCH.stub.conf" ] ; then
+    sudo rsync -av "$TMP_DIR/home/ethos/" /home/ethos
+  fi
 
   echo "Restarting services and miner"
   sudo service ethos-miner-daemon restart
@@ -196,6 +206,9 @@ case "$2" in
   revert)
     f.REVERT
     rm -rf "/opt/miners/$MINER_BRANCH"
+    if [ -f "/home/ethos/$MINER_BRANCH.stub.conf" ] ; then
+      rm "/home/ethos/$MINER_BRANCH.stub.conf"
+    fi
     f.INSTALL
     f.CLEANUP
   ;;
