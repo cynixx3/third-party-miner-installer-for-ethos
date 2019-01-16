@@ -183,7 +183,7 @@ function get_hashrates(){
 		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);	
 	}
 	
-	if ($miner == "xmr-stak"){
+	if(preg_match("/(xmr|xtl)-stak/",$miner)){
 	        $driver = trim(`ethos-readconf driver`);
 	        if($driver == "nvidia"){
 	                $platform = "--nvidia";
