@@ -667,7 +667,7 @@ function start_miner()
 		}
 		$config_string = file_get_contents("/home/ethos/grin-miner.stub.conf");
 
-		$config_string = str_replace("WORKER",trim(`/opt/ethos/sbin/ethos-readconf worker`),$config_string);
+		$config_string = str_replace("WORKER",trim(`/opt/ethos/sbin/ethos-readconf loc`),$config_string);
 		$config_string = str_replace("POOL1",$proxypool1,$config_string);
 #		$config_string = str_replace("POOL2",$proxypool2,$config_string);
 		$config_string = str_replace("LOGIN",$proxywallet,$config_string);
