@@ -52,6 +52,8 @@ fi
   rsync -a --delete "$TMP_DIR/$MINER_ARCHIVE_FOLDER/" "$TMP_DIR/opt/miners/$MINER_BRANCH"
   sudo chown -R ethos.ethos "$TMP_DIR"/opt/miners/
   
+  if [ "$HOOK_PREP_MINER" ] ; then $HOOK_PREP_MINER ; fi
+
   echo "Temporary miner files ready"
 }
 
@@ -111,6 +113,8 @@ f.PREPETHOS(){
     sudo dpkg -i "$TMP_DIR"/depends/*.deb
   fi
   
+  if [ "$HOOK_PREP_ETHOS" ] ; then $HOOK_PREP_ETHOS ; fi
+  
   echo "ethOS files ready"
 }
 
@@ -124,7 +128,6 @@ fi
   mkdir -p "$TMP_DIR/opt/ethos"
   rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/" "$TMP_DIR/opt/ethos"
   chmod 775 "$TMP_DIR"/opt/ethos/bin/* "$TMP_DIR"/opt/ethos/sbin/* 
-  chmod 744 "$TMP_DIR"/opt/ethos/etc/*
   if [ -f "$TMP_DIR"/opt/ethos/lib/minerprocess.php ] ; then
     chmod 644 "$TMP_DIR"/opt/ethos/lib/minerprocess.php
   fi
@@ -132,7 +135,7 @@ fi
     chmod 755 "$TMP_DIR"/opt/ethos/lib/functions.php
   fi
   sudo chown -R root.root "$TMP_DIR"/opt/ethos/
-  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/etc/screenrc.* "$TMP_DIR"/opt/ethos/bin/minestop
+  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/bin/minestop
 # Reinstall stock dependencies
   mkdir "$TMP_DIR/depends"
   wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-4.8/gcc-4.8-base_4.8.4-2ubuntu1~14.04.4_amd64.deb -P depends
@@ -141,6 +144,8 @@ fi
   sudo dpkg --configure -a
   f.CHECKDPKG
   sudo dpkg -i "$TMP_DIR"/depends/*.deb
+  
+  if [ "$HOOK_REVERT" ] ; then $HOOK_REVERT ; fi
 }
 
 f.INSTALL(){
@@ -152,7 +157,10 @@ f.INSTALL(){
   sudo rsync -av "$TMP_DIR/opt/" /opt
   if [ -f "$TMP_DIR/home/ethos/$MINER_BRANCH.stub.conf" ] ; then
     sudo rsync -av "$TMP_DIR/home/ethos/" /home/ethos
+    if [ "$HOOK_STUB" ] ; then $HOOK_STUB ; fi
   fi
+
+  if [ "$HOOK_INSTALL" ] ; then $HOOK_INSTALL ; fi
 
   echo "Restarting services and miner"
   sudo service ethos-miner-daemon restart
