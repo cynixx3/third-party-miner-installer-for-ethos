@@ -673,7 +673,7 @@ function start_miner()
 		$config_string = str_replace("LOGIN",$proxywallet,$config_string);
 		$config_string = str_replace("PASSWORD1",$poolpass1,$config_string);
 #		$config_string = str_replace("PASSWORD2",$poolpass2,$config_string);
-		file_put_contents("/home/ethos/.grin/grin-miner.toml",$config_string);
+		file_put_contents("/var/run/ethos/grin-miner.toml",$config_string);
 	}
 
 	/*******************************
