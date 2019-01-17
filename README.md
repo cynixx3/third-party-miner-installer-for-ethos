@@ -1,19 +1,22 @@
 # Third Party Miner Manager for ethOS
 
-This UNOFFICIAL miner manager will install, update, or revert the install of unsupported miners to ethOS version 1.3.3
+This **_UNOFFICIAL_** miner manager will install, update, or revert the install of unsupported miners to ethOS version **1.3.3**
 ## List of currently supported miners
 	* [NVIDIA] cryptodredge
+	* [NVIDIA] grin-miner
 	* [NVIDIA] t-rex
-	* [BOTH] ubqminer
 	* [BOTH] energiminer
+	* [BOTH] gringoldminer
 	* [BOTH] phoenixminer
+	* [BOTH] ubqminer
 	* [BOTH] xmr-stak -- hashrate reporting fix for multiple threads
-	* [AMD] teamredminer
-	* [AMD] wildrig-multi
-	* [AMD] xmrig-amd 
 	* [AMD] lolminer 0.7a (equihash 150/5 only)
+	* [AMD] teamredminer
+	* [AMD] xmrig-amd 
+	* [AMD] wildrig-multi
+	* [CPU] soliditysha3miner
 
-This manager was not written by ethOS and neither the scirpt or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
+This manager was **not written or supported by ethOS** and neither the scirpt or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
 
 ## Getting Started
 
