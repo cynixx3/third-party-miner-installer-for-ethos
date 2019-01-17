@@ -1,7 +1,8 @@
 # Third Party Miner Manager for ethOS
 
-This **_UNOFFICIAL_** miner manager will install, update, or revert the install of unsupported miners to ethOS version **1.3.3**
-## List of currently supported miners
+This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
+
+### List of currently supported miners
 	* [NVIDIA] cryptodredge
 	* [NVIDIA] grin-miner
 	* [NVIDIA] t-rex
@@ -15,6 +16,9 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert the install 
 	* [AMD] xmrig-amd 
 	* [AMD] wildrig-multi
 	* [CPU] soliditysha3miner
+
+## ONLY ONE MINER CAN BE INSTALLED AT A TIME
+ethOS files are overwritten on the installation of each miner.
 
 This manager was **not written or supported by ethOS** and neither the scirpt or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
 
@@ -31,14 +35,12 @@ You need to be running ethos 1.3.3 to install a miner with this script.
 This script was designed for ease of use. You can run a single command to install, update, or remove a miner and any dependencies with it.
 
 You can download the miner-manager script, give it execute permissions and run it. Or run the manager from the github repo in which case the command would look like
-
 ```
 source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action
 ```
 
 Where the miner is the branch in the repo and the actions are install, update, or revert
 IE for a full install of phoenixminer or an update of all files run:
-
 ```
 source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) phoenixminer install
 ```
@@ -47,7 +49,6 @@ source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-ins
 
 The miner can be easily updated when new releases are out by just changing the action argument to "update"
 IE to only update the energiminer program to the latest release run:
-
 ```
 source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) energiminer update
 ```
@@ -62,7 +63,9 @@ source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-ins
 ```
 
 ### Config Sample
-You can use ubqminer miner globally for your all rigs:
+Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "ubqminer" to the miner you want.
+
+You can use ubqminer miner globally for your all rigs
 ```
 globalminer ubqminer
 ```
@@ -70,7 +73,7 @@ OR in a remote config to set just one rig
 ```
 miner c94e13 ubqminer
 ```
-Where `c94e13` is your EthOS rig hostname. You can get **your** hostname by running the terminal command `hostname`
+Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
 Next set your pool and wallet
 ```
@@ -90,11 +93,11 @@ ubqminer=poolpass2 x
 ```
 OR to make it specific to this rig
 ```
-rigwallet walletORusername
-rigpool1 pool.com:port
-rigpool2 pool.com:port
-rigpoolpass1 x
-rigpoolpass2 x
+rigwallet c94e13 walletORusername
+rigpool1 c94e13 pool.com:port
+rigpool2 c94e13 pool.com:port
+rigpoolpass1 c94e13 x
+rigpoolpass2 c94e13 x
 ```
 
 NOTES:
@@ -112,7 +115,7 @@ Any setting changes to the miner-manager should be made to the miner.settings fi
 
 ## Contributing
 
-If you got a new miner working using these tools please submit a pull request with a new branch for the miner you added.
+If you got a new miner working using these tools or just improved an intergration please submit a pull request with a new branch for the miner you added.
 
 ## Authors
 
@@ -124,6 +127,9 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Contributers
 
-* **unsivil** - *additional miners* - [unsivil](https://github.com/unsivilaudio)
+* **unsivil** - *added several miners* - [unsivil](https://github.com/unsivilaudio)
 * **Kahlid74** - *added cryptodredge* - [Phaelon74](https://github.com/phaelon74)
-
+* **virusHQ** - *ported ubqminer* - [virusHQ](https://github.com/VirusHQ/ethos-ubqminer)
+* **amnesium** - *ported grin-miner* - [amnesium](https://github.com/amnesium/grin-miner-ethos)
+* **asluchevskiy** - *ported t-rex* - [asluchevskiy](https://github.com/asluchevskiy/ethos-t-rex)
+* **Virosa** - *improved grin-miner* - [Virosa](https://github.com/Virosa)
