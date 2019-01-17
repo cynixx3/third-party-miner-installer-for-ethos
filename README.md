@@ -17,9 +17,10 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 	* [AMD] wildrig-multi
 	* [CPU] soliditysha3miner
 
-## ONLY ONE MINER CAN BE INSTALLED AT A TIME
+### ONLY ONE MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten on the installation of each miner.
 
+### NOTICE:
 This manager was **not written or supported by ethOS** and neither the scirpt or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
 
 ## Getting Started
@@ -62,10 +63,11 @@ IE to uninstall wildrig-multi run:
 source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi revert
 ```
 
-### Config Sample
+## Config Sample
 Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "ubqminer" to the miner you want.
 
-You can use ubqminer miner globally for your all rigs
+### Set the miner
+You can use the miner on your local config or globally on a remote config
 ```
 globalminer ubqminer
 ```
@@ -75,7 +77,8 @@ miner c94e13 ubqminer
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
-Next set your pool and wallet
+### Set your pool and wallet
+for local configs or remote configs to apply globally use
 ```
 proxywallet walletORusername
 proxypool1 pool.com:port
@@ -120,12 +123,14 @@ If you got a new miner working using these tools or just improved an intergratio
 ## Authors
 
 * **cYnIxX3** - *Initial work* - [cYnIxX3](https://github.com/cynixx3) <== MVP
+~~~
+~ If you found this script useful please donate BitCoin to:
+~ BTC 1G6DcU8GrK1JuXWEJ4CZL2cLyCT57r6en2
+~ or Ethereum to:
+~ ETH 0x42D23fC535af25babbbB0337Cf45dF8a54e43C37
+~~~
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Contributers
+### Contributers
 
 * **unsivil** - *added several miners* - [unsivil](https://github.com/unsivilaudio)
 * **Kahlid74** - *added cryptodredge* - [Phaelon74](https://github.com/phaelon74)
@@ -133,3 +138,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * **amnesium** - *ported grin-miner* - [amnesium](https://github.com/amnesium/grin-miner-ethos)
 * **asluchevskiy** - *ported t-rex* - [asluchevskiy](https://github.com/asluchevskiy/ethos-t-rex)
 * **Virosa** - *improved grin-miner* - [Virosa](https://github.com/Virosa)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
