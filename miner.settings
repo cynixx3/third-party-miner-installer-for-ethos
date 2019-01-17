@@ -1,3 +1,2 @@
-GIT_USER_REPO="mimblewimble/grin-miner"
-MINER_ARCHIVE_FOLDER="grin-miner-v1.0.0"
-RELEASE_SHASUM="ec3093c4bd136948b6826306c2389adb93a507df7b29f505ca35927bd277e240"
+#GIT_USER_REPO="mimblewimble/grin-miner"
+MINER_ARCHIVE_FOLDER="grin-miner"
