@@ -1,2 +1,2 @@
-GIT_USER_REPO="/unsivilaudio/third-party-miner-installer-for-ethos/"
-RELEASE_SHASUM="E57CA2AB960B8C7899020E4827DB8A5CC90CA45FE96B030C97BF9570D9AE4C26"
+GIT_USER_REPO="unsivilaudio/third-party-miner-installer-for-ethos"
+RELEASE_SHASUM="e57ca2ab960b8c7899020e4827db8a5cc90ca45fe96b030c97bf9570d9ae4c26"
