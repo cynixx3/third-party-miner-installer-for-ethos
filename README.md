@@ -3,19 +3,19 @@
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
 ### List of currently supported miners
-	 [AMD] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only)
-	 [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5027811.0)
-	 [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) 
-	 [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0)
-	 [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0)
-	 [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner)
-	 [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0)
-	 [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
-	 [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, /opt/miners/gringoldminer/)
-	 [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0)
-	 [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0)
-	 [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - hashrate reporting fix for multiple threads
-	 [AMD,CPU,NVIDIA] - [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner)
+- [AMD] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only)
+- [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5027811.0)
+- [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) 
+- [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0)
+- [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0)
+- [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner)
+- [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0)
+- [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
+- [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, /opt/miners/gringoldminer/)
+- [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0)
+- [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0)
+- [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - hashrate reporting fix for multiple threads
+- [AMD,CPU,NVIDIA] - [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner)
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner.
