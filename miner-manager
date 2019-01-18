@@ -43,6 +43,7 @@ fi
       exit 11
     fi
   fi
+
   echo "Unpacking miner"
   SUBDIR=""
   if tar tf "$MINER_BRANCH.$COMPRESSION" | grep -qv "^$(tar tf "$MINER_BRANCH.$COMPRESSION" | sort | head -n1 )" ; then
@@ -50,7 +51,12 @@ fi
     mkdir "$MINER_ARCHIVE_FOLDER"
     echo "WARNING: tarbomb detected. Opening in subdirectory, $MINER_ARCHIVE_FOLDER."
   fi
-  if ! tar xf "$MINER_BRANCH.$COMPRESSION" "$SUBDIR" ; then
+  case $COMPRESSION in
+    tar.gz|tgz) CT="z" ;;
+    tar.xz) CT="J" ;;
+    tar.bz2) CT="j" ;;
+  esac
+  if ! tar -"$CT"xf "$MINER_BRANCH.$COMPRESSION" "$SUBDIR" ; then
     echo "Unable to extract files package. please try again."
     exit 12
   fi

@@ -3,19 +3,19 @@
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
 ### List of currently supported miners
-	* [NVIDIA] cryptodredge
-	* [NVIDIA] grin-miner
-	* [NVIDIA] t-rex
-	* [BOTH] energiminer
-	* [BOTH] gringoldminer (miner only)
-	* [BOTH] phoenixminer
-	* [BOTH] ubqminer
-	* [BOTH] xmr-stak -- hashrate reporting fix for multiple threads
 	* [AMD] lolminer 0.7a (equihash 150/5 only)
 	* [AMD] teamredminer
 	* [AMD] xmrig-amd 
 	* [AMD] wildrig-multi
-	* [CPU] soliditysha3miner
+	* [NVIDIA] cryptodredge
+	* [NVIDIA] grin-miner
+	* [NVIDIA] t-rex
+	* [AMD,NVIDIA] energiminer
+	* [AMD,NVIDIA] gringoldminer (miner only, /opt/miners/gringoldminer/)
+	* [AMD,NVIDIA] phoenixminer
+	* [AMD,NVIDIA] ubqminer
+	* [AMD,NVIDIA] xmr-stak -- hashrate reporting fix for multiple threads
+	* [AMD,CPU,NVIDIA] soliditysha3miner
 
 ### ONLY ONE MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten on the installation of each miner.
