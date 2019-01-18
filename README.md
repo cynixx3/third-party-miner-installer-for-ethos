@@ -19,7 +19,7 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
-Some miner dependencies will prebent other miners from starting.
+Some miner dependencies will prevent other miners from starting.
 
 ### Support
 This manager was **not written or supported by ethOS** and neither the scirpt or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
