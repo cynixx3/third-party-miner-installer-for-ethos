@@ -29,14 +29,15 @@ fi
   | head -1 )
   COMPRESSION=$(echo $DOWNLOAD_URL | grep -oP 't[argxb.]{1,4}z2?$')
   case $COMPRESSION in
-    tar.gz|tgz) CT="z" ;;
-    tar.xz) CT="J" ;;
-    tar.bz2) CT="j" ;;
+    tar.gz|tgz) CT="-z" ;;
+    tar.xz) CT="-J" ;;
+    tar.bz2) CT="-j" ;;
+    *) CT="" ;;
   esac
 
   if [ -f $MINER_BRANCH.$COMPRESSION ] ; then rm -rf /tmp/newminer/$MINER_BRANCH.$COMPRESSION ; fi
   
-  if ! wget -qi $DOWNLOAD_URL -O "$MINER_BRANCH.$COMPRESSION" ; then
+  if ! wget -q $DOWNLOAD_URL -O "$MINER_BRANCH.$COMPRESSION" ; then
     echo "Download failed"
     exit 10
   fi
@@ -51,12 +52,12 @@ fi
 
   echo "Unpacking miner"
   SUBDIR=""
-  if tar -"$CT"tf "$MINER_BRANCH.$COMPRESSION" | grep -qv "^$(tar -"$CT"tf "$MINER_BRANCH.$COMPRESSION" | sort | head -n1 )" ; then
+  if tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -qv "^$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | sort | head -n1 )" ; then
     SUBDIR="--directory=$MINER_ARCHIVE_FOLDER" 
     mkdir "$MINER_ARCHIVE_FOLDER"
     echo "WARNING: tarbomb detected. Opening in subdirectory, $MINER_ARCHIVE_FOLDER."
   fi
-  if ! tar -"$CT"xf "$MINER_BRANCH.$COMPRESSION" "$SUBDIR" ; then
+  if ! tar "$CT" -xf "$MINER_BRANCH.$COMPRESSION" "$SUBDIR" ; then
     echo "Unable to extract files package. please try again."
     exit 12
   fi
