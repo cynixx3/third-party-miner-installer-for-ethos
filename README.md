@@ -3,12 +3,12 @@
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
 ### List of currently supported miners
-- [AMD] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only)
+- [AMD] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only, Beam)
 - [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5027811.0)
 - [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) 
 - [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0)
 - [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0)
-- [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner)
+- [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - (AMD limited to a single GPU)
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0)
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
 - [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, /opt/miners/gringoldminer/)
@@ -19,14 +19,14 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
-Some miner dependencies will prevent other miners from starting.
+Some miner dependencies will prevent other miners from starting you can completely uninstall a miner using the information [here](README.md#uninstalling).
 
 ### Support
 This manager was **not written or supported by ethOS** and neither the scirpt or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
 
 ## Getting Started
 
-Following these instructions will install the chosen miner and its intergration files on your ethOS machine. Each miner intergration is stored in a branch of github for you to review.
+Following these instructions will install the chosen miner and its integration files on your ethOS machine. Each miner integration is stored in a branch of github for you to review.
 
 ### Prerequisites
 
@@ -115,9 +115,9 @@ Some miners depend on a fallback pool, others do not use them. Best practice is 
 
 If you are a developer please check the [developers](https://github.com/cynixx3/third-party-miner-installer-for-ethos/tree/developers) branch for information on how to add your miner.
 
-Any setting changes to the miner-manager should be made to the miner.settings file in each miners branch of this repo.
+### Contributing
 
-## Contributing
+Any setting changes to the miner-manager (like an updated release) should be made to the miner.settings file in each miners branch of this repo.
 
 If you got a new miner working using these tools or just improved an intergration please submit a pull request with a new branch for the miner you added.
 
