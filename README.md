@@ -112,7 +112,7 @@ Some miners depend on a fallback pool, others do not use them. Best practice is 
 
 ## Development
 
-If you are a developer please check the [developers](tree/developers) branch for information on how to add your miner.
+If you are a developer please check the [developers](https://github.com/cynixx3/third-party-miner-installer-for-ethos/tree/developers) branch for information on how to add your miner.
 
 Any setting changes to the miner-manager should be made to the miner.settings file in each miners branch of this repo.
 
