@@ -17,8 +17,8 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 	* [AMD,NVIDIA] xmr-stak -- hashrate reporting fix for multiple threads
 	* [AMD,CPU,NVIDIA] soliditysha3miner
 
-### ONLY ONE MINER CAN BE INSTALLED AT A TIME
-ethOS files are overwritten on the installation of each miner.
+### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
+ethOS files are overwritten for the installation of each miner.
 
 ### NOTICE:
 This manager was **not written or supported by ethOS** and neither the scirpt or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
@@ -112,7 +112,7 @@ Some miners depend on a fallback pool, others do not use them. Best practice is 
 
 ## Development
 
-If you are a developer please check the "developers" branch for information on how to add your miner.
+If you are a developer please check the [developers](tree/developers) branch for information on how to add your miner.
 
 Any setting changes to the miner-manager should be made to the miner.settings file in each miners branch of this repo.
 
