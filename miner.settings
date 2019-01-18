@@ -1,2 +1,3 @@
 GIT_USER_REPO="unsivilaudio/third-party-miner-installer-for-ethos"
+MINER_ARCHIVE_FOLDER="xmr-stak-2.7.1"
 RELEASE_SHASUM="e57ca2ab960b8c7899020e4827db8a5cc90ca45fe96b030c97bf9570d9ae4c26"
