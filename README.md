@@ -1,5 +1,7 @@
 # Third Party Miner Manager for ethOS
 
+lolminer 0.7a is BEAM (equihash 150/5) mining only, all other algos have been removed.
+
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
 ### List of currently supported miners
