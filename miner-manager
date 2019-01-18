@@ -22,28 +22,35 @@ if [ "$(echo $VER | sed 's/\.//g')" -ne 133 ] ; then
   exit 14
 fi
   echo "Getting latest release of miner"
-  curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
+  DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
   | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
   | cut -d '"' -f 4 \
   | grep -vE '(osx|txt)' \
-  | head -1 \
-  | wget -qi - -O "$MINER_BRANCH.tar.gz"
+  | head -1 )
+  COMPRESSION=$(echo $DOWNLOAD_URL | grep -oP 't[argxb.]{1,4}z2?$')
+
+  if [ -f $MINER_BRANCH.$COMPRESSION ] ; then rm -rf /tmp/newminer/$MINER_BRANCH.$COMPRESSION ; fi
+  
+  if ! wget -qi $DOWNLOAD_URL -O "$MINER_BRANCH.$COMPRESSION" ; then
+    echo "Download failed"
+    exit 10
+  fi
 
   if [ $RELEASE_SHASUM ] ; then
     echo "Comparing download with checksum"
-    if ! echo "$RELEASE_SHASUM $MINER_BRANCH.tar.gz" | sha256sum -c ; then
-      echo "checksum of downloaded files failed, please try again or update miner.settings in repo"
+    if ! echo "$RELEASE_SHASUM $MINER_BRANCH.$COMPRESSION" | sha256sum -c ; then
+      echo "checksum of miner files failed, please try again or update miner.settings in repo"
       exit 11
     fi
   fi
   echo "Unpacking miner"
   SUBDIR=""
-  if tar ztf "$MINER_BRANCH.tar.gz" | grep -qv "^$(tar ztf "$MINER_BRANCH.tar.gz" | sort | head -n1 )" ; then
+  if tar tf "$MINER_BRANCH.$COMPRESSION" | grep -qv "^$(tar tf "$MINER_BRANCH.$COMPRESSION" | sort | head -n1 )" ; then
     SUBDIR="--directory=$MINER_ARCHIVE_FOLDER" 
     mkdir "$MINER_ARCHIVE_FOLDER"
     echo "WARNING: tarbomb detected. Opening in subdirectory, $MINER_ARCHIVE_FOLDER."
   fi
-  if ! tar xzf "$MINER_BRANCH.tar.gz" "$SUBDIR" ; then
+  if ! tar xf "$MINER_BRANCH.$COMPRESSION" "$SUBDIR" ; then
     echo "Unable to extract files package. please try again."
     exit 12
   fi
