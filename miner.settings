@@ -1,9 +1,6 @@
 # Default miner.settings
 # All config lines are optional and can be removed if not used
 
-# The directory of the temporary file, There really is no need to set this
-TMP_DIR="/tmp/newminer"
-
 # User/repo of github release repository
 GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 
@@ -15,4 +12,12 @@ MINER_ARCHIVE_FOLDER="$MINER_BRANCH"
 
 # If the miner has dependencies then add each .deb url here
 #DEPENDS="URL URL"
+
+# You can also use a series of Hooks in order to run function specific commands for the miner
+# These are generally not needed, be careful with using them.
+# HOOK_PREP_MINER=""
+# HOOK_PREP_ETHOS=""
+# HOOK_REVERT=""
+# HOOK_STUB=""
+# HOOK_INSTALL=""
 
