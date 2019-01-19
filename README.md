@@ -45,36 +45,36 @@ Or you can skip installing the manager and just run the script from the github r
 source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action
 ```
 Where the miner is the branch in the repo and the actions are install, update, or revert
-IE for a full install of phoenixminer or an update of all files run:
+IE for a full install of bminer or an update of all files run:
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) phoenixminer install
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) bminer install
 ```
 
 ### Updating
 The miner can be easily updated when new releases are out by just changing the action argument to "update"
-IE to only update the energiminer program to the latest release run:
+IE to only update the bminer program to the latest release run:
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) energiminer update
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) bminer update
 ```
 
 ### UnInstalling
 The miner can be easily uninstalled by changing the action argument to "revert"
-IE to uninstall wildrig-multi run:
+IE to uninstall bminer run:
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi revert
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) bminer revert
 ```
 
 ## Config Sample
-Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "ubqminer" to the miner you want.
+Here is an example of how to add bminer to ethos. These instructions will apply to any miner simply by changing "bminer" to the miner you want.
 
 ### Set the miner
 You can use the miner on your local config or globally on a remote config
 ```
-globalminer ubqminer
+globalminer bminer
 ```
 OR in a remote config to set just one rig
 ```
-miner c94e13 ubqminer
+miner c94e13 bminer
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
@@ -89,11 +89,11 @@ poolpass2 x
 ```
 OR to make it specific to this miner program in a remote config
 ```
-ubqminer=proxywallet walletORusername
-ubqminer=proxypool1 pool.com:port
-ubqminer=proxypool2 pool.com:port
-ubqminer=poolpass1 x
-ubqminer=poolpass2 x
+bminer=proxywallet walletORusername
+bminer=proxypool1 pool.com:port
+bminer=proxypool2 pool.com:port
+bminer=poolpass1 x
+bminer=poolpass2 x
 ```
 OR to make it specific to this rig
 ```
@@ -107,7 +107,7 @@ rigpoolpass2 c94e13 x
 NOTES:
 Some miners allow you to use a single cpu thread, for these you can set
 ```
-globalminer ubqminer-single
+globalminer bminer-single
 ```
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
 
