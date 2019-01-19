@@ -9,9 +9,9 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 - [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0)
 - [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - (AMD limited to a single GPU)
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0)
-- [AMD,NVIDIA] - [bminer](https://www.bminer.me/)
+- [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - (miner only, run manuall in /opt/miners/bminer/)
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
-- [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, /opt/miners/gringoldminer/)
+- [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, run manually in /opt/miners/gringoldminer/)
 - [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0)
 - [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0)
 - [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - hashrate reporting fix for multiple threads
