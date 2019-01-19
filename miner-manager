@@ -52,7 +52,7 @@ f.PREPMINER(){
     mkdir "$MINER_BRANCH"
     echo "WARNING: tarbomb detected. Opening in subdirectory, $MINER_BRANCH."
   else
-    MINER_ARCHIVE_FOLDER=$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | head -n1 | cut -d / -f 1) || echo "failed to find archive folder"
+	  MINER_ARCHIVE_FOLDER=$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | grep -vE '(kernel|plugin)' | sort -u | tail -n1) || echo "failed to find archive folder"
   fi
   if ! tar "$CT" -xf "$MINER_BRANCH.$COMPRESSION" "$SUBDIR" ; then
     echo "Unable to extract files package. Please check your access to git then try again."
@@ -60,7 +60,7 @@ f.PREPMINER(){
   fi
   
   mkdir -p "$TMP_DIR/opt/miners"
-  rsync -a --delete "$TMP_DIR/$MINER_ARCHIVE_FOLDER/" "$TMP_DIR/opt/miners/$MINER_BRANCH"
+  rsync -a --delete "$TMP_DIR/$MINER_ARCHIVE_FOLDER" "$TMP_DIR/opt/miners/$MINER_BRANCH"
   sudo chown -R ethos.ethos "$TMP_DIR"/opt/miners/
   
   if [ "$HOOK_PREP_MINER" ] ; then $HOOK_PREP_MINER ; fi
