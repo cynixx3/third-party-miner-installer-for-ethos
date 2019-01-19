@@ -1,3 +1,2 @@
 GIT_USER_REPO="lwYeo/SoliditySHA3Miner"
-MINER_ARCHIVE_FOLDER="SoliditySHA3Miner"
 DEPENDS="https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-prod.deb"
