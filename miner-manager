@@ -139,9 +139,9 @@ if [ "$(echo $VER | sed 's/\.//g')" -lt 132 ] ; then
   echo "Unable to revert, stock files are not ready for your miner version. Please try `sudo ethos-update reupdate`"
   exit 14
 fi
-  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos-$VER
+  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos
   mkdir -p "$TMP_DIR/opt/ethos"
-  rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/" "$TMP_DIR/opt/ethos"
+  rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos-$VER/" "$TMP_DIR/opt/ethos"
   chmod 775 "$TMP_DIR"/opt/ethos/bin/* "$TMP_DIR"/opt/ethos/sbin/* 
   if [ -f "$TMP_DIR"/opt/ethos/lib/minerprocess.php ] ; then
     chmod 644 "$TMP_DIR"/opt/ethos/lib/minerprocess.php
