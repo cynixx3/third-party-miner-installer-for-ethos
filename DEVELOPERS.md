@@ -56,6 +56,16 @@ The miner-manager script also has optional hooks for you to run miner specific c
 - HOOK_STUB: runs in the INSTALL function in an if statement for stubs
 - HOOK_INSTALL: runs in the INSTALL function in between copying the files from temp to the miner and the restart of services
 
+### Adding a miner to this repo
+1. `git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos`
+2. `git checkout -b NewMinerName`
+3. add your /opt/ethos files
+4. set the config options needed in miner.settings
+5. change readme install, update, revert, and config examples
+6. `git comit -am "initial comit"
+7. submit a pull request
+8. test and recommit any any changes 
+
 ### User commands
 With the understanding that ethOS users are either very new to linux or are mining farms with many rigs to install to, this repo will suggest using a method to install with a single command rather than the more linux approved method of have them install, chmod, then use it, and still have to worry about updates in the future. 
 
