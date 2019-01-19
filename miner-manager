@@ -17,11 +17,13 @@ GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 # Get miner files and setup temporary opt/
 f.PREPMINER(){
   echo "Getting latest release of miner"
-  DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
-  | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
-  | cut -d '"' -f 4 \
-  | grep -vE '(osx|txt)' \
-  | head -1 )
+  if [ -z $DOWNLOAD_URL ] ; then 
+    DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
+    | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
+    | cut -d '"' -f 4 \
+    | grep -vE '(osx|txt)' \
+    | head -1 )
+  fi
   COMPRESSION=$(echo "$DOWNLOAD_URL" | grep -oP 't[argxb.]{1,4}z2?$')
   case $COMPRESSION in
     tar.gz|tgz) CT="-z" ;;
