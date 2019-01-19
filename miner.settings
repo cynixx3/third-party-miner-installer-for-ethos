@@ -4,10 +4,7 @@
 # User/repo of github release repository
 GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 
-# This is the folder of the miner inside the tar archive
-MINER_ARCHIVE_FOLDER="$MINER_BRANCH"
-
-# If the folder is version specific set its shasum so we can update the folder and sha upon relase otherwise updates are automattic
+# you can do a version check, or omit it for auto updates.
 #RELEASE_SHASUM="sha256sum of archive"
 
 # If the miner has dependencies then add each .deb url here
