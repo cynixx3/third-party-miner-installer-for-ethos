@@ -1,3 +1,1 @@
 GIT_USER_REPO="ubiq/ubqminer"
-MINER_ARCHIVE_FOLDER="ubqminer-0.17.0-alpha.1.ubqhash-cuda10.0-linux-x86_64"
-RELEASE_SHASUM="68ca193b2aedac03d5a84417fe5158b42e4efe5f94d40ea41bbd542d089d41a3"
