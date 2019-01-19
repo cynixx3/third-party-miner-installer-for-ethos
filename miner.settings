@@ -1,3 +1,2 @@
 #GIT_USER_REPO="mimblewimble/grin-miner"
-MINER_ARCHIVE_FOLDER="grin-miner"
 HOOK_STUB="ln -s /var/run/ethos/grin-miner.toml /opt/miners/grin-miner/grin-miner.toml"
