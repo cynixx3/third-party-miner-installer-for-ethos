@@ -8,6 +8,7 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 - [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0)
 - [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0)
 - [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - (AMD limited to a single GPU)
+- [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - (miner only, run manually in /opt/miners/nbminer/)
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0)
 - [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - (miner only, run manually in /opt/miners/bminer/)
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
