@@ -10,7 +10,7 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 - [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - (AMD limited to a single GPU)
 - [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - (miner only, run manually in /opt/miners/nbminer/)
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0)
-- [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - (miner only, run manually in /opt/miners/bminer/)
+- [AMD,NVIDIA] - [bminer](https://www.bminer.me/)
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
 - [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, run manually in /opt/miners/gringoldminer/)
 - [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0)
