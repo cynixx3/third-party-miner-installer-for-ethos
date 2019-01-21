@@ -270,6 +270,9 @@ $pool_syntax = array(
     "http"=>"%s",
     ""=>"%s"
   ),
+  "bminer"=>array(
+    ""=>"%s"
+  ),
   "default"=>array(
     "ssl"=>"ssl://%s",
     "stratum+tcp"=>"stratum+tcp://%s",
