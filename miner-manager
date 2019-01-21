@@ -228,7 +228,7 @@ case "$2" in
   update)
     f.PREPMINER
     f.INSTALL
-  #  f.CLEANUP
+    f.CLEANUP
   ;;
   revert)
     f.REVERT
