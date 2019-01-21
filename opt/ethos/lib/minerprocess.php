@@ -670,7 +670,7 @@ function start_miner()
 			$maxtemp = "85";
 		}
 		// $config_string = file_get_contents("/home/ethos/grin-miner.stub.conf");
-		$config_string = "-uri cuckaroo29://dracopm@hotmail.com%2FWORKER:x@us-east-stratum.grinmint.com:3416 ";
+		$config_string = "-uri cuckaroo29://LOGIN%2FWORKER:PASSWORD1@POOL1 ";
 
 		$_loc = trim(`/opt/ethos/sbin/ethos-readconf loc`);
 		if (strlen($_loc) > 0){
@@ -690,7 +690,6 @@ function start_miner()
 		$config_string = str_replace("LOGIN",$proxywallet,$config_string);
 		$config_string = str_replace("PASSWORD1",$poolpass1,$config_string);
 #		$config_string = str_replace("PASSWORD2",$poolpass2,$config_string);
-		// file_put_contents("/var/run/ethos/grin-miner.toml",$config_string);
 	}
 
         /*******************************
