@@ -243,14 +243,14 @@ function get_hashrates(){
 		
 		if($miner == "optiminer-zcash"){
 			$raw = trim(`tail -400 /var/run/miner.output | grep -Poi "(?<=\[GPU$i\]\s\s)(\d+\.\d+\sI\/s\s)(\d+.\d+)" | cut -d" " -f 3 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);	
-		}
+		}																         
 
 		if($miner == "grin-miner"){
 			$raw = trim(`tail -300 /var/run/miner.output | egrep "Device $i" | grep "Graphs per second: " | grep -Poi "(?<=second:)\s((\d+)(\.\d+)?)" | sed 's/ //g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
 		}
 
 		if($miner == "bminer"){
-			$raw = trim("42");
+			$raw = trim(`tail -300 /var/run/miner.output | egrep "GPU $i" | grep -Poi "Speed\:\040\d\.\d\d" | grep -Poi "\d\.\d\d" | sed 's/ //g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
 		}
 
 		if($miner == "wolf-xmr-cpu"){
