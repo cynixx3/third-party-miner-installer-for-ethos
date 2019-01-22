@@ -1,3 +1,3 @@
-DOWNLOAD_URL="https://www.bminercontent.com/releases/bminer-v12.2.0-937f19b-amd64.tar.xz"
-RELEASE_SHASUM="9f663fb60b68dc66ecd75310bfb025b7462d8bdac3de2a4dd37385e55064a375"
+DOWNLOAD_URL="https://www.bminercontent.com/releases/bminer-v13.0.0-6d94ac7-amd64.tar.xz"
+RELEASE_SHASUM="b0381917afb67cb0dd390a842c8d78f4e2849af1ab66b447c958e58ca29aa6ea"
 DEPENDS="http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.10_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb"
