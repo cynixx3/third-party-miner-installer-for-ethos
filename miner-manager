@@ -11,34 +11,54 @@ ACTION="$2"
 # Default miner.settings
 TMP_DIR="/tmp/newminer"
 GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
-MINER_ARCHIVE_FOLDER="$MINER_BRANCH"
 #RELEASE_SHASUM="sha256sum of archive"
 #DEPENDS="URL URL"
 
 # Get miner files and setup temporary opt/
 f.PREPMINER(){
-if [ "$(echo $VER | sed 's/\.//g')" -ne 133 ] ; then
-  echo "Unable to install"
-  exit 14
-fi
   echo "Getting latest release of miner"
-  curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
-  | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
-  | cut -d '"' -f 4 \
-  | head -1 \
-  | wget -qi - -O "$MINER_BRANCH.tar.gz"
+  if [ -z $DOWNLOAD_URL ] ; then 
+    DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
+    | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
+    | cut -d '"' -f 4 \
+    | grep -vE '(osx|txt)' \
+    | head -1 )
+  fi
+  COMPRESSION=$(echo "$DOWNLOAD_URL" | grep -oP 't[argxb.]{1,4}z2?$')
+  case $COMPRESSION in
+    tar.gz|tgz) CT="-z" ;;
+    tar.xz) CT="-J" ;;
+    tar.bz2) CT="-j" ;;
+    *) CT="" ;;
+  esac
 
-  if [ $RELEASE_SHASUM ] ; then
+  if [ -f "$MINER_BRANCH.$COMPRESSION" ] ; then rm -rf "/tmp/newminer/$MINER_BRANCH.$COMPRESSION" ; fi
+  
+  if ! wget -q "$DOWNLOAD_URL" -O "$MINER_BRANCH.$COMPRESSION" ; then
+    echo "Download failed. Please check your firewall or git access and try again."
+    exit 10
+  fi
+
+  if [ "$RELEASE_SHASUM" ] ; then
     echo "Comparing download with checksum"
-    if ! echo "$RELEASE_SHASUM $MINER_BRANCH.tar.gz" | sha256sum -c ; then
-      echo "checksum of downloaded files failed, please try again or update miner.settings in repo"
+    if ! echo "$RELEASE_SHASUM $MINER_BRANCH.$COMPRESSION" | sha256sum -c ; then
+      echo "Check of miner files failed, please check your access to git then try again or update miner.settings in repo"
       exit 11
     fi
   fi
 
   echo "Unpacking miner"
-  if ! tar xzf "$TMP_DIR/$MINER_BRANCH.tar.gz" ; then
-    echo "Unable to extract files package. please try again."
+  SUBDIR=""
+  if tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -qv "^$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | head -n1 )" ; then
+    SUBDIR="--directory=$MINER_BRANCH"
+    MINER_ARCHIVE_FOLDER="$MINER_BRANCH" 
+    mkdir "$MINER_BRANCH"
+    echo "WARNING: tarbomb detected. Opening in subdirectory, $MINER_BRANCH."
+  else
+    MINER_ARCHIVE_FOLDER=$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | grep -vE '(kernel|plugin)' | sort -u | tail -n1) || echo "failed to find archive folder"
+  fi
+  if ! tar "$CT" -xf "$MINER_BRANCH.$COMPRESSION" "$SUBDIR" ; then
+    echo "Unable to extract files package. Please check your access to git then try again."
     exit 12
   fi
   
@@ -46,6 +66,8 @@ fi
   rsync -a --delete "$TMP_DIR/$MINER_ARCHIVE_FOLDER/" "$TMP_DIR/opt/miners/$MINER_BRANCH"
   sudo chown -R ethos.ethos "$TMP_DIR"/opt/miners/
   
+  if [ "$HOOK_PREP_MINER" ] ; then $HOOK_PREP_MINER ; fi
+
   echo "Temporary miner files ready"
 }
 
@@ -68,10 +90,21 @@ f.CHECKDPKG(){
 
 # Get Replacement ethos files that enable miner operation and install miner specific dependencies
 f.PREPETHOS(){
+if [ "$(echo $VER | sed 's/\.//g')" -ne 133 ] ; then
+  echo "Unable to install due to current ethOS version, try \"update\" instead to install just the miner or update ethOS."
+  exit 14
+fi
   echo "Download and unpack files needed by ethOS"
 #todo add ethos version checking
   git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b "$MINER_BRANCH"
-  
+
+  if [ -f "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/$MINER_BRANCH.stub.conf" ] ; then
+    mkdir -p "$TMP_DIR/home/ethos/"
+    mv "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/$MINER_BRANCH.stub.conf" "$TMP_DIR/home/ethos/"
+    sudo chmod 644 "$TMP_DIR/home/ethos/$MINER_BRANCH.stub.conf"
+    sudo chown -R ethos.ethos "$TMP_DIR/home/ethos/$MINER_BRANCH.stub.conf"
+  fi
+
   mkdir -p $TMP_DIR/opt/ethos
   rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/" "$TMP_DIR/opt/ethos"
   chmod 775 "$TMP_DIR"/opt/ethos/bin/* "$TMP_DIR"/opt/ethos/sbin/* 
@@ -83,7 +116,7 @@ f.PREPETHOS(){
     chmod 755 "$TMP_DIR"/opt/ethos/lib/functions.php
   fi
   sudo chown -R root.root "$TMP_DIR"/opt/ethos/
-  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/etc/screenrc.* "$TMP_DIR"/opt/ethos/bin/minestop
+  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/etc/screenrc.* "$TMP_DIR/opt/ethos/bin/minestop"
 
   echo "Check for dependencies"
   if [ "$DEPENDS" ] ; then
@@ -98,20 +131,21 @@ f.PREPETHOS(){
     sudo dpkg -i "$TMP_DIR"/depends/*.deb
   fi
   
+  if [ "$HOOK_PREP_ETHOS" ] ; then $HOOK_PREP_ETHOS ; fi
+  
   echo "ethOS files ready"
 }
 
 # Gather stock ethOS files in temporary opt/ and install stock packages
 f.REVERT(){
 if [ "$(echo $VER | sed 's/\.//g')" -lt 132 ] ; then
-  echo "Unable to revert"
+  echo "Unable to revert, stock files are not ready for your miner version. Please try `sudo ethos-update reupdate`"
   exit 14
 fi
-  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos-$VER
+  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos
   mkdir -p "$TMP_DIR/opt/ethos"
-  rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/" "$TMP_DIR/opt/ethos"
+  rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos-$VER/" "$TMP_DIR/opt/ethos"
   chmod 775 "$TMP_DIR"/opt/ethos/bin/* "$TMP_DIR"/opt/ethos/sbin/* 
-  chmod 744 "$TMP_DIR"/opt/ethos/etc/*
   if [ -f "$TMP_DIR"/opt/ethos/lib/minerprocess.php ] ; then
     chmod 644 "$TMP_DIR"/opt/ethos/lib/minerprocess.php
   fi
@@ -119,7 +153,7 @@ fi
     chmod 755 "$TMP_DIR"/opt/ethos/lib/functions.php
   fi
   sudo chown -R root.root "$TMP_DIR"/opt/ethos/
-  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/etc/screenrc.* "$TMP_DIR"/opt/ethos/bin/minestop
+  sudo chown -R ethos.ethos "$TMP_DIR"/opt/ethos/bin/minestop
 # Reinstall stock dependencies
   mkdir "$TMP_DIR/depends"
   wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-4.8/gcc-4.8-base_4.8.4-2ubuntu1~14.04.4_amd64.deb -P depends
@@ -128,6 +162,8 @@ fi
   sudo dpkg --configure -a
   f.CHECKDPKG
   sudo dpkg -i "$TMP_DIR"/depends/*.deb
+  
+  if [ "$HOOK_REVERT" ] ; then $HOOK_REVERT ; fi
 }
 
 f.INSTALL(){
@@ -137,6 +173,12 @@ f.INSTALL(){
   
   echo "Installing miner"
   sudo rsync -av "$TMP_DIR/opt/" /opt
+  if [ -f "$TMP_DIR/home/ethos/$MINER_BRANCH.stub.conf" ] ; then
+    sudo rsync -av "$TMP_DIR/home/ethos/" /home/ethos
+    if [ "$HOOK_STUB" ] ; then $HOOK_STUB ; fi
+  fi
+
+  if [ "$HOOK_INSTALL" ] ; then $HOOK_INSTALL ; fi
 
   echo "Restarting services and miner"
   sudo service ethos-miner-daemon restart
@@ -147,7 +189,7 @@ f.INSTALL(){
 
 f.CLEANUP(){
   rm -rf "$TMP_DIR"
-  echo "temporary files removed"
+  echo "temporary files removed, all done."
 }
 
 f.HELP (){
@@ -155,14 +197,14 @@ f.HELP (){
 Usage $CMD [ Miner ] ( install | update | revert )
 
 Miners Available:
-$(curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | cut -d '"' -f 4 | grep -Ev '(1.3|master|develop)')"
+$(curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | cut -d '"' -f 4 | grep -Ev '(ethos|master)')"
 }
 
 # TODO add logging
 if [ "$#" -ne "2" ] ; then
-  f.HELP "Wrong number of arguments"
+  f.HELP "Wrong number of arguments, must be 2 arguments miner and action, please refer to https://github.com/cynixx3/third-party-miner-installer-for-ethos"
   exit 1
-elif [[ "$(curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | cut -d '"' -f 4 | grep -Ev '(1.3|master|develop)')" == *" $MINER_BRANCH "* ]] ; then
+elif ! [[ "$(curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | grep -Ev '(ethos|master)')" == *"\"$MINER_BRANCH\""* ]] ; then
   f.HELP "Invalid miner selected, Please choose from the list below"
   exit 2
 fi
@@ -170,6 +212,7 @@ fi
 # Get miner settings
 source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings)
 
+if [ -d "$TMP_DIR" ] ; then rm -rf "$TMP_DIR" ; fi
 echo "Move to a temporary work space"
 mkdir "$TMP_DIR"
 cd "$TMP_DIR" || exit 10
@@ -190,6 +233,9 @@ case "$2" in
   revert)
     f.REVERT
     rm -rf "/opt/miners/$MINER_BRANCH"
+    if [ -f "/home/ethos/$MINER_BRANCH.stub.conf" ] ; then
+      rm "/home/ethos/$MINER_BRANCH.stub.conf"
+    fi
     f.INSTALL
     f.CLEANUP
   ;;
