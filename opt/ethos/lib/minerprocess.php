@@ -1090,7 +1090,7 @@ function start_miner()
 	        $mine_with = " --opencl-devices $devices";
 	    }
 	    $extraflags .= " --print-full --print-time 10";
-	    if($namedisabled != true) { $proxywallet .= "$worker";}
+	    if($namedisabled != "disabled") { $proxywallet .= "$worker";}
 	    if(!preg_match("/(--algo|-a)/",$flags)){
 	        $flags .= " --algo x16r";
 	    }
