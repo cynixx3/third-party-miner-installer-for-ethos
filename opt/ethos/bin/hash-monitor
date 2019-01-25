@@ -270,15 +270,11 @@ function get_hashrates(){
 				$raw = 0;
 			}
 		}
-
-		if ($miner == "wildrig-multi") {
-			$hashes = preg_replace('#\\x1b[[][^A-Za-z]*[A-Za-z]#', '', `tail -50 /var/run/miner.output | grep GPU | grep -v accepted | grep -e 'GPU #$i' | tail -1 | awk '{print $5}'`);
-		        if($hashes > 1000){
-		        	$raw = floatval($hashes*.001);
-		        } else {
-           			$raw = $hashes;
-		        }
-		}
+		
+		if ($miner == "cast-xmr"){
+    	    $hashes = trim(`tail -$tail /var/run/miner.output | grep 'H/s' | grep 'GPU$i' | tail -1 | awk '{print $10}'`);
+         	$raw = sprintf('%05.2f', 0.00 + $hashes);
+        }
 		
 		if ($miner == "teamredminer") {
 			$raw = trim(`tail -300 /var/run/miner.output | grep -Poi "(?<=GPU $i - )(\S+\: )([0-9.]*)Mh\/s " | cut -d" " -f2 | sed 's/Mh\/s//g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);

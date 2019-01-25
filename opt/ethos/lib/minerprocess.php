@@ -1082,23 +1082,20 @@ function start_miner()
 	}
 	
 	/*******************************
-	 *  WildRig-Multi
+	 *  Cast-XMR
 	 ********************************/
-	if($miner == "wildrig-multi"){
-	    $devices = implode(",",select_gpus());
-	    if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != ""){
-	        $mine_with = " --opencl-devices $devices";
-	    }
-	    $extraflags .= " --print-full --print-time 10";
+	if($miner == "cast-xmr") {
+	    $devices = implode(",", select_gpus());
+	    $mine_with = "-G $devices";
 	    if($namedisabled != "disabled") { $proxywallet .= "$worker";}
+	    if($stratumtype != "nicehash") { $flags .= " --nonicehash"; }
 	    if(!preg_match("/(--algo|-a)/",$flags)){
-	        $flags .= " --algo x16r";
+	        $flags .= " -a 10";
 	    }
-	    $pools="-o $proxypool1 -u $proxywallet -p $poolpass1";
+	    $proxypool1 = trim(`/opt/ethos/sbin/ethos-readconf proxypool1`);
+	    $pools="-S $proxypool1 -u $proxywallet -p $poolpass1";
+	    // No support for fallback pools
 	    
-	    if($proxypool2 != "") {
-	        $pools .= " -o $proxypool2 -u $proxywallet -p $poolpass2";
-	    }
 	}
 	
 	//begin miner commandline buildup
