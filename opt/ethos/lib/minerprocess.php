@@ -1085,14 +1085,12 @@ function start_miner()
 	 *  WildRig-Multi
 	 ********************************/
 	if($miner == "wildrig-multi"){
-	    delete_old_api_port();
-	    $apiport = select_api_port();
 	    $devices = implode(",",select_gpus());
 	    if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != ""){
 	        $mine_with = " --opencl-devices $devices";
 	    }
-	    $extraflags .= "--api-port " . $apiport . " --print-full --print-time 10";
-	    if($namedisabled != true) { $proxywallet .= ".$worker";}
+	    $extraflags .= " --print-full --print-time 10";
+	    if($namedisabled != "disabled") { $proxywallet .= "$worker";}
 	    if(!preg_match("/(--algo|-a)/",$flags)){
 	        $flags .= " --algo x16r";
 	    }
