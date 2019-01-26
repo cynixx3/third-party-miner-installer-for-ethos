@@ -2,7 +2,6 @@
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
 ### List of currently supported miners
-- [AMD] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only, Beam)
 - [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5027811.0)
 - [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) 
 - [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0)
@@ -13,6 +12,7 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 - [AMD,NVIDIA] - [bminer](https://www.bminer.me/)
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
 - [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, run manually in /opt/miners/gringoldminer/)
+- [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only, Beam)
 - [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0)
 - [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0)
 - [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - hashrate reporting fix for multiple threads
