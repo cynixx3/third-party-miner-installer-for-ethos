@@ -1,23 +1,8 @@
 # Third Party Miner Manager for ethOS
 
-lolminer 0.7a is BEAM (equihash 150/5) mining only, all other algos have been removed.
+[AMD,NVIDIA] lolminer 0.7 alpha 3 is BEAM (equihash 150/5) mining only, all other algos have been removed.
 
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
-
-### List of currently supported miners
-	* [AMD] lolminer 0.7a (equihash 150/5 only)
-	* [AMD] teamredminer
-	* [AMD] xmrig-amd 
-	* [AMD] wildrig-multi
-	* [NVIDIA] cryptodredge
-	* [NVIDIA] grin-miner
-	* [NVIDIA] t-rex
-	* [AMD,NVIDIA] energiminer
-	* [AMD,NVIDIA] gringoldminer (miner only, /opt/miners/gringoldminer/)
-	* [AMD,NVIDIA] phoenixminer
-	* [AMD,NVIDIA] ubqminer
-	* [AMD,NVIDIA] xmr-stak -- hashrate reporting fix for multiple threads
-	* [AMD,CPU,NVIDIA] soliditysha3miner
 
 ### ONLY ONE MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten on the installation of each miner.
@@ -68,7 +53,7 @@ source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-ins
 ## Config Sample
 Here is an example of how to add lolminer to ethos. These instructions will apply to any miner simply by changing "lolminer" to the miner you want.
 
-### Set the miner
+### Set the miner and add the flags
 You can use the miner on your local config or globally on a remote config
 ```
 globalminer lolminer
@@ -78,6 +63,11 @@ OR in a remote config to set just one rig
 miner c94e13 lolminer
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
+
+Add the flag for mining Beam
+```
+lolminer=flags --coin BEAM
+```
 
 ### Set your pool and wallet
 for local configs or remote configs to apply globally use
