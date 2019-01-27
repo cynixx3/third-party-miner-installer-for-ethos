@@ -1,1 +1,2 @@
-GIT_USER_REPO="mozkomor/GrinGoldMiner"
+DOWNLOAD_URL="https://grinpro.io/download/GrinPro_1_1.tar.gz"
+RELEASE_SHASUM="a45c7ed2b41626ffec81c0671fcf78984d0a99d20fe59ef7457cbd0409272c27"
