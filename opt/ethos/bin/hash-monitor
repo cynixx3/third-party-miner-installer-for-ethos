@@ -180,7 +180,8 @@ function get_hashrates(){
 	}
 	
 	if ($miner == "lolminer")	{
-		$raw_lolstats = @json_decode(@file_get_contents("http://127.0.0.1:42000/summary"),TRUE);
+		$apiport = trim(`cat /var/run/ethos/lolminer_config.json | grep APIPORT | awk '{print $2}'`);
+                $raw_lolstats = @json_decode(@file_get_contents("http://127.0.0.1:$apiport/summary"),TRUE);
 	}
 
 	for($i = 0;$i < $instances; $i++){
