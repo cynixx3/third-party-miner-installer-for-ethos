@@ -47,7 +47,7 @@ cat /opt/miners/ethminer/version.txt | awk '{print "ethminer-single "$NF}' >> /v
 cat /opt/miners/teamredminer/version.txt | awk '{print "teamredminer "$1}' >> /var/run/ethos/miner.versions
 /opt/miners/ewbf-equihash/ewbf-equihash -h | grep -Poi "(?<=miner\. )(.*)(?:\s+)" | awk '{print "ewbf-equihash "$NF}' >> /var/run/ethos/miner.versions
 /opt/miners/lolminer/lolMiner | grep -Poi "(?<=lolMiner[[:space:]])([0-9.]+)" | awk '{print "lolMiner "$1}' >> /var/run/ethos/miner.versions
-
+echo "bminer $(/opt/miners/bminer/bminer --help | head -n1 | grep -oP 'v[0-9]+.[0-9]+.[0-9]+')"  >> /var/run/ethos/miner.versions
 function f.autoreboot(){
 	if [ "$AUTOREBOOT" -gt "0" ]; then
 		oldnum=`cat /opt/ethos/etc/autorebooted.file`
