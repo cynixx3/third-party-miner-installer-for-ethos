@@ -3,7 +3,9 @@ gringoldminer ethOS Mining OS integration (ethosdistro.com)
 
 Works with ethos 1.3.3 (latest), other versions are not tested.
 
-gringoldminer version: 2.8 gringoldminer has not been integrated into ethos and currently must be run manually. Hashrate reporting will not work.
+gringoldminer version: 2.8 
+
+gringoldminer has not been integrated into ethos and currently must be run manually. Hashrate reporting will not work.
 
 During the first run the miner will ask for your configuration information.
 
