@@ -1,17 +1,19 @@
-### grin-miner-ethos
-grin-miner ethOS Mining OS integration (ethosdistro.com)
+
+gringoldminer ethOS Mining OS integration (ethosdistro.com)
 
 Works with ethos 1.3.3 (latest), other versions are not tested.
 
-grin-miner version: 1.0.0-cuda-ocl-ethos
+gringoldminer version: 2.8 gringoldminer has not been integrated into ethos and currently must be run manually. Hashrate reporting will not work.
 
-SSL disabled in grin-miner.stub.conf, uncomment the line "stratum_server_tls_enabled = true" to enable SSL.
+During the first run the miner will ask for your configuration information.
 
+If you need to edit this information at a later date, edit the /opt/miners/gringoldminer/config.xml file.
+
+To run this miner:
 ```
-miner [worker] grin-miner
-grin-miner=proxywallet farm@test.com
-grin-miner=proxypool1 us-east.stratum.grinmint.com:3416
-grin-miner=poolpass1 farmpw
+minestop && disallow
+cd /opt/miners/gringoldminer
+screen -S grin
+./GrinGoldMinerCLI
 ```
-
-Initial port by amnesium [https://github.com/amnesium/grin-miner-ethos]
+To exit this screen and leave the miner running use `ctrl+AD`
