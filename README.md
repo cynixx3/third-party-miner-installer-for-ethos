@@ -107,9 +107,13 @@ globalminer ubqminer-single
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
 
 ## Manual config sample
-First go to the miner folder `cd /opt/miners/grinpro` and run the miner `./GrinProMiner` to check that its working and to make any firt run configurations. 
+First go to the miner folder `cd /opt/miners/grinpro` and run the miner `./GrinProMiner` to check that its working and to make any firt run configurations. This process will close when you disconnect from ssh and it will not start with ethOS. Exit the miner with the key combination `ctrl c` 
 
 Once you get the miner to run and know the start command in order to mine add it to custom.sh 
+```
+nano /home/ethos/custom.sh
+```
+and add the following line with the information you discovered above "exit 0"
 ```
 screen -dmS grinpro /opt/miners/grinpro/GrinProMiner
 ```
