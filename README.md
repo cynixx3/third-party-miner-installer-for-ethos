@@ -107,16 +107,23 @@ globalminer ubqminer-single
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
 
 ## Manual config sample
-First go to the miner folder `cd /opt/miners/grinpro` and run the miner `./GrinProMiner` to check that its working and to make any firt run configurations. This process will close when you disconnect from ssh and it will not start with ethOS. Exit the miner with the key combination `ctrl c` 
+First go to the miner folder `cd /opt/miners/grinpro` and run the miner `./GrinProMiner` to check that its working and to make any firt run configurations. This process will close when you disconnect from ssh and it will not start with ethOS. Exit the miner with the key combination `ctrl+c` 
 
-Once you get the miner to run and know the start command in order to mine add it to custom.sh 
+Once you get the miner to run and know the start command in order to mine add it to custom.sh [nano guide](http://ethosdistro.com/kb/#editing-files)
 ```
 nano /home/ethos/custom.sh
 ```
-and add the following line with the information you discovered above "exit 0"
+Add the following line with the information you discovered, above "exit 0" (you can also start the miner with this command)
 ```
-screen -dmS grinpro /opt/miners/grinpro/GrinProMiner
+screen -dmS miner /opt/miners/grinpro/GrinProMiner
 ```
+That's all you need to do.
+
+Screen is a linux program that runs an interactive terminal session that you can run independently, connect, and disconnect from. To connect to the miner session and interact with it use 
+```
+screen -x
+```
+To disconnect from a screen session without killing the miner use the key combination `ctrl+a d` where you press ctrl and a a the same time, release, then press d. Using the ctrl+c key combination will kill the miner, not the screen session and create an interesting situation where rebooting is the easiest fix.
 
 ### Installing the miner-manager (optional)
 This script was designed for ease of use. You can run a single command to install, update, or remove any miner on this repo and any dependencies with it.
