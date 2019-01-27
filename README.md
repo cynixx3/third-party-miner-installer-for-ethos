@@ -1,17 +1,20 @@
 # Third Party Miner Manager for ethOS
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
-### List of currently supported miners
+### List of currently supported miners [click name to get miner specific information]
+- [AMD] - [cast-xmr](https://github.com/glph3k/cast_xmr)
 - [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5027811.0)
 - [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) 
 - [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0)
 - [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0)
 - [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - (AMD limited to a single GPU)
 - [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - (miner only, run manually in /opt/miners/nbminer/)
+- [NVIDIA] - [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) - (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0)
 - [AMD,NVIDIA] - [bminer](https://www.bminer.me/)
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
 - [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, run manually in /opt/miners/gringoldminer/)
+- [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - (miner only, run manually in /opt/miners/grinpro/)
 - [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only, Beam)
 - [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0)
 - [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0)
@@ -30,16 +33,6 @@ Following these instructions will install the chosen miner and its integration f
 
 ### Prerequisites
 You need to be running ethos 1.3.3 to install a miner with this script.
-
-### Installing the miner-manager (optional)
-This script was designed for ease of use. You can run a single command to install, update, or remove any miner on this repo and any dependencies with it.
-
-If you plan to use this often you can download the miner-manager script, give it execute permissions. 
-```
-sudo wget https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager -O /usr/bin/miner-manager
-sudo chmod +x /usr/bin/miner-manager
-```
-and use it with `miner-manager miner action` To update just repeat the first command.
 
 ### Installing the miners
 Or you can skip installing the manager and just run the script from the github repo in which case the command would look like
@@ -66,7 +59,7 @@ IE to uninstall wildrig-multi run:
 source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi revert
 ```
 
-## Config Sample
+## ethOS Config Sample
 Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "ubqminer" to the miner you want.
 
 ### Set the miner
@@ -112,6 +105,24 @@ Some miners allow you to use a single cpu thread, for these you can set
 globalminer ubqminer-single
 ```
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
+
+## Manual config sample
+First go to the miner folder `cd /opt/miners/grinpro` and run the miner `./GrinProMiner` to check that its working and to make any firt run configurations. 
+
+Once you get the miner to run and know the start command in order to mine add it to custom.sh 
+```
+screen -dmS grinpro /opt/miners/grinpro/GrinProMiner
+```
+
+### Installing the miner-manager (optional)
+This script was designed for ease of use. You can run a single command to install, update, or remove any miner on this repo and any dependencies with it.
+
+If you plan to use this often you can download the miner-manager script, give it execute permissions. 
+```
+sudo wget https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager -O /usr/bin/miner-manager
+sudo chmod +x /usr/bin/miner-manager
+```
+and use it with `miner-manager miner action` To update just repeat the first command.
 
 ## Development
 If you are a developer please check the [developers](https://github.com/cynixx3/third-party-miner-installer-for-ethos/blob/master/DEVELOPERS.md) guide for information on how to add your miner to ethos and / or this repo.
