@@ -45,7 +45,7 @@ cat /opt/miners/ethminer/version.txt | awk '{print "ethminer-single "$NF}' >> /v
 /opt/miners/xtl-stak/xtl-stak --version | cut -d' ' -f 3 | awk '{print "xtl-stak "$1}' >> /var/run/ethos/miner.versions
 cat /opt/miners/teamredminer/version.txt | awk '{print "teamredminer "$1}' >> /var/run/ethos/miner.versions
 /opt/miners/ewbf-equihash/ewbf-equihash -h | grep -Poi "(?<=miner\. )(.*)(?:\s+)" | awk '{print "ewbf-equihash "$NF}' >> /var/run/ethos/miner.versions
-/opt/miners/lolminer/lolMiner --version | awk '{print "lolMiner "$1}' >> /var/run/ethos/miner.versions
+/opt/miners/lolminer/lolMiner --version | awk '{print "lolminer "$1}' >> /var/run/ethos/miner.versions
 
 function f.autoreboot(){
 	if [ "$AUTOREBOOT" -gt "0" ]; then
