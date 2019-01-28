@@ -91,7 +91,7 @@ f.CHECKDPKG(){
 
 # Get Replacement ethos files that enable miner operation and install miner specific dependencies
 f.PREPETHOS(){
-if [ "$(echo "${VER//\./"})" -ne 133 ] ; then
+if [ "${VER//./}" -ne 133 ] ; then
   echo "Unable to install due to current ethOS version, try \"update\" instead to install just the miner or update ethOS."
   exit 14
 fi
@@ -139,7 +139,7 @@ fi
 
 # Gather stock ethOS files in temporary opt/ and install stock packages
 f.REVERT(){
-if [ "$(echo "${VER//\./")" -lt 132 ] ; then
+if [ "${VER//./}" -lt 132 ] ; then
   echo "Unable to revert, stock files are not ready for your miner version. Please try \`sudo ethos-update reupdate\`"
   exit 14
 fi
