@@ -7,6 +7,7 @@
 MINER_BRANCH="$1"
 CMD="$0"
 ACTION="$2"
+ALLOW="$(cat /opt/ethos/etc/allow.file)"
 
 # Default miner.settings
 TMP_DIR="/tmp/newminer"
@@ -189,7 +190,9 @@ f.INSTALL(){
   sudo service ethos-miner-daemon restart
   sudo service ethos-stats-daemon restart
   sudo service ethos-gpu-stats-daemon restart
-  /opt/ethos/bin/allow
+  if [ "$ALLOW" = "1" ] ; then 
+    /opt/ethos/bin/allow
+  fi
 }
 
 f.CLEANUP(){
