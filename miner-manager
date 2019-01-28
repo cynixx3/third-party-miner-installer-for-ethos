@@ -18,7 +18,7 @@ GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 # Get miner files and setup temporary opt/
 f.PREPMINER(){
   echo "Getting latest release of miner"
-  if [ -z $DOWNLOAD_URL ] ; then 
+  if [ -z "$DOWNLOAD_URL" ] ; then 
     DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
     | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
@@ -91,7 +91,7 @@ f.CHECKDPKG(){
 
 # Get Replacement ethos files that enable miner operation and install miner specific dependencies
 f.PREPETHOS(){
-if [ "$(echo $VER | sed 's/\.//g')" -ne 133 ] ; then
+if [ "$(echo "${VER//\./"})" -ne 133 ] ; then
   echo "Unable to install due to current ethOS version, try \"update\" instead to install just the miner or update ethOS."
   exit 14
 fi
@@ -123,8 +123,8 @@ fi
   if [ "$DEPENDS" ] ; then
     echo "Installing dependencies"
     mkdir "$TMP_DIR/depends"
-    for URL in ${DEPENDS[@]} ; do
-      wget $URL -P depends
+    for URL in "${DEPENDS[@]}" ; do
+      wget "$URL" -P depends
     done
     f.CHECKDPKG
     sudo dpkg --configure -a
@@ -139,8 +139,8 @@ fi
 
 # Gather stock ethOS files in temporary opt/ and install stock packages
 f.REVERT(){
-if [ "$(echo $VER | sed 's/\.//g')" -lt 132 ] ; then
-  echo "Unable to revert, stock files are not ready for your miner version. Please try `sudo ethos-update reupdate`"
+if [ "$(echo "${VER//\./")" -lt 132 ] ; then
+  echo "Unable to revert, stock files are not ready for your miner version. Please try \`sudo ethos-update reupdate\`"
   exit 14
 fi
   git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos
@@ -170,7 +170,7 @@ fi
 f.INSTALL(){
   echo "Stopping the miner"
   /opt/ethos/bin/disallow
-  ps uax | egrep "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|lolminer|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|$MINER_BRANCH" | grep -Ev '(curl|update-miner|miner-manager|develop|grep)' | awk '{print $2}' | sudo xargs kill -9
+  ps uax | grep -E "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|lolminer|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|$MINER_BRANCH" | grep -Ev '(curl|update-miner|miner-manager|develop|grep)' | awk '{print $2}' | sudo xargs kill -9
   
   echo "Installing miner"
   sudo rsync -av "$TMP_DIR/opt/" /opt
@@ -218,7 +218,7 @@ elif ! [[ "$(curl -s https://api.github.com/repos/cynixx3/third-party-miner-inst
 fi
 
 # Get miner settings
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings)
+source <(curl -s "https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings")
 
 if [ -d "$TMP_DIR" ] ; then rm -rf "$TMP_DIR" ; fi
 echo "Move to a temporary work space"
