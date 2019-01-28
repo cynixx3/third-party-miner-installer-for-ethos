@@ -285,7 +285,7 @@ function setup_pools($miner)
 	  case "ewbf-equihash":
       $miner_syntax = "ewbf-zcash";
       break;
-
+	case "grinpro":
     case "ethminer-single":
     case "progpowminer":
     case "progpowminer-single";	  
@@ -1080,7 +1080,36 @@ function start_miner()
 		$flags = "-profile=ETHOS -usercfg=".$lolconfig_path." ".$flags;
 
 	}
-
+	/*******************************
+	 * GRINPRO
+	 ********************************/
+	if ($miner == "grinpro"){
+	    $apiport = select_api_port();
+	    $idarr = select_gpus();
+	    for ($i = 0; $i < count($idarr); $i++){
+	        $selgpu[] = "0:" . $idarr[$i];
+	    }
+	    $devices = implode(",",$selgpu);
+	    if($driver == "nvidia"){
+	        $typegpu = "nvidia=";
+	    } else {
+	        $typegpu = "amd=";
+	    }
+	    if($namedisabled != "disabled"){
+		$worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
+	        $proxywallet .= "/$worker";
+	    }
+	    $pool1 = `echo $proxypool1 | cut -d ":" -f 1`;
+	    $port1 = `echo $proxypool1 | cut -d ":" -f 2`;
+	    $pools="stratum-address=$pool1 stratum-port=$port1 stratum-login=$proxywallet stratum-password=$poolpass1 ";
+	    if($proxypool2 != "") {
+	        $pool2 = `echo $proxypool2 | cut -d ":" -f 1`;
+	        $port2 = `echo $proxypool2 | cut -d ":" -f 2`;
+	        $pools .= "stratum-address=$pool2 stratum-port=$port2 stratum-login=$proxywallet stratum-password=$poolpass2 ";
+	    }
+	    $extraflags = "ignore-config=true stratum-tls=false log-disable=true api-port=$apiport ";
+	    $config_string = $pools . $typegpu . $devices;
+	}
 	//begin miner commandline buildup
 
 	$miner_path['avermore'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.avermore -dmS avermore /opt/miners/avermore/avermore";
@@ -1106,7 +1135,7 @@ function start_miner()
 	$miner_path['teamredminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.teamredminer -l -L -dmS teamredminer /opt/miners/teamredminer/teamredminer";
 	$miner_path['ewbf-equihash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-equihash -l -L -dmS ewbf-equihash /opt/miners/ewbf-equihash/ewbf-equihash";
 	$miner_path['lolminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.lolminer -l -L -dmS lolminer /opt/miners/lolminer/lolMiner";
-		
+	$miner_path['grinpro'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.grinpro -l -L -dmS grinpro /opt/miners/grinpro/GrinProMiner";
 			
 	$start_miners = select_gpus();
 
@@ -1139,6 +1168,7 @@ function start_miner()
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
+		$miner_params['grinpro'] = $config_string;
 
 		$miner_suffix['avermore'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['dstm-zcash'] = " " . $mine_with . " " . $extraflags;
@@ -1162,6 +1192,7 @@ function start_miner()
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
 		$miner_suffix['teamredminer'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['lolminer'] = "";
+		$miner_suffix['grinpro'] = " " . $extraflags;
 		
 		$command = "su - ethos -c \"" . escapeshellcmd($miner_path[$miner] . " " . $miner_params[$miner]) . " $miner_suffix[$miner]\"";
 		$command = str_replace('\#',"#",$command);

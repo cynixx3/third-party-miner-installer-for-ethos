@@ -182,6 +182,15 @@ function get_hashrates(){
 	if ($miner == "lolminer")	{
 		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);	
 	}
+	
+	if ($miner == "grinpro") {
+	 		$grinpro_stats = array();
+ 			$raw_grinpro_stats = @json_decode(@file_get_contents("http://127.0.0.1:42000/api/workers"),TRUE);
+ 			foreach(array_keys($raw_grinpro_stats) as $i) {
+ 				$n = $raw_grinpro_stats[$i]['id'];
+ 				$grinpro_stats[$n] = $raw_grinpro_stats[$i]['graphsPerSecond'];
+ 			}
+	}
 
 	for($i = 0;$i < $instances; $i++){
 		if(preg_match("/(ccminer|nevermore)/",$miner)){
@@ -288,13 +297,8 @@ function get_hashrates(){
 		}
 
 		// Grin-miner Pro 1.1 (Dargari)
- 		if(preg_match("/grinpro/", $miner)){
- 			$grinpro_stats = array();
- 			$raw_grinpro_stats = @json_decode(@file_get_contents("http://127.0.0.1:5777/api/workers"),TRUE);
- 			foreach(array_keys($raw_grinpro_stats) as $i) {
- 				$n = $raw_grinpro_stats[$i]['id'];
- 				$grinpro_stats[$n] = $raw_grinpro_stats[$i]['graphsPerSecond'];
- 			}
+ 		if ($miner == "grinpro") {
+			$raw = floatval($grinpro_stats[$i]);
 		}
 
 		if($last_mod_secs < 300){
