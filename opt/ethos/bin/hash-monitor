@@ -193,7 +193,7 @@ function get_hashrates(){
                         } else {
                                 $rawstats[$id] = "0.00";
                         }
-                $grinpro_stats = array($id => $rawstats[$id]);
+                $grinpro_stats += array($id => $rawstats[$id]);
                 }
                 for($n = 0; $n < $instances; $n++){
                         if($grinpro_stats[$n] == null){
