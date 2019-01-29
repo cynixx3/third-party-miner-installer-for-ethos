@@ -184,12 +184,15 @@ function get_hashrates(){
 	}
 	
 	if ($miner == "grinpro") {
-	 		$grinpro_stats = array();
- 			$raw_grinpro_stats = @json_decode(@file_get_contents("http://127.0.0.1:42000/api/workers"),TRUE);
- 			foreach(array_keys($raw_grinpro_stats) as $i) {
- 				$n = $raw_grinpro_stats[$i]['id'];
- 				$grinpro_stats[$n] = $raw_grinpro_stats[$i]['graphsPerSecond'];
- 			}
+		$grinpro_stats = array();
+                $raw_grinpro_stats = @json_decode(@file_get_contents("http://127.0.0.1:42000/api/workers"),TRUE);
+                foreach(array_keys($raw_grinpro_stats) as $i) {
+                	$n = $raw_grinpro_stats[$i]['id'];
+                        $grinpro_stats[$n] = "0.00";
+                        if ($raw_grinpro_stats[$n]["gpuStatus"] != "OFFLINE") {
+                        	$grinpro_stats[$n] = $raw_grinpro_stats[$i]['graphsPerSecond'];
+                        }
+                }
 	}
 
 	for($i = 0;$i < $instances; $i++){
