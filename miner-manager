@@ -125,6 +125,7 @@ fi
     mkdir "$TMP_DIR/depends"
     for URL in "${DEPENDS[@]}" ; do
       wget "$URL" -P depends
+      sleep 5
     done
     f.CHECKDPKG
     sudo dpkg --configure -a
