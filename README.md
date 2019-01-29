@@ -41,39 +41,39 @@ source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-ins
 ```
 
 Where the miner is the branch in the repo and the actions are install, update, or revert
-IE for a full install of wildrig-multi or an update of all files run:
+IE for a full install of cast-xmr or an update of all files run:
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi install
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) cast-xmr install
 ```
 
 ### Updating
 
 The miner can be easily updated when new releases are out by just changing the action argument to "update"
-IE to only update the wildrig-multi program to the latest release run:
+IE to only update the cast-xmr program to the latest release run:
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi update
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) cast-xmr update
 ```
 
 ### UnInstalling
 
 The miner can be easily uninstalled by changing the action argument to "revert"
-IE to uninstall wildrig-multi run:
+IE to uninstall cast-xmr run:
 
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi revert
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) cast-xmr revert
 ```
 
 ## Config Sample
-Here is an example of how to add wildrig-multi to ethos. These instructions will apply to any miner simply by changing "wildrig-multi" to the miner you want.
+Here is an example of how to add cast-xmr to ethos. These instructions will apply to any miner simply by changing "cast-xmr" to the miner you want.
 
 ### Set the miner
 You can use the miner on your local config or globally on a remote config
 ```
-globalminer wildrig-multi
+globalminer cast-xmr
 ```
 OR in a remote config to set just one rig
 ```
-miner c94e13 wildrig-multi
+miner c94e13 cast-xmr
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
@@ -88,11 +88,11 @@ poolpass2 x
 ```
 OR to make it specific to this miner program in a remote config
 ```
-wildrig-multi=proxywallet walletORusername
-wildrig-multi=proxypool1 pool.com:port
-wildrig-multi=proxypool2 pool.com:port
-wildrig-multi=poolpass1 x
-wildrig-multi=poolpass2 x
+cast-xmr=proxywallet walletORusername
+cast-xmr=proxypool1 pool.com:port
+cast-xmr=proxypool2 pool.com:port
+cast-xmr=poolpass1 x
+cast-xmr=poolpass2 x
 ```
 OR to make it specific to this rig
 ```
@@ -106,7 +106,7 @@ rigpoolpass2 c94e13 x
 NOTES:
 Some miners allow you to use a single cpu thread, for these you can set
 ```
-globalminer wildrig-multi-single
+globalminer cast-xmr-single
 ```
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
 
