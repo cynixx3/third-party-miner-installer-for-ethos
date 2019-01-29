@@ -104,10 +104,7 @@ rigpoolpass2 c94e13 x
 ```
 
 NOTES:
-Some miners allow you to use a single cpu thread, for these you can set
-```
-globalminer cast-xmr-single
-```
+
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
 
 ## Development
