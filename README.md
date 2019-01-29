@@ -14,7 +14,7 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 - [AMD,NVIDIA] - [bminer](https://www.bminer.me/)
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
 - [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, run manually in /opt/miners/gringoldminer/)
-- [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - (miner only, run manually in /opt/miners/grinpro/)
+- [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - (*updated, fully integrated)
 - [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only, Beam)
 - [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0)
 - [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0)
