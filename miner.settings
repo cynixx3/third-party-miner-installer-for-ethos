@@ -1,3 +1,3 @@
 DOWNLOAD_URL="https://grinpro.io/download/GrinPro_1_1.tar.gz"
 RELEASE_SHASUM="a45c7ed2b41626ffec81c0671fcf78984d0a99d20fe59ef7457cbd0409272c27"
-HOOK_PREP_MINER="ls $TMP_DIR \| sed -in '/GrinPro/s/^.*\([0-9]\+\).\([0-9]\+\).*$/grinpro \1.\2/p' \> $TMP_DIR/opt/miners/grinpro/version.txt"
+HOOK_PREP_MINER="ls $TMP_DIR | sed -in '/GrinPro/s/^.*\([0-9]\+\).\([0-9]\+\).*$/grinpro \1.\2/p' > $TMP_DIR/opt/miners/grinpro/version.txt"
