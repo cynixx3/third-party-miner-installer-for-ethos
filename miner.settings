@@ -2,7 +2,7 @@
 # All config lines are optional and can be removed if not used
 
 # User/repo of github release repository this repository's release is the default if not defined
-GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
+GIT_USER_REPO="monkins1010/nodecore-pow-AMD-cuda-miner"
 
 # If the miner is hosted at a wget friendly site besides github releases you can set the download url
 # DOWNLOAD_URL="http://URL.tgz"
