@@ -1095,8 +1095,8 @@ function start_miner()
 	    } else {
 	        $typegpu = "amd=";
 	    }
-	    if(!preg_match("/stratum-tls=/",$flags)) {
-	        if (preg_match("/(grinmint.com|f2pool.com)/",$proxypool1)) {
+	    if(!preg_match("/stratum-tls=/", $flags)) {
+	        if(preg_match("/(grinmint.com|f2pool.com)/",$proxypool1)) {
 	            $securestratum = "stratum-tls=true";
 	        } else {
 	            $securestratum = "stratum-tls=false";
@@ -1180,7 +1180,7 @@ function start_miner()
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
-		$miner_params['grinpro'] = $config_string;
+		$miner_params['grinpro'] = $flags . " " . $config_string;
 
 		$miner_suffix['avermore'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['dstm-zcash'] = " " . $mine_with . " " . $extraflags;
