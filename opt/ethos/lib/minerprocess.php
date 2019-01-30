@@ -1084,7 +1084,7 @@ function start_miner()
 	 * GRINPRO
 	 ********************************/
 	if ($miner == "grinpro"){
-	    $apiport = select_api_port();
+        $apiport = select_api_port();
 	    $idarr = select_gpus();
 	    for ($i = 0; $i < count($idarr); $i++){
 	        $selgpu[] = "0:" . $idarr[$i];
@@ -1095,9 +1095,21 @@ function start_miner()
 	    } else {
 	        $typegpu = "amd=";
 	    }
+	    if(!preg_match("/stratum-tls=/",$flags)) {
+	        if (preg_match("/(grinmint.com|f2pool.com)/",$proxypool1)) {
+	            $securestratum = "stratum-tls=true";
+	        } else {
+	            $securestratum = "stratum-tls=false";
+	        }
+	    }
 	    if($namedisabled != "disabled"){
-		$worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
-	        $proxywallet .= "/$worker";
+	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
+	        if(preg_match("/f2pool.com/", $proxypool1)){
+	            $tworker = preg_replace("/[^a-zA-Z0-9]/", "", $worker);
+	            $proxywallet .= ".$tworker";
+	        } else  {
+	            $proxywallet .= "/$worker";
+	        }
 	    }
 	    $pool1 = `echo $proxypool1 | cut -d ":" -f 1`;
 	    $port1 = `echo $proxypool1 | cut -d ":" -f 2`;
@@ -1107,7 +1119,7 @@ function start_miner()
 	        $port2 = `echo $proxypool2 | cut -d ":" -f 2`;
 	        $pools .= "stratum-address=$pool2 stratum-port=$port2 stratum-login=$proxywallet stratum-password=$poolpass2 ";
 	    }
-	    $extraflags = "ignore-config=true stratum-tls=false log-disable=true api-port=$apiport ";
+	    $extraflags = "ignore-config=true $securestratum log-disable=true api-port=$apiport ";
 	    $config_string = $pools . $typegpu . $devices;
 	}
 	//begin miner commandline buildup
