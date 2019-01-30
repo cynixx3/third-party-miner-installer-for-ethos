@@ -118,10 +118,10 @@ nano /home/ethos/custom.sh
 ```
 Add the following line with the information you discovered, above "exit 0" (you can also start the miner with this command)
 ```
-screen -dmS miner /opt/miners/grinpro/GrinProMiner ignore-config=true stratum-address=eu-west-stratum.grinmint.com stratum-port=4416 stratum-tls=true stratum-login=logina@example.com nvidia=0 amd=0:0
+screen -dmS miner /opt/miners/grinpro/GrinProMiner ignore-config=true stratum-address=eu-west-stratum.grinmint.com stratum-port=4416 stratum-tls=true stratum-login=logina@example.com nvidia=0 amd=0:0 2>&1 /var/run/ethos/miner.output
 
 ```
-Add any miner flags just as your pool or [miner](http://paste.ethosdistro.com/emozeriyog.tex) instructs. That's all you need to do.
+The `2>&1 /var/run/ethos/miner.output` allows you to use `show miner` even in manual mode. Add any miner flags just as your pool or [miner](http://paste.ethosdistro.com/emozeriyog.tex) instructs. That's all you need to do.
 
 Screen is a linux program that runs an interactive terminal session that you can run independently, connect, and disconnect from. To connect to the miner session and interact with it use 
 ```
