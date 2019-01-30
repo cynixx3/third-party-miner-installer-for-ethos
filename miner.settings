@@ -1,4 +1,4 @@
-GIT_USER_REPO="monkins1010/nodecore-pow-AMD-cuda-miner"
+GIT_USER_REPO="VeriBlock/nodecore-pow-cuda-miner"
 
 # If the miner has dependencies then add each .deb url here
 #DEPENDS="http://URL.deb http://URL.deb"
