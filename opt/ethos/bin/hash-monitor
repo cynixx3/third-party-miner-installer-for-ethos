@@ -184,24 +184,15 @@ function get_hashrates(){
 	}
 	
 	if ($miner == "grinpro") {
-                $grinpro_stats = array();
+		$grinpro_stats = array();
                 $raw_grinpro_stats = @json_decode(@file_get_contents("http://127.0.0.1:42000/api/workers"),TRUE);
-                foreach (array_keys($raw_grinpro_stats) as $i) {
-                        $id = $raw_grinpro_stats[$i]["gpuOption"]["deviceID"];
-                        if ($raw_grinpro_stats[$i]["gpuStatus"] != "OFFLINE") {
-                                $rawstats[$id] = $raw_grinpro_stats[$i]['graphsPerSecond'];
-                        } else {
-                                $rawstats[$id] = "0.00";
-                        }
-                $grinpro_stats += array($id => $rawstats[$id]);
-                }
-                for($n = 0; $n < $instances; $n++){
-                        if($grinpro_stats[$n] == null){
-                                $grinpro_stats[$n] = "0.00";
+                foreach(array_keys($raw_grinpro_stats) as $i) {
+                	$n = $raw_grinpro_stats[$i]['id'];
+                        $grinpro_stats[$n] = "0.00";
+                        if ( !in_array($raw_grinpro_stats[$n]["gpuStatus"], array('OFFLINE','STARTING','OOM'), true ) ) {
+                        	$grinpro_stats[$n] = $raw_grinpro_stats[$i]['graphsPerSecond'];
                         }
                 }
-                ksort($grinpro_stats);
-                $gpstats = array_reverse($grinpro_stats);
 	}
 
 	for($i = 0;$i < $instances; $i++){
@@ -310,7 +301,7 @@ function get_hashrates(){
 
 		// Grin-miner Pro 1.1 (Dargari)
  		if ($miner == "grinpro") {
-			$raw = floatval($gpstats[$i]);
+			$raw = floatval($grinpro_stats[$i]);
 		}
 
 		if($last_mod_secs < 300){
