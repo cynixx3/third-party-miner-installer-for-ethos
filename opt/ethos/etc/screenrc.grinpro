@@ -1,0 +1,7 @@
+logfile /var/run/miner.output
+chdir /opt/miners/grinpro
+export GPU_MAX_WORKGROUP_SIZE=1024
+caption always
+caption string "%{= RW} $STY | %c:%s | host:%H | load:%l | Return to terminal: Ctrl-A D"
+multiuser on
+acladd root
