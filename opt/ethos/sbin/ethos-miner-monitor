@@ -25,7 +25,6 @@
 /opt/ethos/bin/check-xorg
 DRIVER=$(/opt/ethos/sbin/ethos-readconf driver)
 echo -n "" > /var/run/ethos/miner.versions
-cat /opt/miners/grin-miner/grin-miner-version.txt  >> /var/run/ethos/miner.versions
 cat /opt/miners/ccminer/ccminer-version.txt >> /var/run/ethos/miner.versions
 /opt/miners/cgminer-skein/cgminer-skein --version | awk '{print "cgminer-skein "$NF}' >> /var/run/ethos/miner.versions
 cat /opt/miners/claymore/History.txt | grep '^v' | cut -d" " -f1 | head -1 | awk '{print "claymore "$1}' >> /var/run/ethos/miner.versions
@@ -47,7 +46,8 @@ cat /opt/miners/ethminer/version.txt | awk '{print "ethminer-single "$NF}' >> /v
 cat /opt/miners/teamredminer/version.txt | awk '{print "teamredminer "$1}' >> /var/run/ethos/miner.versions
 /opt/miners/ewbf-equihash/ewbf-equihash -h | grep -Poi "(?<=miner\. )(.*)(?:\s+)" | awk '{print "ewbf-equihash "$NF}' >> /var/run/ethos/miner.versions
 /opt/miners/lolminer/lolMiner | grep -Poi "(?<=lolMiner[[:space:]])([0-9.]+)" | awk '{print "lolMiner "$1}' >> /var/run/ethos/miner.versions
-echo "bminer $(/opt/miners/bminer/bminer --help | head -n1 | grep -oP 'v[0-9]+.[0-9]+.[0-9]+')"  >> /var/run/ethos/miner.versions
+cat /opt/miners/gringoldminer/version.txt >> /var/run/ethos/miner.versions
+
 function f.autoreboot(){
 	if [ "$AUTOREBOOT" -gt "0" ]; then
 		oldnum=`cat /opt/ethos/etc/autorebooted.file`
@@ -143,21 +143,17 @@ while true; do
 	if [ -f /tmp/nfqsed.txt ]; then
 		echo "nfqsed.txt present" > /var/run/ethos/possible_intrusion_detected.file
 	fi
-	if [ "$DRIVER" != "nvidia" ]; then
-		legacy_driver=$(/opt/ethos/sbin/ethos-readconf legacy-driver)
-		if [ "$legacy_driver" = "amdgpu" ]; then
-			if [ "$(cat /run/initramfs/legacy-driver.conf)" != "amdgpu" ] && [ "$(cat /tmp/initramfs.updated)" != "amdgpu" ]; then
-				echo "amdgpu" > /opt/ethos/etc/legacy-driver.conf
-				update-initramfs -u
-				echo "amdgpu" > /tmp/initramfs.updated
-			fi
+	legacy_driver=$(/opt/ethos/sbin/ethos-readconf legacy-driver)
+	if [ "$legacy_driver" = "amdgpu" ]; then
+		if [ "$(cat /opt/ethos/etc/legacy-driver.conf)" != "amdgpu" ]; then
+			echo "amdgpu" > /opt/ethos/etc/legacy-driver.conf
+			update-initramfs -u
 		fi
-		if [ "$legacy_driver" = "fglrx" ]; then
-			if [ "$(cat /run/initramfs/legacy-driver.conf)" != "fglrx" ] && [ "$(cat /tmp/initramfs.updated)" != "fglrx" ]; then
-				echo "fglrx" > /opt/ethos/etc/legacy-driver.conf
-				update-initramfs -u
-				echo "fglrx" > /tmp/initramfs.updated
-			fi
+	fi
+	if [ "$legacy_driver" = "fglrx" ]; then
+		if [ "$(cat /opt/ethos/etc/legacy-driver.conf)" != "fglrx" ]; then
+			echo "fglrx" > /opt/ethos/etc/legacy-driver.conf
+			update-initramfs -u
 		fi
 	fi
 	nextboot=$(grep -Poi "(?<=next_entry\=)(\d+)" /boot/grub/grubenv)
@@ -178,4 +174,3 @@ while true; do
 	fi
 	sleep 3
 done
-

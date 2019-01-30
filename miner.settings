@@ -1,1 +1,3 @@
 GIT_USER_REPO="mozkomor/GrinGoldMiner"
+HOOK_PREP_MINER="echo 'gringoldminer 2.8b' > $TMP_DIR/opt/miners/grinpro/version.txt"
+
