@@ -180,9 +180,10 @@ f.INSTALL(){
     if [ "$HOOK_STUB" ] ; then $HOOK_STUB ; fi
   fi
   if [[ "$ACTION" == "install" ]] && [[ -d "$TMP_DIR/opt/ethos" ]] ; then
+    sed "/#Installed/d" -i /home/ethos/remote.conf
     echo "#Installed $MINER_BRANCH ethOS files" >> /home/ethos/remote.conf
   elif [[ "$ACTION" == "revert" ]] && [[ -d "$TMP_DIR/opt/ethos" ]] ; then
-    sed "/#Installed $MINER_BRANCH/d" -i /home/ethos/remote.conf
+    sed "/#Installed/d" -i /home/ethos/remote.conf
   fi
 
   if [ "$HOOK_INSTALL" ] ; then $HOOK_INSTALL ; fi
