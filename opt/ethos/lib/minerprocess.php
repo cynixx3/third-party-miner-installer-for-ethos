@@ -1096,7 +1096,7 @@ function start_miner()
 	        $typegpu = "amd=";
 	    }
 	    if(!preg_match("/stratum-tls=/", $flags)) {
-	        if(preg_match("/(grinmint.com|f2pool.com)/",$proxypool1)) {
+	        if(preg_match("/grinmint.com/",$proxypool1)) {
 	            $securestratum = "stratum-tls=true";
 	        } else {
 	            $securestratum = "stratum-tls=false";
