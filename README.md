@@ -154,13 +154,13 @@ If you got a new miner working using these tools or just improved an intergratio
 ~ ETH 0x42D23fC535af25babbbB0337Cf45dF8a54e43C37
 ~~~
 
-### Contributers
-* **unsivil** - *added several miners* - [unsivil](https://github.com/unsivilaudio)
+### Contributors
+* **unsivil** - *added and integrated several miners* - [unsivilaudio](https://github.com/unsivilaudio)
 * **Kahlid74** - *added cryptodredge* - [Phaelon74](https://github.com/phaelon74)
 * **virusHQ** - *ported ubqminer* - [virusHQ](https://github.com/VirusHQ/ethos-ubqminer)
 * **amnesium** - *ported grin-miner* - [amnesium](https://github.com/amnesium/grin-miner-ethos)
 * **asluchevskiy** - *ported t-rex* - [asluchevskiy](https://github.com/asluchevskiy/ethos-t-rex)
-* **Virosa** - *improved grin-miner* - [Virosa](https://github.com/Virosa)
+* **Virosa** - *improved grin-miner, added bminer* - [Virosa](https://github.com/Virosa)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
