@@ -1085,15 +1085,16 @@ function start_miner()
 	 ********************************/
 	if ($miner == "grinpro"){
         $apiport = select_api_port();
-	    $idarr = select_gpus();
-	    for ($i = 0; $i < count($idarr); $i++){
-	        $selgpu[] = "0:" . $idarr[$i];
-	    }
-	    $devices = implode(",",$selgpu);
 	    if($driver == "nvidia"){
 	        $typegpu = "nvidia=";
+	        $devices = implode(",",select_gpus());
 	    } else {
 	        $typegpu = "amd=";
+	        $idarr = select_gpus();
+	        $devices = implode(",",$selgpu);
+	        for ($i = 0; $i < count($idarr); $i++){
+	            $selgpu[] = "0:" . $idarr[$i];
+	        }
 	    }
 	    if(!preg_match("/stratum-tls=/", $flags)) {
 	        if(preg_match("/grinmint.com/",$proxypool1)) {
