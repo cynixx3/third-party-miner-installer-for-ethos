@@ -1091,10 +1091,10 @@ function start_miner()
 	    } else {
 	        $typegpu = "amd=";
 	        $idarr = select_gpus();
-	        $devices = implode(",",$selgpu);
 	        for ($i = 0; $i < count($idarr); $i++){
 	            $selgpu[] = "0:" . $idarr[$i];
 	        }
+	        $devices = implode(",",$selgpu);
 	    }
 	    if(!preg_match("/stratum-tls=/", $flags)) {
 	        if(preg_match("/grinmint.com/",$proxypool1)) {
