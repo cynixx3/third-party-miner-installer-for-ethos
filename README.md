@@ -37,29 +37,28 @@ Following these instructions will install the chosen miner and its integration f
 You need to be running ethos 1.3.3 to install a miner with this script.
 
 ### Installing the miners
-Or you can skip installing the manager and just run the script from the github repo in which case the command would look like
-```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action
-```
-Where the miner is the branch in the repo and the actions are install, update, or revert
-IE for a full install of phoenixminer or an update of all files run:
-```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) phoenixminer install
-```
+This script was designed for ease of use. You can run a single command to install, update, or remove any miner on this repo and any dependencies with it.
+
+[Below](#installing-the-miner-manager-optional) are instructions to install the miner-manager its-self if you think you will use it often, or you can skip installing the manager and just run the script from the github repo in which case the command would look like **NON WORKING EXAMPLE**
+
+`source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action`
+
+**NOTICE: YOU SET THE LAST TWO WORDS** to what you want to do. Where the miner is the name of the miner branch in this repo and the actions are install, update, or revert
+IE for a full **install of phoenixminer example** or an update of all files run:
+
+`source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) phoenixminer install`
 
 ### Updating
 The miner can be easily updated when new releases are out by just changing the action argument to "update"
-IE to only update the energiminer program to the latest release run:
-```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) energiminer update
-```
+IE to only **update the energiminer example** program to the latest release run:
+
+`source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) energiminer update`
 
 ### UnInstalling
 The miner can be easily uninstalled by changing the action argument to "revert"
-IE to uninstall wildrig-multi run:
-```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi revert
-```
+IE to **uninstall wildrig-multi example** run:
+
+`source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi revert`
 
 ## ethOS Config Sample
 Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "ubqminer" to the miner you want.
@@ -131,14 +130,12 @@ screen -x
 To disconnect from a screen session without killing the miner use the key combination `ctrl+a d` where you press ctrl and a a the same time, release, then press d. Using the ctrl+c key combination will kill the miner, not the screen session and create an interesting situation where rebooting is the easiest fix (alternative is `ctrl+a k y`, checking for live sessions with `screen -ls` and killing them if found, then restarting the miner with the `screen -dmS ...` command above.)
 
 ### Installing the miner-manager (optional)
-This script was designed for ease of use. You can run a single command to install, update, or remove any miner on this repo and any dependencies with it.
-
-If you plan to use this often you can download the miner-manager script, give it execute permissions. 
+If you plan to use this often you can download the miner-manager script, give it execute permissions. To install simply copy paste the command:
 ```
 sudo wget https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager -O /usr/bin/miner-manager
 sudo chmod +x /usr/bin/miner-manager
 ```
-and use it with `miner-manager miner action` To update just repeat the first command.
+and use it with `miner-manager miner action` To update the manager script just repeat the first command.
 
 ## Development
 If you are a developer please check the [developers](https://github.com/cynixx3/third-party-miner-installer-for-ethos/blob/master/DEVELOPERS.md) guide for information on how to add your miner to ethos and / or this repo.
