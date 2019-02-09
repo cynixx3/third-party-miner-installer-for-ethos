@@ -1105,7 +1105,7 @@ function start_miner()
 	    }
 	    if($namedisabled != "disabled"){
 	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
-	        if(preg_match("/f2pool.com/", $proxypool1)){
+	        if(preg_match("/(f2pool.com|nanopool.org)/", $proxypool1)){
 	            $tworker = preg_replace("/[^a-zA-Z0-9]/", "", $worker);
 	            $proxywallet .= ".$tworker";
 	        } else  {
