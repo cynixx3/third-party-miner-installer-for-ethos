@@ -91,13 +91,15 @@ f.CHECKDPKG(){
 
 # Get Replacement ethos files that enable miner operation and install miner specific dependencies
 f.PREPETHOS(){
-if [ "${VER//./}" -ne 133 ] ; then
-  echo "Unable to install due to current ethOS version, try \"update\" instead to install just the miner or update ethOS."
-  exit 14
-fi
+  if [ "${VER//./}" -ne 133 ] ; then
+    echo "Unable to install due to current ethOS version, try \"update\" instead to install just the miner or update ethOS."
+    exit 14
+  fi
   echo "Download and unpack files needed by ethOS"
-#todo add ethos version checking
-  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b "$MINER_BRANCH"
+  if ! git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b "$MINER_BRANCH" ; then
+    echo "git clone download failed. Please check your firewall or git access and try again."
+    exit 15
+  fi 
 
   if [ -f "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/$MINER_BRANCH.stub.conf" ] ; then
     mkdir -p "$TMP_DIR/home/ethos/"
@@ -140,11 +142,14 @@ fi
 
 # Gather stock ethOS files in temporary opt/ and install stock packages
 f.REVERT(){
-if [ "${VER//./}" -lt 132 ] ; then
-  echo "Unable to revert, stock files are not ready for your miner version. Please try \`sudo ethos-update reupdate\`"
-  exit 14
-fi
-  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos
+  if [ "${VER//./}" -lt 132 ] ; then
+    echo "Unable to revert, stock files are not ready for your miner version. Please try \`sudo ethos-update reupdate\`"
+    exit 16
+  fi
+  if ! git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos ; then
+    echo "git clone download failed. Please check your firewall or git access and try again."
+    exit 17
+  fi 
   mkdir -p "$TMP_DIR/opt/ethos"
   rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos-$VER/" "$TMP_DIR/opt/ethos"
   chmod 775 "$TMP_DIR"/opt/ethos/bin/* "$TMP_DIR"/opt/ethos/sbin/* 
