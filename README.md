@@ -137,6 +137,16 @@ sudo chmod +x /usr/bin/miner-manager
 ```
 and use it with `miner-manager miner action` To update the manager script just repeat the first command.
 
+### Farms
+You are limited to installing 30 miners an hour as this script makes 2 API querries per install. With authenticated requests you get enough to install on 2,500 miners per hour per user.
+
+See [GitHub API Documentation](https://developer.github.com/v3/#rate-limiting) for more information.
+
+To authenticate, simply either use a file (/home/ethos/.gituser) or use the variables after installing the manager. These environmental variables are currently:
+
+- GITHUB_USERNAME
+- GITHUB_PASSWORD
+
 ## Development
 If you are a developer please check the [developers](https://github.com/cynixx3/third-party-miner-installer-for-ethos/blob/master/DEVELOPERS.md) guide for information on how to add your miner to ethos and / or this repo.
 
