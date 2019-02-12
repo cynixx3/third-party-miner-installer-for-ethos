@@ -9,17 +9,34 @@ CMD="$0"
 ACTION="$2"
 ALLOW="$(cat /opt/ethos/etc/allow.file)"
 
+# Github limits public api requests to 60 per hour, this script does 2 calls per install maxing out at 30 miner installs per hour
+# by adding a github user and password you can install up to 2,500 miners per hour
+# Either install the miner-manager and add a github.com user / pass here
+# or add the two lines to a file /home/ethos/.netrc and you can continue to use the source command or via install. 
+#GITHUB_USERNAME="GitUser"
+#GITHUB_PASSWORD="GitPassword
+
 # Default miner.settings
 TMP_DIR="/tmp/newminer"
 GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 #RELEASE_SHASUM="sha256sum of archive"
 #DEPENDS="URL URL"
 
+# Assemble API user login
+if [ -f /home/ethos/.netrc ] ; then
+  source <(grep ^GITHUB_.*=".*"$ /home/ethos/.netrc)
+fi
+if [ "$GITHUB_PASSWORD" ] ; then 
+  GIT_LOGIN="--user $GITHUB_USERNAME:$GITHUB_PASSWORD"
+elif [ "$GITHUB_USERNAME" ] ; then
+  GIT_LOGIN="--user $GITHUB_USERNAME"
+fi
+
 # Get miner files and setup temporary opt/
 f.PREPMINER(){
   echo "Getting latest release of miner"
   if [ -z "$DOWNLOAD_URL" ] ; then 
-    DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
+    DOWNLOAD_URL=$(curl "$GIT_LOGIN" -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
     | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
     | grep -vE '(osx|txt)' \
@@ -214,7 +231,7 @@ Usage $CMD [ Miner ] ( install | update | revert )
 Miners Available:
 ${AVAILABLE_MINERS[@]}" | sed -E 's/ +"name": "([a-z0-9\-]+?)", ?/ \1\n/g'
 }
-mapfile -t AVAILABLE_MINERS < <(curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | grep -Ev '(ethos|master)')
+mapfile -t AVAILABLE_MINERS < <(curl "$GIT_LOGIN" -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | grep -Ev '(ethos|master)')
 
 # TODO add logging
 if [ "$#" -ne "2" ] ; then
@@ -226,7 +243,7 @@ elif ! [[ "${AVAILABLE_MINERS[@]}" == *"\"$MINER_BRANCH\""* ]] ; then
 fi
 
 # Get miner settings
-source <(curl -s "https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings")
+source <(curl "$GIT_LOGIN" -s "https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings")
 
 if [ -d "$TMP_DIR" ] ; then rm -rf "$TMP_DIR" ; fi
 echo "Move to a temporary work space"
