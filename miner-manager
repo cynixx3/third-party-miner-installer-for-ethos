@@ -23,8 +23,8 @@ GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 #DEPENDS="URL URL"
 
 # Assemble API user login
-if [ -f /home/ethos/.netrc ] ; then
-  source <(grep ^GITHUB_.*=".*"$ /home/ethos/.netrc)
+if [ -f /home/ethos/.gituser ] ; then
+  source <(grep ^GITHUB_.*=".*"$ /home/ethos/.gituser)
 fi
 if [ "$GITHUB_PASSWORD" ] ; then 
   GIT_LOGIN="--user $GITHUB_USERNAME:$GITHUB_PASSWORD"
