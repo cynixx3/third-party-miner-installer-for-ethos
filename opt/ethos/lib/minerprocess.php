@@ -1122,11 +1122,11 @@ function start_miner()
 	                if(!preg_match("/-pers/",$flags)){
 	                    $flags .= " -pers auto";
 	                }
-	                break;
-	            default:
-	                $stratum = "cuckaroo29";
+	                break;	                
 	        }
 	        $flags = str_replace("--stratum " . $coinstratum, "", $flags);
+	    } else {
+	        $stratum = "cuckaroo29";
 	    }
 	    if(preg_match("/(--secure(\s).*)/", $flags, $secure_matches)){
 	        $secure = explode(" ", $secure_matches[0]);
