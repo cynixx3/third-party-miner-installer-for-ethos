@@ -103,6 +103,21 @@ rigpool2 c94e13 pool.com:port
 rigpoolpass1 c94e13 x
 rigpoolpass2 c94e13 x
 ```
+~IMPORTANT~
+You now can specify what algo you want to mine, using CUSTOM flags -- e.g. `bminer=flags --stratum eth` will mine ethash-daggermoto.
+Full list of stratum types below;
+
+```
+eth/ethash/ethereum -- ethash-daggermoto algorithms
+c29/cuckaroo29 -- Grin c29 algorithm *DEFAULT*
+c31/cuckatoo31 -- Grin c31 algorithm
+aeternity -- Aeternity (cuckoo) algorithm, similar to c29
+equihash1445 -- for mining equihash 144/5, you may specify your "-pers BitcoinZ" in your flags or leave it as auto (default)
+beam -- for mining equihash 150/5 Beam coin
+zhash -- for mining equihash 144.5 Bitcoin Gold specific, no personalization string needed
+```
+
+If you would like to use an SSL connection your would specify it in your flags like `--secure true`
 
 NOTES:
 Some miners allow you to use a single cpu thread, for these you can set

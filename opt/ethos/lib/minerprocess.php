@@ -264,15 +264,6 @@ $pool_syntax = array(
     "http"=>"%s",
     ""=>"%s"
   ),
-  "grin-miner"=>array(
-    "ssl"=>"%s",
-    "stratum+tcp"=>"%s",
-    "http"=>"%s",
-    ""=>"%s"
-  ),
-  "bminer"=>array(
-    ""=>"%s"
-  ),
   "default"=>array(
     "ssl"=>"ssl://%s",
     "stratum+tcp"=>"stratum+tcp://%s",
@@ -289,25 +280,18 @@ function setup_pools($miner)
 
   switch($miner_syntax) {
   	case "lolminer":
-	  case "xmr-stak":
-	  case "xtl-stak":
-	  case "ewbf-equihash":
-      $miner_syntax = "ewbf-zcash";
-      break;
-
+	case "xmr-stak":
+	case "xtl-stak":
+	case "ewbf-equihash":
+        $miner_syntax = "ewbf-zcash";
+        break;
+      
+	case "bminer":
     case "ethminer-single":
     case "progpowminer":
     case "progpowminer-single";
     	$miner_syntax = "ethminer";
     	break;
-
-    case "grin-miner":
-		$miner_syntax = "grin-miner";
-		break;
-
-	case "bminer":
-		$miner_syntax = "bminer";
-		break;
 	}
 
   $profile = ((isset($pool_syntax[$miner_syntax])) ? $miner_syntax : "default");
@@ -662,62 +646,6 @@ function start_miner()
 		}
 		
 		$config_string = "$config_string $pools $api_config $mine_with";
-	}
-
-		/*******************************
-        *  bminer
-        ********************************/
-	if (preg_match("/bminer/",$miner)){	
-		$maxtemp = trim(shell_exec("/opt/ethos/sbin/ethos-readconf maxtemp"));
-		if ($maxtemp == "") {
-			$maxtemp = "85";
-		}
-		// $config_string = file_get_contents("/home/ethos/grin-miner.stub.conf");
-		$config_string = "-uri cuckaroo29://LOGIN%2FWORKER:PASSWORD1@POOL1 ";
-
-		$_loc = trim(`/opt/ethos/sbin/ethos-readconf loc`);
-		if (strlen($_loc) > 0){
-			$config_string = str_replace("WORKER", $_loc, $config_string);
-		}
-		else{
-			$config_string = str_replace("WORKER", trim(`/opt/ethos/sbin/ethos-readconf worker`),$config_string);
-		}
-
-		$_selectedgpus = trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`);
-		if($_selectedgpus != ""){
-			$mine_with = "-devices " . $_selectedgpus;
-		}
-
-		$config_string = str_replace("POOL1",$proxypool1,$config_string);
-#		$config_string = str_replace("POOL2",$proxypool2,$config_string);
-		$config_string = str_replace("LOGIN",$proxywallet,$config_string);
-		$config_string = str_replace("PASSWORD1",$poolpass1,$config_string);
-#		$config_string = str_replace("PASSWORD2",$poolpass2,$config_string);
-	}
-
-        /*******************************
-        *  Grin miner
-        ********************************/
-	if (preg_match("/grin-miner/",$miner)){	
-		$maxtemp = trim(shell_exec("/opt/ethos/sbin/ethos-readconf maxtemp"));
-		if ($maxtemp == "") {
-			$maxtemp = "85";
-		}
-		$config_string = file_get_contents("/home/ethos/grin-miner.stub.conf");
-
-		$_loc = trim(`/opt/ethos/sbin/ethos-readconf loc`);
-		if (strlen($_loc) > 0){
-			$config_string = str_replace("WORKER", $_loc, $config_string);
-		}
-		else{
-			$config_string = str_replace("WORKER", trim(`/opt/ethos/sbin/ethos-readconf worker`),$config_string);
-		}
-		$config_string = str_replace("POOL1",$proxypool1,$config_string);
-#		$config_string = str_replace("POOL2",$proxypool2,$config_string);
-		$config_string = str_replace("LOGIN",$proxywallet,$config_string);
-		$config_string = str_replace("PASSWORD1",$poolpass1,$config_string);
-#		$config_string = str_replace("PASSWORD2",$poolpass2,$config_string);
-		// file_put_contents("/var/run/ethos/grin-miner.toml",$config_string);
 	}
 
 	/*******************************
@@ -1142,7 +1070,75 @@ function start_miner()
 		$flags = "-profile=ETHOS -usercfg=".$lolconfig_path." ".$flags;
 
 	}
-
+	
+	
+	/*******************************
+	 *  BMINER
+	 ********************************/
+	if($miner == "bminer"){
+	    $devices = implode(",",select_gpus());
+	    if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != ""){
+	        $mine_with = "-devices $devices";
+	    }
+	    if($namedisabled != "disabled"){
+	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
+	        $proxywallet .= "%2F" . $worker;
+	    }
+	    if(preg_match("/(--stratum(\s+).*)/", $flags, $stratum_matches)){
+	        $coin = explode(" ", $stratum_matches[0]);
+	        $coinstratum = $coin[1];
+	        switch($coinstratum){
+	            case "eth":
+	            case "ethash":
+	            case "ethereum":
+	                if($stratumtype == "miner"){
+	                    $stratum = "ethash";
+	                } elseif($stratumtype == "coinotron"){
+	                    $stratum = "ethstratum";
+	                } else {
+	                    $stratum = "ethproxy";
+	                }
+	                break;
+	            case "c31":
+	            case "cuckatoo31":
+	                $stratum = "cuckatoo31";
+	                break;
+	            case "c29":
+	            case "cuckaroo29":
+	                $stratum = "cuckaroo29";
+	                break;
+	            case "aeternity":
+	                $stratum = "aeternity";
+	                break;
+	            case "zhash":
+	                $stratum = "zhash";
+	                break;
+	            case "bytom":
+	            case "tensority":
+	                $stratum = "tensority";
+	                break;
+	            case "equihash1445":
+	                $stratum = "equihash1445";
+	                if(!preg_match("/-pers/",$flags)){
+	                    $flags .= " -pers auto";
+	                }
+	                break;
+	            default:
+	                $stratum = "cuckaroo29";
+	        }
+	        $flags = str_replace("--stratum " . $coinstratum, "", $flags);
+	    }
+	    if(preg_match("/(--secure(\s).*)/", $flags, $secure_matches)){
+	        $secure = explode(" ", $secure_matches[0]);
+	        $ssl = $secure[1];
+	        if($ssl == "true"){
+	            $stratum .= "+ssl";
+	        }
+	        $flags = str_replace("--secure " . $ssl, "", $flags);
+	    }
+	    $config_string = "-uri " . $stratum . "://" . $proxywallet . ":" . $poolpass1 . "@" . $proxypool1;
+	}
+	
 	//begin miner commandline buildup
 
 	$miner_path['avermore'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.avermore -dmS avermore /opt/miners/avermore/avermore";
@@ -1203,7 +1199,6 @@ function start_miner()
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
-		$miner_params['grin-miner'] = "";
 		$miner_params['bminer'] = $config_string ." ". $mine_with;
 
 		$miner_suffix['avermore'] = " " . $mine_with . " " . $extraflags;
@@ -1228,7 +1223,6 @@ function start_miner()
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
 		$miner_suffix['teamredminer'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['lolminer'] = "";
-		$miner_suffix['grin-miner'] = "";
 		$miner_suffix['bminer'] = "";
 		
 		$command = "su - ethos -c \"" . escapeshellcmd($miner_path[$miner] . " " . $miner_params[$miner]) . " $miner_suffix[$miner]\"";
