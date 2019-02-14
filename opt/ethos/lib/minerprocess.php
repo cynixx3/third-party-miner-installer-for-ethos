@@ -1082,7 +1082,11 @@ function start_miner()
 	    }
 	    if($namedisabled != "disabled"){
 	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
-	        $proxywallet .= "%2F" . $worker;
+	        if(preg_match("/grinmint.com/",$proxypool1)){
+	           $proxywallet .= "%2F" . $worker;
+	        } else {
+	           $proxywallet .= "." . $worker;
+	        }
 	    }
 	    if(preg_match("/(--stratum(\s+).*)/", $flags, $stratum_matches)){
 	        $coin = explode(" ", $stratum_matches[0]);
