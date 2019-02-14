@@ -199,7 +199,7 @@ f.REVERT(){
 f.INSTALL(){
   echo "Stopping the miner"
   /opt/ethos/bin/disallow
-  MPID="$(ps uax | grep -E "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|lolminer|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|$MINER_BRANCH" | grep -Ev '(curl|update-miner|miner-manager|develop|grep)' | awk '{print $2}' )"
+  MPID="$(ps uax | grep -E "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|lolminer|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|$MINER_BRANCH" | grep -Ev '(bash|source|curl|update-miner|miner-manager|develop|grep)' | awk '{print $2}' )"
   if [ "$MPID" ] ; then sudo kill -9 $MPID ; fi
   
   echo "Installing miner"
