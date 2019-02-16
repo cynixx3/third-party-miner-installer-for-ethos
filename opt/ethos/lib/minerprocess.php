@@ -1080,14 +1080,6 @@ function start_miner()
 	    if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != ""){
 	        $mine_with = "-devices $devices";
 	    }
-	    if($namedisabled != "disabled"){
-	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
-	        if(preg_match("/grinmint.com/",$proxypool1)){
-	           $proxywallet .= "%2F" . $worker;
-	        } else {
-	           $proxywallet .= "." . $worker;
-	        }
-	    }
 	    if(preg_match("/(--stratum(\s+).*)/", $flags, $stratum_matches)){
 	        $coin = explode(" ", $stratum_matches[0]);
 	        $coinstratum = $coin[1];
@@ -1131,6 +1123,14 @@ function start_miner()
 	        $flags = str_replace("--stratum " . $coinstratum, "", $flags);
 	    } else {
 	        $stratum = "cuckaroo29";
+	    }
+	    if($namedisabled != "disabled"){
+	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
+	        if((preg_match("/(sparkpool.com|f2pool.com|grinmint.com)/") && (preg_match("/(cuckaroo29|cuckatoo31)/", $stratum)))) {
+	            $proxywallet .= "%2F" . $worker;
+	        } else {
+	            $proxywallet .= "." . $worker;
+	        }
 	    }
 	    if(preg_match("/(--secure(\s).*)/", $flags, $secure_matches)){
 	        $secure = explode(" ", $secure_matches[0]);
