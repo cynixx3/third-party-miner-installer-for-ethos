@@ -1126,7 +1126,7 @@ function start_miner()
 	    }
 	    if($namedisabled != "disabled"){
 	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
-	        if((preg_match("/(sparkpool.com|f2pool.com|grinmint.com)/",$proxypool1) && (preg_match("/(cuckaroo29|cuckatoo31)/", $stratum)))) {
+	        if((preg_match("/(sparkpool.com|f2pool.com|grinmint.com)/",$proxypool1)) && (preg_match("/(cuckaroo29|cuckatoo31)/", $stratum))) {
 	            $proxywallet .= "%2F" . $worker;
 	        } else {
 	            $proxywallet .= "." . $worker;
