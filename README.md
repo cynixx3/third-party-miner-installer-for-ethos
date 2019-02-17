@@ -41,39 +41,39 @@ source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-ins
 ```
 
 Where the miner is the branch in the repo and the actions are install, update, or revert
-IE for a full install of xmrig-amd or an update of all files run:
+IE for a full install of xcash-amd or an update of all files run:
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmrig-amd install
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xcash-amd install
 ```
 
 ### Updating
 
 The miner can be easily updated when new releases are out by just changing the action argument to "update"
-IE to only update the xmrig-amd program to the latest release run:
+IE to only update the xcash-amd program to the latest release run:
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmrig-amd update
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xcash-amd update
 ```
 
 ### UnInstalling
 
 The miner can be easily uninstalled by changing the action argument to "revert"
-IE to uninstall xmrig-amd run:
+IE to uninstall xcash-amd run:
 
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmrig-amd revert
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xcash-amd revert
 ```
 
 ## Config Sample
-Here is an example of how to add xmrig-amd to ethos. These instructions will apply to any miner simply by changing "xmrig-amd" to the miner you want.
+Here is an example of how to add xcash-amd to ethos. These instructions will apply to any miner simply by changing "xcash-amd" to the miner you want.
 
 ### Set the miner
 You can use the miner on your local config or globally on a remote config
 ```
-globalminer xmrig-amd
+globalminer xcash-amd
 ```
 OR in a remote config to set just one rig
 ```
-miner c94e13 xmrig-amd
+miner c94e13 xcash-amd
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
@@ -88,11 +88,11 @@ poolpass2 x
 ```
 OR to make it specific to this miner program in a remote config
 ```
-xmrig-amd=proxywallet walletORusername
-xmrig-amd=proxypool1 pool.com:port
-xmrig-amd=proxypool2 pool.com:port
-xmrig-amd=poolpass1 x
-xmrig-amd=poolpass2 x
+xcash-amd=proxywallet walletORusername
+xcash-amd=proxypool1 pool.com:port
+xcash-amd=proxypool2 pool.com:port
+xcash-amd=poolpass1 x
+xcash-amd=poolpass2 x
 ```
 OR to make it specific to this rig
 ```
@@ -106,7 +106,7 @@ rigpoolpass2 c94e13 x
 NOTES:
 Some miners allow you to use a single cpu thread, for these you can set
 ```
-globalminer xmrig-amd-single
+globalminer xcash-amd-single
 ```
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
 
