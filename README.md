@@ -2,26 +2,26 @@
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
 ### List of currently supported miners [click name to get miner specific information]
-- [AMD] - [cast-xmr](https://github.com/glph3k/cast_xmr)
-- [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5027811.0)
-- [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) 
-- [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0)
-- [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0)
-- [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - (AMD limited to a single GPU)
-- [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - (miner only, run manually in /opt/miners/nbminer/)
-- [NVIDIA] - [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) - (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
-- [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0)
-- [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner/) - (miner only, run manually in /opt/miners/zilminer/)
-- [AMD,NVIDIA] - [bminer](https://www.bminer.me/)
-- [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
-- [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, run manually in /opt/miners/gringoldminer/)
-- [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - (*updated, fully integrated)
-- [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only, Beam)
-- [AMD,NVIDIA] - [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) - (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
-- [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0)
-- [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0)
-- [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - hashrate reporting fix for multiple threads
-- [AMD,CPU,NVIDIA] - [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner)
+- [AMD] - [cast-xmr](https://github.com/glph3k/cast_xmr) - Hard Linked v1.7
+- [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5027811.0) - Latest
+- [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) - Latest
+- [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) - Latest
+- [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) - Latest
+- [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - Latest (AMD limited to a single GPU)
+- [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - Latest (miner only, run manually in /opt/miners/nbminer/)
+- [NVIDIA] - [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) - Latest (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
+- [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) - Latest
+- [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner/) - Latest (miner only, run manually in /opt/miners/zilminer/)
+- [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - Hard Linked v15
+- [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) - Custom Compiled v2.2.1
+- [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - Latest (miner only, run manually in /opt/miners/gringoldminer/)
+- [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - Hard Linked v1.1
+- [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - Latest > 0.7a (equihash 150/5 only, Beam)
+- [AMD,NVIDIA] - [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) - Custom Compiled v2.0a (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
+- [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) - Hard Linked v4.1c
+- [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) - Latest
+- [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - Custom Compiled v2.8.3 - hashrate reporting fix for multiple threads
+- [AMD,CPU,NVIDIA] - [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) - Latest
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
