@@ -183,7 +183,7 @@ function get_hashrates(){
 		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);	
 	}
 	
-	if(preg_match("/(xmr|xtl)-stak/",$miner)){
+	if(preg_match("/(xcash-all|xmr-stak|xtl-stak)/",$miner)){
 	        $driver = trim(`ethos-readconf driver`);
 	        if($driver == "nvidia"){
 	                $platform = "--nvidia";
@@ -287,7 +287,7 @@ function get_hashrates(){
 			}
 		}
 
-		if(preg_match("/(xmr|xtl)-stak/",$miner)){
+		if(preg_match("/(xcash-all|xmr-stak|xtl-stak)/",$miner)){
 			$raw = floatval($xmrstakstats[$i]);
 		}
 

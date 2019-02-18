@@ -926,7 +926,7 @@ function start_miner()
 	/*******************************
 	* XMR-STAK/XTL-STAK
 	********************************/
-	if (preg_match("/(xmr|xtl)-stak/",$miner)) {
+	if (preg_match("/(xcash-all|xmr-stak|xtl-stak)/",$miner)) {
 	    /*
 	     $devices = implode(",",select_gpus());
 	     if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`)){
@@ -1112,6 +1112,7 @@ function start_miner()
 	$miner_path['wolf-xmr-cpu'] = "/opt/miners/wolf-xmr-cpu/wolf-xmr-cpu";
 	$miner_path['xmr-stak'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.xmr-stak -l -L -dmS xmr-stak /opt/miners/xmr-stak/xmr-stak";
 	$miner_path['xtl-stak'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.xtl-stak -l -L -dmS xtl-stak /opt/miners/xtl-stak/xtl-stak";
+	$miner_path['xcash-all'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.xcash-all -l -L -dmS xtl-stak /opt/miners/xcash-all/XCASH_ALL_Miner";
 	$miner_path['teamredminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.teamredminer -l -L -dmS teamredminer /opt/miners/teamredminer/teamredminer";
 	$miner_path['ewbf-equihash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-equihash -l -L -dmS ewbf-equihash /opt/miners/ewbf-equihash/ewbf-equihash";
 	$miner_path['lolminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.lolminer -l -L -dmS lolminer /opt/miners/lolminer/lolMiner";
@@ -1145,6 +1146,7 @@ function start_miner()
 		$miner_params['wolf-xmr-cpu'] = "-o $proxypool1 -p $poolpass1 -u $proxywallet$worker -t $threads";
 		$miner_params['xmr-stak'] = $flags ." ". $config_string ." ". $pools;
 		$miner_params['xtl-stak'] = $flags ." ". $config_string ." ". $pools;
+		$miner_params['xcash-all'] = $flags ." ". $config_string ." ". $pools;
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
@@ -1169,6 +1171,7 @@ function start_miner()
 		$miner_suffix['wolf-xmr-cpu'] = " 2>&1 | /usr/bin/tee -a /var/run/miner.output &";
 		$miner_suffix['xmr-stak'] = " " . $extraflags;
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
+		$miner_suffix['xcash-all'] = " " . $extraflags;
 		$miner_suffix['teamredminer'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['lolminer'] = "";
 		
