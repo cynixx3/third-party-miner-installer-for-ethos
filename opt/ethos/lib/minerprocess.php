@@ -1109,10 +1109,10 @@ function start_miner()
 	        // only worker.wallet when name enabled
 	        if($namedisabled != true) { $proxywallet .= ".$worker";}
 	        
-	        $pools="-o $proxypool1 -u $proxywallet -p $poolpass1 --variant $variant";
+	        $pools="--url $proxypool1 --user $proxywallet --pass $poolpass1";
 	        
 	        if($proxypool2 != "") {
-	            $pools .= " -o $proxypool2 -u $proxywallet -p $poolpass2 --variant $variant ";
+	            $pools .= " --url $proxypool2 --user $proxywallet --pass $poolpass2 ";
 	        }
 	        
 	}
