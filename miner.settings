@@ -1,4 +1,4 @@
 # Get it from https://github.com/glph3k/cast_xmr/releases
-#GIT_USER_REPO="glph3k/cast_xmr"
-DOWNLOAD_URL="https://github.com/unsivilaudio/third-party-miner-installer-for-ethos/releases/download/1.7.0/cast-xmr-vega-ubuntu_170.tar.gz"
-RELEASE_SHASUM="a1d18a86c99411249c451eaabb36f096dbee91677b931b23de354c7e13c9aeb3"
+GIT_USER_REPO="glph3k/cast_xmr"
+#DOWNLOAD_URL="https://github.com/unsivilaudio/third-party-miner-installer-for-ethos/releases/download/1.7.0/cast-xmr-vega-ubuntu_170.tar.gz"
+#RELEASE_SHASUM="a1d18a86c99411249c451eaabb36f096dbee91677b931b23de354c7e13c9aeb3"
