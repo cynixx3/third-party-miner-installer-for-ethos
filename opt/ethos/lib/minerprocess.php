@@ -285,7 +285,7 @@ function setup_pools($miner)
 	  case "ewbf-equihash":
       $miner_syntax = "ewbf-zcash";
       break;
-
+	case "xcash-amd";
     case "ethminer-single":
     case "progpowminer":
     case "progpowminer-single";	  
