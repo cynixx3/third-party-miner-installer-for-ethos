@@ -1078,7 +1078,7 @@ function start_miner()
 	if($miner == "bminer"){
 	    $devices = implode(",",select_gpus());
 	    if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != ""){
-	        $mine_with = "-devices $devices";
+	        $mine_with = "-devices " . preg_replace(" ", ",", $devices);
 	    }
 	    if(preg_match("/(--stratum(\s+).*)/", $flags, $stratum_matches)){
 	        $coin = explode(" ", $stratum_matches[0]);
