@@ -1,6 +1,6 @@
 logfile /var/run/miner.output
-chdir /opt/miners/xmrig-amd
-setenv LD_LIBRARY_PATH /opt/miners/xmrig-amd
+chdir /opt/miners/xcash-amd
+setenv LD_LIBRARY_PATH /opt/miners/xcash-amd
 caption always
 caption string "%{= RW} $STY | %c:%s | host:%H | load:%l | Return to terminal: Ctrl-A D"
 multiuser on

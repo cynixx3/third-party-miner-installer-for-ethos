@@ -183,7 +183,7 @@ function get_hashrates(){
 		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);	
 	}
 	
-	if ($miner == "xmrig-amd") {
+	if ($miner == "xcash-amd") {
                 $xmrigstats = array();
                 $raw_xmrig = @json_decode(@file_get_contents("http://127.0.0.1:42000/1/threads"), TRUE);
 
@@ -299,7 +299,7 @@ function get_hashrates(){
 			$raw = floatval($raw_lolstats["GPU$i"]["Speed(60s)"]);
 		}
 		
-		if ($miner == "xmrig-amd") {
+		if ($miner == "xcash-amd") {
                         $raw = floatval($xmrigstats[$i]);
 		}
 
