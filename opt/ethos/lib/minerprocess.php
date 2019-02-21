@@ -1085,7 +1085,7 @@ function start_miner()
 	$miner_path['claymore-xmr'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.claymore-xmr -l -L -dmS claymore-xmr /opt/miners/claymore-xmr/claymore-xmr";
 	$miner_path['claymore-zcash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.claymore-zcash -l -L -dmS claymore-zcash /opt/miners/claymore-zcash/claymore-zcash";
 	$miner_path['claymore-legacy'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.claymore-legacy -l -L -dmS claymore-legacy /opt/miners/claymore-legacy/claymore-legacy";
-	$miner_path['cryptodredge'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.cryptodredge -l -L -dmS cryptodredge /opt/miners/cryptodredge/cryptodredge";
+	$miner_path['cryptodredge'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.cryptodredge -l -L -dmS cryptodredge /opt/miners/cryptodredge/CryptoDredge";
 	$miner_path['ethminer'] = "/opt/miners/ethminer/ethminer";
 	$miner_path['ethminer-single'] = "/opt/miners/ethminer/ethminer-single";
 	$miner_path['ewbf-zcash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-zcash -l -L -dmS ewbf-zcash /opt/miners/ewbf-zcash/ewbf-zcash";
