@@ -17,6 +17,7 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) - Custom Compiled v2.2.1
 - [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - Latest (miner only, run manually in /opt/miners/gringoldminer/)
 - [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - Hard Linked v1.2
+- [AMD,NVIDIA] - [gminer](https://github.com/develsoftware/GMinerRelease) - Latest
 - [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - Latest > 0.7a (equihash 150/5 only, Beam)
 - [AMD,NVIDIA] - [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) - Custom Compiled v2.0a (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
 - [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) - Hard Linked v4.1c
@@ -46,33 +47,33 @@ This script was designed for ease of use. You can run a single command to instal
 `bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action`
 
 **NOTICE: YOU SET THE LAST TWO WORDS** to what you want to do. Where the miner is the name of the miner branch in this repo and the actions are install, update, or revert
-IE for a full **install of phoenixminer example** or an update of all files run:
+IE for a full **install of gminer example** or an update of all files run:
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) phoenixminer install`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) gminer install`
 
 ### Updating
 The miner can be easily updated when new releases are out by just changing the action argument to "update"
-IE to only **update the energiminer example** program to the latest release run:
+IE to only **update the gminer example** program to the latest release run:
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) energiminer update`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) gminer update`
 
 ### UnInstalling
 The miner can be easily uninstalled by changing the action argument to "revert"
-IE to **uninstall wildrig-multi example** run:
+IE to **uninstall gminer example** run:
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi revert`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) gminer revert`
 
 ## ethOS Config Sample
-Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "ubqminer" to the miner you want.
+Here is an example of how to add gminer to ethos. These instructions will apply to any miner simply by changing "gminer" to the miner you want.
 
 ### Set the miner
 You can use the miner on your local config or globally on a remote config
 ```
-globalminer ubqminer
+globalminer gminer
 ```
 OR in a remote config to set just one rig
 ```
-miner c94e13 ubqminer
+miner c94e13 gminer
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
@@ -87,11 +88,11 @@ poolpass2 x
 ```
 OR to make it specific to this miner program in a remote config
 ```
-ubqminer=proxywallet walletORusername
-ubqminer=proxypool1 pool.com:port
-ubqminer=proxypool2 pool.com:port
-ubqminer=poolpass1 x
-ubqminer=poolpass2 x
+gminer=proxywallet walletORusername
+gminer=proxypool1 pool.com:port
+gminer=proxypool2 pool.com:port
+gminer=poolpass1 x
+gminer=poolpass2 x
 ```
 OR to make it specific to this rig
 ```
@@ -105,7 +106,7 @@ rigpoolpass2 c94e13 x
 NOTES:
 Some miners allow you to use a single cpu thread, for these you can set
 ```
-globalminer ubqminer-single
+globalminer gminer
 ```
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
 
