@@ -16,7 +16,7 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 - [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - Hard Linked v15
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) - Custom Compiled v2.2.1
 - [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - Latest (miner only, run manually in /opt/miners/gringoldminer/)
-- [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - Hard Linked v1.1
+- [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - Hard Linked v1.2
 - [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - Latest > 0.7a (equihash 150/5 only, Beam)
 - [AMD,NVIDIA] - [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) - Custom Compiled v2.0a (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
 - [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) - Hard Linked v4.1c
