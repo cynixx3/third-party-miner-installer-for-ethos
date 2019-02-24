@@ -15,6 +15,7 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 - [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner) - Latest (miner only, run manually in /opt/miners/zilminer/)
 - [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - Hard Linked v15
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) - Custom Compiled v2.2.1
+- [AMD,NVIDIA] - [gminer](https://github.com/develsoftware/GMinerRelease) - Latest (use -a not --algo)
 - [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - Latest (miner only, run manually in /opt/miners/gringoldminer/)
 - [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - Hard Linked v1.2
 - [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - Latest > 0.7a (equihash 150/5 only, Beam)
