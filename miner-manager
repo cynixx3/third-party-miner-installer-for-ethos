@@ -210,7 +210,7 @@ f.INSTALL(){
   fi
   if [[ "$ACTION" == "install" ]] && [[ -d "$TMP_DIR/opt/ethos" ]] ; then
     sed "/#Installed/d" -i /home/ethos/remote.conf
-    echo "#Installed $MINER_BRANCH ethOS files" >> /home/ethos/remote.conf
+    echo "#Installed $MINER_BRANCH ethOS files on $(date)" >> /home/ethos/remote.conf
   elif [[ "$ACTION" == "revert" ]] && [[ -d "$TMP_DIR/opt/ethos" ]] ; then
     sed "/#Installed/d" -i /home/ethos/remote.conf
   fi
