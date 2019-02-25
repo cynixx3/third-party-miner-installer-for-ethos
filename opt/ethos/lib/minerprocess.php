@@ -1091,24 +1091,24 @@ function start_miner()
 	* gminer
 	********************************/
 	if ($miner == "gminer") {
-        $devices = implode(",",select_gpus());
-        if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
-            $mine_with = "-d $devices";
-        }
+        	$devices = implode(",",select_gpus());
+        	if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
+            		$mine_with = "-d $devices";
+        	}
 
-        delete_old_api_port();
-        $apiport = select_api_port();
+        	delete_old_api_port();
+        	$apiport = select_api_port();
 
-		if(!preg_match("/-a (\S+).*/",$flags)) {
+		if(!preg_match("/(?:-a|--algo) (\S+).*/",$flags)) {
 			$flags .= " -a grincuckaroo29 ";
 		}
 
-        if (($maxtemp = trim(shell_exec("/opt/ethos/sbin/ethos-readconf maxtemp"))) == "") {
-            $maxtemp = "85";
-        }
+		if (($maxtemp = trim(shell_exec("/opt/ethos/sbin/ethos-readconf maxtemp"))) == "") {
+		    $maxtemp = "85";
+		}
 
-        preg_match("/(.*):(\d+)/", ${'proxypool1'}, $pool_split);
-        $pools = "--server " . $pool_split['1'] . " --port " .  $pool_split['2'] . " --user $proxywallet$worker --pass $poolpass1 --api 42128 ";
+		preg_match("/(.*):(\d+)/", ${'proxypool1'}, $pool_split);
+		$pools = "--server " . $pool_split['1'] . " --port " .  $pool_split['2'] . " --user $proxywallet$worker --pass $poolpass1 --api 42128 ";
 
 	}
 
