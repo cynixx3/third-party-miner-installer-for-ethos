@@ -174,6 +174,7 @@ If you got a new miner working using these tools or just improved an intergratio
 * **amnesium** - *ported grin-miner* - [amnesium](https://github.com/amnesium/grin-miner-ethos)
 * **asluchevskiy** - *ported t-rex* - [asluchevskiy](https://github.com/asluchevskiy/ethos-t-rex)
 * **Virosa** - *improved grin-miner, added bminer* - [Virosa](https://github.com/Virosa)
+* **HTCang** - *ported gminer* - [HTCang](https://github.com/htcang)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
