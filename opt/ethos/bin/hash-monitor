@@ -184,27 +184,26 @@ function get_hashrates(){
 	}
 	
 	if(preg_match("/(xmr|xtl)-stak/",$miner)){
-	        $driver = trim(`ethos-readconf driver`);
-	        if($driver == "nvidia"){
-	                $platform = "--nvidia";
-	        } else {
-	                $platform = "--amd";
-	        }
-	        $filepath = trim(`cat /tmp/minercmd | tr ' ' '\n' | grep -e '$platform' -A1 | awk 'NR==2 {print $1}'`);
-	        $stakcfg = `cat $filepath | sed -e 's/["]//g' -e '/[*|/]/ { N; d; }' | grep -P '{ index :' | sed -e 's/[{]//' -e 's/[:]//' -e 's/,//' | awk '{print $2}' | xargs | sed 's/ /,/g'`;
-	        $stakid = array(str_getcsv($stakcfg, ","));
-	        $xmrstakstats = array();
-	        $xmrstakraw = @json_decode(@file_get_contents("http://127.0.0.1:42000/api.json"), true);
-	        $i = 0;
-	        foreach($stakid[0] as $idhash){
-	                $gpu = $idhash[0];
-	                $hash = floatval($xmrstakraw["hashrate"]["threads"][$i][0]);
-	                if (!isset($xmrstakstats[$gpu])) {
-	                        $xmrstakstats[$gpu] = 0.00;
-	                }
-	                $xmrstakstats[$gpu] += $hash;
-	                $i++;
-	        }
+                $driver = trim(`ethos-readconf driver`);
+                if($driver == "nvidia"){
+                        $platform = "--nvidia";
+                } else {
+                        $platform = "--amd";
+                }
+                $filepath = trim(`cat /tmp/minercmd | tr ' ' '\n' | grep -e '$platform' -A1 | awk 'NR==2 {print $1}'`);
+                $stakcfg = `cat $filepath | sed -e 's/["]//g' -e '/[*]/ { N; d; }' |  grep -P '{ index :' | sed -e 's/[{]//' -e 's/[:]//' -e 's/,//' | awk '{print $2}' | xargs  | sed 's/ /,/g'`;
+                $stakid = array(str_getcsv($stakcfg, ","));
+                $xmrstakraw = @json_decode(@file_get_contents("http://127.0.0.1:42000/api.json"), true);
+                $n = 0;
+                foreach($stakid[0] as $idhash){
+                        $gpu = floatval($idhash[0]);
+			if(!isset($xmrstakstats[$gpu])){
+                        	$xmrstakstats[$gpu] = 0.00;
+			}
+                        $hash = floatval($xmrstakraw["hashrate"]["threads"][$n][0]);
+                        $xmrstakstats[$gpu] += $hash;
+                        $n++;
+                }
 	}
 
 	for($i = 0;$i < $instances; $i++){
@@ -288,7 +287,7 @@ function get_hashrates(){
 		}
 
 		if(preg_match("/(xmr|xtl)-stak/",$miner)){
-			$raw = floatval($xmrstakstats[$i]);
+			$raw = $xmrstakstats[$i];
 		}
 
 		if ($miner == "teamredminer") {
