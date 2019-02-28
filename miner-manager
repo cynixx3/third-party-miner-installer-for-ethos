@@ -12,7 +12,7 @@ ALLOW="$(cat /opt/ethos/etc/allow.file)"
 # Github limits public api requests to 60 per hour, this script does 2 calls per install maxing out at 30 miner installs per hour
 # by adding a github user and password you can install up to 2,500 miners per hour
 # Either install the miner-manager and add a github.com user / pass here
-# or add the two lines to a file /home/ethos/.netrc and you can continue to use the source command or via install. 
+# or add the two lines to a file /home/ethos/.gituser and you can continue to use the source command or via install. 
 #GITHUB_USERNAME="GitUser"
 #GITHUB_PASSWORD="GitPassword
 
