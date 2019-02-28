@@ -33,9 +33,9 @@ if [ -f /home/ethos/.gituser ] ; then
   source <(grep -m2 ^GITHUB_.*=".*"$ /home/ethos/.gituser)
 fi
 if [ "$GITHUB_PASSWORD" ] ; then 
-  GIT_LOGIN="--user $GITHUB_USERNAME:$GITHUB_PASSWORD"
+  GIT_LOGIN=" --user $GITHUB_USERNAME:$GITHUB_PASSWORD"
 elif [ "$GITHUB_USERNAME" ] ; then
-  GIT_LOGIN="--user $GITHUB_USERNAME"
+  GIT_LOGIN=" --user $GITHUB_USERNAME"
 fi
 
 # Get miner files and setup temporary opt/
