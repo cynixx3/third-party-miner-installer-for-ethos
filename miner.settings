@@ -1,10 +1,12 @@
 # Default miner.settings
 # All config lines are optional and can be removed if not used
 
-# User/repo of github release repository this repository's release is the default if not defined
+# download method 1: set the User/repo of the github repository to download the latest release
+# IE https://github.com/technobyl/CryptoDredge/releases is set as "technobyl/CryptoDredge"
+# if not defined and no DOWNLOAD_URL is set then the script checks this repository's releases where a custom compiled version can be stored.
 GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 
-# If the miner is hosted at a wget friendly site besides github releases you can set the download url
+# If the above does not apply and the miner is hosted at a wget friendly site you can set the download url
 # DOWNLOAD_URL="http://URL.tgz"
 
 # you can do a version check, or omit it for git relase auto updates. Great for use with DOWNLOAD_URL
@@ -15,9 +17,8 @@ GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 
 # You can also use a series of Hooks in order to run function specific commands for the miner
 # These are generally not needed, be careful with using them.
-# HOOK_PREP_MINER=""
-# HOOK_PREP_ETHOS=""
-# HOOK_REVERT=""
-# HOOK_STUB=""
-# HOOK_INSTALL=""
-
+#HOOK_PREP_MINER=""
+#HOOK_PREP_ETHOS=""
+#HOOK_REVERT=""
+#HOOK_STUB=""
+#HOOK_INSTALL=""
