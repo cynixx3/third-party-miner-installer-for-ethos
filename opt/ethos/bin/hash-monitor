@@ -218,12 +218,16 @@ function get_hashrates(){
 		}
 		
 		if($miner == "phoenixminer") {
-			$check_gpu = $i+1;
-			$raw = trim(`cat /var/run/miner.output | grep GPUs | tail -2 | tr -d ':' | tr -d 'MH/s' | cut -d' ' '-f2-' | sed -e 's/ /\\n/4;P;D' | awk -F' ' '$1~/$check_gpu/' | awk 'NR==1 {print $2}'`);
-			if($dualminer_status == "enabled") {
-				$dualminer_raw = trim(`cat /var/run/miner.output | grep GPUs | tail -2 | tr -d ':' | tr -d 'MH/s' | cut -d' ' '-f2-' | sed -e 's/ /\\n/4;P;D' | awk -F' ' '$1~/$check_gpu/' | awk 'NR==2 {print $2}'`);
+			if($instances == 1) {
+				$raw = floatval(`cat /var/run/miner.output | grep 'Eth speed:' | tail -1 | awk '{print $3}'`);
 			} else {
-				$dualminer_raw = 0;
+				$check_gpu = $i+1;
+				$raw = trim(`cat /var/run/miner.output | grep GPUs | tail -2 | tr -d ':' | tr -d 'MH/s' | cut -d' ' '-f2-' | sed -e 's/ /\\n/4;P;D' | awk -F' ' '$1~/$check_gpu/' | awk 'NR==1 {print $2}'`);
+				if($dualminer_status == "enabled") {
+					$dualminer_raw = trim(`cat /var/run/miner.output | grep GPUs | tail -2 | tr -d ':' | tr -d 'MH/s' | cut -d' ' '-f2-' | sed -e 's/ /\\n/4;P;D' | awk -F' ' '$1~/$check_gpu/' | awk 'NR==2 {print $2}'`);
+				} else {
+					$dualminer_raw = 0;
+				}
 			}
 		}
 
