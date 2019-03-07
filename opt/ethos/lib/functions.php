@@ -249,7 +249,7 @@ function get_stats()
 	$send['miner'] = $miner;
 	$send['miner_hashes'] = trim(`tail -10 /var/run/ethos/miner_hashes.file | sort -V | tail -1`);
 	
-	if(preg_match("claymore|claymore-legacy|phoenixminer")){
+	if($miner == ("claymore" || "claymore-legacy" || "phoenixminer")){
 		$dualminer_status = trim (`/opt/ethos/sbin/ethos-readconf dualminer`);
 		$send['dualminer_status'] = trim ($dualminer_status);
 		if($dualminer_status == "enabled"){

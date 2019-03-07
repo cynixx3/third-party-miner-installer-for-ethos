@@ -36,7 +36,7 @@ cat /opt/miners/nevermore/nevermore-version.txt >> /var/run/ethos/miner.versions
 /opt/miners/optiminer-zcash/optiminer-zcash --version | grep Opti | awk '{print "optiminer-zcash "$NF}'  >> /var/run/ethos/miner.versions
 cat /opt/miners/progpowminer/version.txt | awk '{print "progpowminer "$NF}'>> /var/run/ethos/miner.versions
 cat /opt/miners/progpowminer/version.txt | awk '{print "progpowminer-single "$NF}'>> /var/run/ethos/miner.versions
-cat /opt/miners/phoenixminer/History.txt | grep '^v' | cut -d" " -f1 | head -1 | awk '{print "phoenixminer "$1}' >> /var/run/ethos/miner.versions
+/opt/miners/phoenixminer/PhoenixMiner --version | awk 'NR==1 {print "phoenixminer "$3}' >> /var/run/ethos/miner.versions
 /opt/miners/sgminer-gm/sgminer-gm --version | awk '{print "sgminer-gm "$NF}' >> /var/run/ethos/miner.versions
 /opt/miners/sgminer-gm/sgminer-gm --version | awk '{print "sgminer-gm-xmr "$NF}' >> /var/run/ethos/miner.versions
 /opt/miners/ewbf-zcash/ewbf-zcash -h | grep -Poi "(?<=miner\. )(.*)(?:\s+)" | awk '{print "ewbf-zcash "$NF}' >> /var/run/ethos/miner.versions
