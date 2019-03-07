@@ -286,6 +286,7 @@ function setup_pools($miner)
       $miner_syntax = "ewbf-zcash";
       break;
 
+    case "kbminer":
     case "ethminer-single":
     case "progpowminer":
     case "progpowminer-single";	  
@@ -1080,7 +1081,31 @@ function start_miner()
 		$flags = "-profile=ETHOS -usercfg=".$lolconfig_path." ".$flags;
 
 	}
-
+	/*******************************
+	 *  KBMINER
+	 ********************************/
+	if ($miner == "kbminer"){
+	    $idarr = select_gpus();
+	    for ($i = 0; $i < count($idarr); $i++){
+	        $selgpu[] = "--gpu " . $idarr[$i];
+	    }
+	    $devices = implode(" ",$selgpu);
+	    if($namedisabled != "disabled"){
+	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
+	        if(preg_match("/(sparkpool.com|f2pool.com)/", $proxypool1)){
+	            $proxywallet .= "%2F" . $worker;
+	        } else  {
+	            $proxywallet .= "/" . $worker;
+	        }
+	    }
+	    $pools = " --pool $proxypool1 --user $proxywallet --pass $poolpass1";
+	    if($proxypool2 != "") {
+	        $pools .= " --pool $proxypool2 --user $proxywallet --pass $poolpass2 ";
+	    }
+	    $extraflags = "--checkdifficulty";
+	    $config_string = $pools . $devices;
+	}
+	
 	//begin miner commandline buildup
 
 	$miner_path['avermore'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.avermore -dmS avermore /opt/miners/avermore/avermore";
@@ -1106,7 +1131,7 @@ function start_miner()
 	$miner_path['teamredminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.teamredminer -l -L -dmS teamredminer /opt/miners/teamredminer/teamredminer";
 	$miner_path['ewbf-equihash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-equihash -l -L -dmS ewbf-equihash /opt/miners/ewbf-equihash/ewbf-equihash";
 	$miner_path['lolminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.lolminer -l -L -dmS lolminer /opt/miners/lolminer/lolMiner";
-		
+	$miner_path['kbminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.kbminer -l -L -dmS kbminer /opt/miners/kbminer/kbminer";
 			
 	$start_miners = select_gpus();
 
@@ -1139,6 +1164,7 @@ function start_miner()
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
+		$miner_params['kbminer'] = $config_string . " " . $flags;
 
 		$miner_suffix['avermore'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['dstm-zcash'] = " " . $mine_with . " " . $extraflags;
@@ -1162,6 +1188,7 @@ function start_miner()
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
 		$miner_suffix['teamredminer'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['lolminer'] = "";
+		$miner_suffix['kbminer'] = " " . $extraflags;
 		
 		$command = "su - ethos -c \"" . escapeshellcmd($miner_path[$miner] . " " . $miner_params[$miner]) . " $miner_suffix[$miner]\"";
 		$command = str_replace('\#',"#",$command);

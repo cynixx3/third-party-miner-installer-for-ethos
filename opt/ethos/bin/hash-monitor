@@ -283,6 +283,10 @@ function get_hashrates(){
 			$raw = floatval($raw_lolstats["GPU$i"]["Speed(60s)"]);
 		}
 
+		if ($miner == "kbminer") { 
+			$raw = floatval(`tail -50 /var/run/miner.output | grep Hashrates | tail -1 | tr ' ' '\n' | grep -e "GPU\[0\]" | cut -d ':' -f 2`);
+		}
+
 		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled"){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
 		}
