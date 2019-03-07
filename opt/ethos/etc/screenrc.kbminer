@@ -1,6 +1,6 @@
 logfile /var/run/miner.output
-chdir /opt/miners/claymore-zcash
-setenv LD_LIBRARY_PATH /opt/miners/claymore-zcash
+chdir /opt/miners/kbminer
+setenv LD_LIBRARY_PATH /opt/miners/kbminer
 caption always
 caption string "%{= RW} $STY | %c:%s | host:%H | load:%l | Return to terminal: Ctrl-A D"
 multiuser on
