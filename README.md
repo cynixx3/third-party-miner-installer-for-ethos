@@ -1,5 +1,5 @@
-# Third Party Miner Manager for ethOS
-This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
+# Miner Manager for ethOS
+This **_OFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
 ### List of currently supported miners [click name to get miner specific information]
 - [AMD] - [cast-xmr](https://github.com/glph3k/cast_xmr) - Hard Linked v1.7.1
@@ -29,9 +29,6 @@ This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupp
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
 Some miner dependencies will prevent other miners from starting you can completely uninstall a miner using the information [here](README.md#uninstalling).
-
-### Support
-This manager was **not written or supported by ethOS** and neither the script or the installed miners are supported by their policies. For support please visit the https://www.rizon.net/chat and join channel #miningmasterrace, if you are already on #ethosdistro, this is as simple as typing `/join #miningmasterrace` in chat.
 
 ## Getting Started
 Following these instructions will install the chosen miner and its integration files on your ethOS machine. Each miner integration is stored in a branch of github for you to review.
