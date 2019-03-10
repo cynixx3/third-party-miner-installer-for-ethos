@@ -33,6 +33,8 @@ Some miner dependencies will prevent other miners from starting you can complete
 ## Getting Started
 Following these instructions will install the chosen miner and its integration files on your ethOS machine. Each miner integration is stored in a branch of github for you to review.
 
+You can get assistance through the support team here: http://ethosdistro.com/kb/#support
+
 ### Prerequisites
 You need to be running ethos 1.3.3 to install a miner with this script.
 
