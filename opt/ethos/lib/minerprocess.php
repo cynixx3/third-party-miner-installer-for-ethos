@@ -936,7 +936,7 @@ function start_miner()
 	    $apiport = select_api_port();
 	    
 	    if(!preg_match("/--currency/",$flags)) {
-	        $flags .= " --currency monero7 ";
+	        $flags .= " --currency cryptonight_r ";
 	    }
 	    
 	    if(!preg_match("/--cpu/",$flags)) {
