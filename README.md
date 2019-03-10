@@ -158,10 +158,12 @@ If you got a new miner working using these tools or just improved an intergratio
 ## Authors
 * **cYnIxX3** - *Initial work* - [cYnIxX3](https://github.com/cynixx3) <== MVP
 ~~~
-~ If you found this script useful please donate BitCoin to:
-~ BTC 1G6DcU8GrK1JuXWEJ4CZL2cLyCT57r6en2
-~ or Ethereum to:
-~ ETH 0x42D23fC535af25babbbB0337Cf45dF8a54e43C37
+~ If you found this script useful please donate to encourage more development (every coin helps):
+~ BTC bc1qk5mgs5tcm00287vapxupj5x4wqguhqr5qrmu8k
+~ ETH 0x456ba7b1e9758c4c6fc56007107796f08ffba12b
+~ XMR 44tLr5hm5g3LJnpy5HGK2hDADofwPXcPvCd1CF67q5NdavbiZuFKasWja1vCGpapDyfWXcqH49FWm6XkvJSfQ3Vh4TQ8oy3
+~ LTC LP7iuax4k57EC8GYo1inNMeqAVJ63mMrAc
+~ Zcash Zcash t1YzbApi36dftoP2tchEzpZpDkLTM1XkNSq
 ~~~
 
 ### Contributors
