@@ -383,7 +383,7 @@ case "$1" in
 		echo "$STRATUMENABLED"
 	;;
 	worker )
-#		WORKER=$(grep -m 1 -Poi "^\s*loc\s+$HOSTNAME.\K(.*)(?=#?)" "$CONF" | xargs)
+		WORKER=$(grep -m 1 -Poi "^\s*loc\s+$HOSTNAME.\K(.*)(?=#?)" "$CONF" | xargs)
 		if [ -z "$WORKER" ];then
 			WORKER=$(xargs </etc/hostname)
 		fi

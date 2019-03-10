@@ -25,7 +25,6 @@
 /opt/ethos/bin/check-xorg
 DRIVER=$(/opt/ethos/sbin/ethos-readconf driver)
 echo -n "" > /var/run/ethos/miner.versions
-cat /opt/miners/grin-miner/grin-miner-version.txt  >> /var/run/ethos/miner.versions
 cat /opt/miners/ccminer/ccminer-version.txt >> /var/run/ethos/miner.versions
 /opt/miners/cgminer-skein/cgminer-skein --version | awk '{print "cgminer-skein "$NF}' >> /var/run/ethos/miner.versions
 cat /opt/miners/claymore/History.txt | grep '^v' | cut -d" " -f1 | head -1 | awk '{print "claymore "$1}' >> /var/run/ethos/miner.versions
