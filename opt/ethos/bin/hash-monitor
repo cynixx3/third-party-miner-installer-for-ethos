@@ -195,8 +195,8 @@ function get_hashrates(){
                 $stakid = array(str_getcsv($stakcfg, ","));
                 $xmrstakraw = @json_decode(@file_get_contents("http://127.0.0.1:42000/api.json"), true);
                 $n = 0;
-                foreach($stakid[0] as $idhash){
-                        $gpu = floatval($idhash[0]);
+                foreach($stakid[0] as $gpu){
+                        $gpu = floatval($gpu);
                         if(!isset($xmrstakstats[$gpu])){
                                 $xmrstakstats[$gpu] = 0.00;
                         }
