@@ -3,7 +3,7 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 
 ### List of currently supported miners [click name to get miner specific information]
 - [AMD] - [cast-xmr](https://github.com/glph3k/cast_xmr) - Hard Linked v1.7.1
-- [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5027811.0) - Latest
+- [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5059817.0) - Latest
 - [AMD] - [xcash-amd](https://github.com/X-CASH-official/XCASH_AMD_Miner) - Custom Compiled v1 (miner only, run manually in /opt/miners/xcash-amd/)
 - [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) - Latest
 - [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) - Latest
