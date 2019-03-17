@@ -250,7 +250,7 @@ function get_hashrates(){
 		}
 
 		if($miner == "bminer"){
-			$raw = trim(`tail -300 /var/run/miner.output | egrep "GPU $i" | grep -Poi "Speed\:\040\d\.\d\d" | grep -Poi "\d\.\d\d" | sed 's/ //g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
+			$raw = trim(`tail -300 /var/run/miner.output | egrep "GPU $i" | grep -Po "(?<=Speed: )[0-9]+.[0-9][0-9]*" | tail -1`);
 		}
 
 		if($miner == "wolf-xmr-cpu"){

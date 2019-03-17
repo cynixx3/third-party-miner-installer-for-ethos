@@ -1077,6 +1077,7 @@ function start_miner()
 	 ********************************/
 	if($miner == "bminer"){
 	    $devices = implode(",",select_gpus());
+            $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
 	    if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != ""){
 	        $mine_with = "-devices " . preg_replace(" ", ",", $devices);
 	    }
@@ -1094,6 +1095,10 @@ function start_miner()
 	                } else {
 	                    $stratum = "ethproxy";
 	                }
+                        if(($poolemail != "") && (preg_match("/nanopool.org/",$proxypool1))){
+                                $poolemail = trim(`echo $poolemail | sed -e 's/@/%40/'`);
+				$worker .= "%2F" . $poolemail;
+                        }
 	                break;
 	            case "c31":
 	            case "cuckatoo31":
@@ -1125,7 +1130,6 @@ function start_miner()
 	        $stratum = "cuckaroo29";
 	    }
 	    if($namedisabled != "disabled"){
-	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
 	        if((preg_match("/(sparkpool.com|f2pool.com|grinmint.com)/",$proxypool1)) && (preg_match("/(cuckaroo29|cuckatoo31)/", $stratum))) {
 	            $proxywallet .= "%2F" . $worker;
 	        } else {
