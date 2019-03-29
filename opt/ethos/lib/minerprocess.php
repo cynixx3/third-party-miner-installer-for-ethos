@@ -1088,28 +1088,32 @@ function start_miner()
 	}
 
 	/*******************************
-	* gminer
+	* GMINER
 	********************************/
 	if ($miner == "gminer") {
-        	$devices = implode(",",select_gpus());
-        	if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
-            		$mine_with = "-d $devices";
-        	}
-
-        	delete_old_api_port();
-        	$apiport = select_api_port();
-
-		if(!preg_match("/(?:-a|--algo) (\S+).*/",$flags)) {
-			$flags .= " -a grincuckaroo29 ";
-		}
-
-		if (($maxtemp = trim(shell_exec("/opt/ethos/sbin/ethos-readconf maxtemp"))) == "") {
-		    $maxtemp = "85";
-		}
-
-		preg_match("/(.*):(\d+)/", ${'proxypool1'}, $pool_split);
-		$pools = "--server " . $pool_split['1'] . " --port " .  $pool_split['2'] . " --user $proxywallet$worker --pass $poolpass1 --api 42128 ";
-
+                delete_old_api_port();
+                $apiport = select_api_port();
+                $devices = implode(",",select_gpus());
+                if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
+                        $mine_with = "-d $devices";
+                }
+                if(!preg_match("/-a|--algo/",$flags)) {
+                        $flags .= " -a grincuckaroo29 ";
+                }
+                if($namedisabled != "disabled"){
+                    if(preg_match("/fairpool.xyz/",$proxypool1)){
+                        $proxywallet .= preg_replace("/[.]/", "+", $worker);
+                    } else {
+                        $proxywallet .= $worker;
+                    }
+                }
+                preg_match("/(.*):(\d+)/", ${'proxypool1'}, $pool1_split);
+                $pools = "--server " . $pool1_split['1'] . " --port " .  $pool1_split['2'] . " --user " . $proxywallet . " --pass " . $poolpass1;
+                if($proxypool2 != ""){
+                    preg_match("/(.*):(\d+)/", ${'proxypool2'}, $pool2_split);
+                    $pools .= " --server " . $pool2_split['1'] . " --port " .  $pool2_split['2'] . " --user " . $proxywallet . " --pass " . $poolpass2;
+                }
+                $extraflags = "--api " . $apiport;
 	}
 
 	//begin miner commandline buildup
@@ -1137,7 +1141,7 @@ function start_miner()
 	$miner_path['teamredminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.teamredminer -l -L -dmS teamredminer /opt/miners/teamredminer/teamredminer";
 	$miner_path['ewbf-equihash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-equihash -l -L -dmS ewbf-equihash /opt/miners/ewbf-equihash/ewbf-equihash";
 	$miner_path['lolminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.lolminer -l -L -dmS lolminer /opt/miners/lolminer/lolMiner";
-	$miner_path['gminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-equihash -l -L -dmS gminer /opt/miners/gminer/miner";
+	$miner_path['gminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.gminer -l -L -dmS gminer /opt/miners/gminer/miner";
 
 
 	$start_miners = select_gpus();
@@ -1171,7 +1175,7 @@ function start_miner()
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
-		$miner_params['gminer'] = $flags ." ".$pools. " --pec";
+		$miner_params['gminer'] = $flags  ." ". $pools;
 
 		$miner_suffix['avermore'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['dstm-zcash'] = " " . $mine_with . " " . $extraflags;
@@ -1195,7 +1199,7 @@ function start_miner()
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
 		$miner_suffix['teamredminer'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['lolminer'] = "";
-		$miner_suffix['gminer'] = "";
+		$miner_suffix['gminer'] = " " . $extraflags;
 
 
 		$command = "su - ethos -c \"" . escapeshellcmd($miner_path[$miner] . " " . $miner_params[$miner]) . " $miner_suffix[$miner]\"";

@@ -153,12 +153,16 @@ function get_hashrates(){
 	}
 	
 	if($miner == "gminer") {
-        $gminerstats = array();
-        $raw_gminer = @json_decode(`curl http://127.0.0.1:42128/stat`, TRUE);
-
-        for($x = 0; $x < $instances; $x++) {
-                $gminerstats[$x] = isset($raw_gminer['devices'][$x]['speed']) ? $raw_gminer['devices'][$x]['speed'] : $x;
-        }
+                $gminerstats = array();
+                $raw_gminer = json_decode(`curl -s http://127.0.0.1:42000/stat`, TRUE);
+                foreach($raw_gminer["devices"] as $gpu){
+                        $id = $gpu["gpu_id"];
+                        if(!isset($gminerstats[$id])){
+                                $gminerstats[$id] = 0.00;
+                        }
+                        $hash = floatval($gpu["speed"]);
+                        $gminerstats[$id] += $hash;
+               }
 	}
 	
 	if(preg_match("/(eth|progpow)miner-single/", $miner)){
@@ -298,9 +302,6 @@ function get_hashrates(){
 
 		if($miner == "gminer") {
 			$raw = $gminerstats[$i];
-			if(!$gminerstats[$i] || !isset($gminerstats[$i])) {
-					$raw = 0;
-			}
 		}
 		
 		if($last_mod_secs < 300){
