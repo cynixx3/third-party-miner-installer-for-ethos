@@ -287,7 +287,14 @@ function get_hashrates(){
 		}
 
 		if(preg_match("/(xmr|xtl)-stak/",$miner)){
-			$raw = $xmrstakstats[$i];
+		    if($driver == "nvidia"){
+		        $raw = trim(`tail -400 /var/run/miner.output | grep -Poi "\|\s+$i\s+\|\s+(\(na\)|[0-9.]+)\s+\|\s+(\(na\)|[0-9.]+)\s+\|" | sed 's/ //g' | sed 's/(na)/0/g' | cut -d"|" -f3 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
+			    if ($raw == "") {
+				    $raw = 0;
+			    }
+		    } else {
+			    $raw = $xmrstakstats[$i];
+			}
 		}
 
 		if ($miner == "teamredminer") {
