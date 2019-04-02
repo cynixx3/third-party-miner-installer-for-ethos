@@ -1103,6 +1103,8 @@ function start_miner()
                 if($namedisabled != "disabled"){
                     if(preg_match("/fairpool.xyz/",$proxypool1)){
                         $proxywallet .= preg_replace("/[.]/", "+", $worker);
+                    } elseif((preg_match("/(sparkpool.com|f2pool.com|grinmint.com)/",$proxypool1)) && (preg_match("/(cucka|cuckoo)/", $flags))){
+                        $proxywallet .= preg_replace("/[.]/", "/", $worker);
                     } else {
                         $proxywallet .= $worker;
                     }
