@@ -1118,6 +1118,9 @@ function start_miner()
 	            case "tensority":
 	                $stratum = "tensority";
 	                break;
+	            case "beam":
+	                $stratum = "beam";
+	                break;
 	            case "equihash1445":
 	                $stratum = "equihash1445";
 	                if(!preg_match("/-pers/",$flags)){
