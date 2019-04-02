@@ -1,2 +1,3 @@
-GIT_USER_REPO="/unsivilaudio/third-party-miner-installer-for-ethos/"
-RELEASE_SHASUM="E57CA2AB960B8C7899020E4827DB8A5CC90CA45FE96B030C97BF9570D9AE4C26"
+# Using Default settings
+#GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
+#RELEASE_SHASUM="4db207f2112a3d1f6393b20f52acfed410e5c93070718e88dc044976a8847a6a"
