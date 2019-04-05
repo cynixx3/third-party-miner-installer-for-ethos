@@ -521,14 +521,17 @@ function start_miner()
 				foreach($poolarr as $p) {
 					if ($p != "") {
 						if (preg_match("/^(.+)\:\/\/(.+)$/", $p, $poolparts)) {
-							$pool_string = $poolparts[1]."://".$proxywallet.$worker."@".$poolparts[2];
+							$pool_string = $poolparts[1]."://".$proxywallet."@".$poolparts[2];
 						}
 						else {
-							$pool_string = (($stratumtype == "nicehash") ? "stratum2" : "stratum" )."+tcp://".$proxywallet.$worker."@".$p;
+							$pool_string = (($stratumtype == "nicehash") ? "stratum2" : "stratum1" )."+tcp://".$proxywallet."@".$p;
 						}
 
 						if (($poolemail != "") && (preg_match("/(ethosdistro.com|nanopool.org)/",$p))) {
-							$pool_string .= "/".$poolemail;
+							$worker = str_replace('.', '/', $worker);
+							$pool_string .= $worker . "/". str_replace('@', '%40', $poolemail);
+						} else {
+							preg_replace("$proxywallet", "$proxywallet$worker", $pool_string);
 						}
 
 						$pools .= " -P ".$pool_string;
