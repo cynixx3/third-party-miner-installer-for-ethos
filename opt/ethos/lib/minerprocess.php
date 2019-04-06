@@ -430,7 +430,6 @@ function start_miner()
 		}
 	
 	}
-
 	/*******************************
 	*  ETHMINER/ETHMINER-SINGLE/PROGPOWMINER/PROGPOWMINER-SINGLE
 	********************************/
@@ -460,10 +459,6 @@ function start_miner()
 		
 		if (!preg_match("/cl-global-work/", $flags) && ($driver == "amdgpu" || $driver == "fglrx" )) {
 			$flags .= " --cl-global-work 8192 ";
-		}
-		
-		if (!preg_match("/cu-parallel-hash/", $flags) && $driver == "nvidia") {
-			$flags .= " --cu-parallel-hash 4 ";
 		}
 		
 		if ($gpumode != "-G" || $gpumode != "-U") {
