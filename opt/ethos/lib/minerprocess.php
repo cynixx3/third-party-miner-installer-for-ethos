@@ -462,8 +462,8 @@ function start_miner()
 			$flags .= " --cl-global-work 8192 ";
 		}
 		
-		if (!preg_match("/cuda-parallel-hash/", $flags) && $driver == "nvidia") {
-			$flags .= " --cuda-parallel-hash 4 ";
+		if (!preg_match("/cu-parallel-hash/", $flags) && $driver == "nvidia") {
+			$flags .= " --cu-parallel-hash 4 ";
 		}
 		
 		if ($gpumode != "-G" || $gpumode != "-U") {
