@@ -1,3 +1,4 @@
-DOWNLOAD_URL="https://grinpro.io/download/GrinPro_1_2.tar.gz"
-RELEASE_SHASUM="1727308b87bc27efdeae0f819378a85ddec98c64bb125f1820d3505f91187af2"
+#DOWNLOAD_URL="https://grinpro.io/download/GrinPro_1_2.tar.gz"
+#RELEASE_SHASUM="1727308b87bc27efdeae0f819378a85ddec98c64bb125f1820d3505f91187af2"
+GIT_USER_REPO="mozkomor/GrinProMiner"
 HOOK_PREP_MINER="echo 'grinpro 1.2' > $TMP_DIR/opt/miners/grinpro/version.txt"
