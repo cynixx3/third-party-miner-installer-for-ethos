@@ -1133,7 +1133,7 @@ function start_miner()
 	        $stratum = "cuckaroo29";
 	    }
 	    if($namedisabled != "disabled"){
-	        if((preg_match("/(sparkpool.com|f2pool.com|grinmint.com)/",$proxypool1)) && (preg_match("/(cuckaroo29|cuckatoo31)/", $stratum))) {
+	        if((preg_match("/(sparkpool.com|grinmint.com)/",$proxypool1)) && (preg_match("/(cuckaroo29|cuckatoo31)/", $stratum))) {
 	            $proxywallet .= "%2F" . $worker;
 	        } else {
 	            $proxywallet .= "." . $worker;
