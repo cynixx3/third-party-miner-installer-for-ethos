@@ -1021,6 +1021,7 @@ function start_miner()
 	if ($miner == "lolminer") {
 	    $devices = select_gpus();
 	    $selgpu = implode(",", select_gpus());
+	    delete_old_api_port();
 	    $apiport = select_api_port();
 	    $lolconfig_path = "/var/run/ethos/lolminer_config.json";
 	    
