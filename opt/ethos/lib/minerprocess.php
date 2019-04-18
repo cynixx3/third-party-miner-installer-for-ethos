@@ -1044,13 +1044,21 @@ function start_miner()
 	        $lolconfig["DEFAULTS"]["DEVICES"] = $devices;
 	    }
 	    
+            if($namedisabled != "disabled"){
+                if((preg_match("/(sparkpool.com|grinmint.com)/",$proxypool1)) && (preg_match("/GRIN/", $flags))) {
+                    $proxywallet .= preg_replace("/[.]/", "/", $worker);
+                } else {
+                    $proxywallet .= $worker;
+                }
+            }
+
 	    //read coin from flags and remove option from flags
 	    if(preg_match("/(--coin(\s+).*)/", $flags, $coin_matches)) {
 	        $coin = explode(" ", $coin_matches[0]);
 	        $lolconfig["ETHOS"]["COIN"] = $coin[1];
 	        $flags = str_replace($coin_matches[1], "", $flags);
 	    }
-	    
+
 	    //set pool array
 	    foreach($poolarr as $poolidx=>$pool) {
 	        if ($pool != "") {
@@ -1060,7 +1068,7 @@ function start_miner()
 	                $lolconfig["ETHOS"]["POOLS"][] = array(
 	                    "POOL"=>$pool_matches[2],
 	                    "PORT"=>$pool_matches[3],
-	                    "USER"=>$proxywallet.$worker,
+	                    "USER"=>$proxywallet,
 	                    "PASS"=>(($poolpass == "") ? "x" : $poolpass)
 	                );
 	            }
