@@ -1,4 +1,4 @@
 # get it from https://www.bminer.me/releases/
-DOWNLOAD_URL="https://www.bminercontent.com/releases/bminer-v15.4.0-9e272fc-amd64.tar.xz"
-RELEASE_SHASUM="910db9ed06eb4b9c110ee5f8a563487d8a467270e5ce952a9115359aa6ed16a9"
+DOWNLOAD_URL="https://www.bminercontent.com/releases/bminer-v15.5.0-f720eee-amd64.tar.xz"
+RELEASE_SHASUM="41d7fea4bad87bbe11c5ca423a3e8ba91c568fa9fc497121f3c230985cca347d"
 DEPENDS=(http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.10_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.10_amd64.deb)
