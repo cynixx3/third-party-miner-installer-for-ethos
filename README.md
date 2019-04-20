@@ -7,14 +7,16 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 - [AMD] - [xcash-amd](https://github.com/X-CASH-official/XCASH_AMD_Miner) - Custom Compiled v1 (miner only, run manually in /opt/miners/xcash-amd/)
 - [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) - Latest
 - [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) - Latest
+- [NVIDIA] - [ccminer](https://github.com/tpruvot/ccminer) - Custom Compiled v2.3.1
 - [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) - Latest
 - [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - Custom Compiled v1.0.2 (AMD limited to a single GPU)
 - [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - Latest (miner only, run manually in /opt/miners/nbminer/)
 - [NVIDIA] - [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) - Latest (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) - Latest
 - [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner) - Latest (miner only, run manually in /opt/miners/zilminer/)
-- [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - Hard Linked v15.3
+- [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - Hard Linked v15.5
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) - Custom Compiled v2.2.1
+- [AMD,NVIDIA] - [ethminer](https://github.com/ethereum-mining/ethminer) - Custom Compiled v18.0
 - [AMD,NVIDIA] - [gminer](https://github.com/develsoftware/GMinerRelease) - Latest
 - [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - Latest (miner only, run manually in /opt/miners/gringoldminer/)
 - [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - Hard Linked v1.2
