@@ -716,75 +716,68 @@ function start_miner()
         if (preg_match(("/claymore|claymore-legacy|phoenixminer/"),$miner)) {
             $dualminer_status = (trim(`/opt/ethos/sbin/ethos-readconf dualminer`));
 
-                // Claymore specific
-                if(preg_match("/claymore/", $miner)){
-                    if(!preg_match("/-esm/",$config_string)) {
-                        if ($stratumtype == "nicehash") {
-		            $config_string .= " -esm 3 ";
-                        } elseif ($stratumtype == "coinotron" ) {
-		            $config_string .= " -esm 2 ";
-                        } else {
-		            $config_string .= " -esm 0 ";
-		        }
-                    }
-                    if(!preg_match("/-colors/",$config_string)) {
-                        $config_string .= " -colors 0 ";
-                    }
-                    if(!preg_match("/-wd/",$config_string)) {
-                        $config_string .= " -wd 0 ";
-                    }
-                    if(!preg_match("/-dbg/",$config_string)) {
-                        $config_string .= " -dbg -1 ";
-                    }
-                    if(!preg_match("/-allcoins/",$config_string)) {
-                        $config_string .= " -allcoins 1 ";
-                    }
-                    if(!preg_match("/-allpools/",$config_string)) {
-                        $config_string .= " -allpools 1 ";
-                    }
-                    if ($worker != "") {
-                        $config_string .= " -eworker " . $worker . " ";
-                    }
-		}
+            // Claymore specific
+            if(preg_match("/claymore/", $miner)){
+              if(!preg_match("/-esm/",$config_string)) {
+                  if ($stratumtype == "nicehash") {
+                      $config_string .= " -esm 3 ";
+                  } elseif ($stratumtype == "coinotron" ) {
+                      $config_string .= " -esm 2 ";
+                  } else {
+                      $config_string .= " -esm 0 ";
+                  }
+                }
+                if(!preg_match("/-colors/",$config_string)) {
+                    $config_string .= " -colors 0 ";
+                }
+                if(!preg_match("/-wd/",$config_string)) {
+                    $config_string .= " -wd 0 ";
+                }
+                if(!preg_match("/-dbg/",$config_string)) {
+                    $config_string .= " -dbg -1 ";
+                }
+                if(!preg_match("/-allcoins/",$config_string)) {
+                    $config_string .= " -allcoins 1 ";
+                }
+                if(!preg_match("/-allpools/",$config_string)) {
+                    $config_string .= " -allpools 1 ";
+                }
+                if ($worker != "") {
+                    $config_string .= " -eworker " . $worker . " ";
+                }
+                $pools = " -epool $proxypool1 -ewal $proxywallet -epsw $poolpass1 ";
+                if($proxypool2 != "") {
+                    $pools .= " -epool $proxypool2 -ewal $proxywallet -epsw $poolpass2 ";
+                }
+            }
 
-                // Phoenixminer specific
-                if($miner == "phoenixminer"){
-                    if(!preg_match("/-proto/",$config_string)){
-                        if ($stratumtype == "nicehash") {
-                            $config_string .= " -proto 4 ";
-                        } elseif ($stratumtype == "coinotron" ) {
-                            $config_string .= " -proto 1 ";
-                        } else {
-                            $config_string .= " -proto 2 ";
-                        }
-                    }
-                    if($driver == "nvidia"){
-                        $config_string .= " -nvidia ";
+            // Phoenixminer specific
+            if($miner == "phoenixminer"){
+                if(!preg_match("/-proto/",$config_string)){
+                    if ($stratumtype == "nicehash") {
+                        $config_string .= " -proto 4 ";
+                    } elseif ($stratumtype == "coinotron" ) {
+                        $config_string .= " -proto 1 ";
                     } else {
-                        $config_string .= " -amd ";
-                    }
-                    if ($worker != "") {
-                        $config_string .= " -worker " . $worker . " ";
+                        $config_string .= " -proto 2 ";
                     }
                 }
-
+                if($driver == "nvidia"){
+                    $config_string .= " -nvidia ";
+                } else {
+                    $config_string .= " -amd ";
+                }
                 if(!preg_match("/-gser/",$config_string)) {
                     $config_string .= " -gser 2 ";
                 }
-
-                // resume normal good stuff
-		$pools = " -epool $proxypool1 -ewal $proxywallet -epsw $poolpass1 ";
-		if($proxypool2 != "") {
-			$pools .= " -epool $proxypool2 -ewal $proxywallet -epsw $poolpass2 ";
-		}
-
-		if($proxypool3 != "") {
-			$pools .= " -epool $proxypool3 -ewal $proxywallet -epsw $poolpass3 ";
-		}
-
-		if($proxypool4 != ""){
-			$pools .= " -epool $proxypool4 -ewal $proxywallet -epsw $poolpass4 ";
-		}
+                if ($worker != "") {
+                    $config_string .= " -worker " . $worker . " ";
+                }
+                $pools = " -pool $proxypool1 -wal $proxywallet -pass $poolpass1 ";
+                if($proxypool2 != "") {
+                    $pools .= " -pool2 $proxypool2 -wal2 $proxywallet -pass2 $poolpass2 ";
+                }
+            }
 
 		if ($dualminer_status == "enabled" ){
 			$dualminerpool = (trim(`/opt/ethos/sbin/ethos-readconf dualminer-pool`));
