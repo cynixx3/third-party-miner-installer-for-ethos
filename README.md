@@ -22,7 +22,7 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 - [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - Hard Linked v1.2
 - [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - Latest
 - [AMD,NVIDIA] - [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) - Custom Compiled v2.0a (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
-- [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) - Hard Linked v4.1c
+- [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) - Hard Linked v4.2c
 - [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) - Latest
 - [AMD,NVIDIA] - [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) - Custom Compiled v1
 - [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - Custom Compiled v2.10.4 - hashrate reporting fix for multiple threads
