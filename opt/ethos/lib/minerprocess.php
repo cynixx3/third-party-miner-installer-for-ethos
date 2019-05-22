@@ -526,7 +526,7 @@ function start_miner()
 							$worker = str_replace('.', '/', $worker);
 							$pool_string .= $worker . "/". str_replace('@', '%40', $poolemail);
 						} else {
-							preg_replace("$proxywallet", "$proxywallet$worker", $pool_string);
+							$pool_string = trim(`echo "$pool_string" | sed 's/$proxywallet/$proxywallet$worker/'`);
 						}
 
 						$pools .= " -P ".$pool_string;
