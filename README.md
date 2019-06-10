@@ -15,6 +15,7 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) - Latest
 - [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner) - Latest (miner only, run manually in /opt/miners/zilminer/)
 - [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - Hard Linked v15.5
+- [AMD,NVIDIA] - [claymore](https://bitcointalk.org/index.php?topic=1433925.0) - Hard Linked v14.6
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) - Custom Compiled v2.2.1
 - [AMD,NVIDIA] - [ethminer](https://github.com/ethereum-mining/ethminer) - Custom Compiled v18.0
 - [AMD,NVIDIA] - [gminer](https://github.com/develsoftware/GMinerRelease) - Latest
@@ -25,7 +26,7 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 - [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) - Hard Linked v4.2c
 - [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) - Latest
 - [AMD,NVIDIA] - [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) - Custom Compiled v1
-- [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - Custom Compiled v2.10.4 - hashrate reporting fix for multiple threads
+- [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - Custom Compiled v2.10.5 - hashrate reporting fix for multiple threads
 - [AMD,CPU,NVIDIA] - [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) - Latest
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
