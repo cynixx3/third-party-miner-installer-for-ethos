@@ -993,7 +993,7 @@ function start_miner()
 			$mine_with = "-d $devices";
 		}
 
-		if(!preg_match("/(-a|--algo)/",$flags)) {
+		if(!preg_match("/(-a[\s]|--algo)/",$flags)) {
 			$flags .= " --algo cnr ";
 		}
 
