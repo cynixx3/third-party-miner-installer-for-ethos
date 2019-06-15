@@ -1112,6 +1112,9 @@ function start_miner()
                 preg_match("/(.*):(\d+)/", ${'proxypool1'}, $pool1_split);
                 $pools = "--server " . $pool1_split['1'] . " --port " .  $pool1_split['2'] . " --user " . $proxywallet . " --pass " . $poolpass1;
                 if($proxypool2 != ""){
+                    if(preg_match("/--ssl 1/", $flags)) {
+                        $pools .= " --ssl 1";
+                    }
                     preg_match("/(.*):(\d+)/", ${'proxypool2'}, $pool2_split);
                     $pools .= " --server " . $pool2_split['1'] . " --port " .  $pool2_split['2'] . " --user " . $proxywallet . " --pass " . $poolpass2;
                 }
