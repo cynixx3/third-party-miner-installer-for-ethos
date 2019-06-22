@@ -280,13 +280,13 @@ function setup_pools($miner)
 
   switch($miner_syntax) {
   	case "lolminer":
-	case "xmr-stak":
-	case "xtl-stak":
-	case "ewbf-equihash":
-        $miner_syntax = "ewbf-zcash";
-        break;
-      
-	case "bminer":
+	  case "xmr-stak":
+	  case "xtl-stak":
+	  case "ewbf-equihash":
+      $miner_syntax = "ewbf-zcash";
+      break;
+
+    case "miniz":
     case "ethminer-single":
     case "progpowminer":
     case "progpowminer-single";
@@ -647,7 +647,7 @@ function start_miner()
 		
 		$config_string = "$config_string $pools $api_config $mine_with";
 	}
-
+	
 	/*******************************
 	*  CGMINER-SKEIN/SGMINER-GM/SGMINER-GM-XMR
 	********************************/
@@ -935,7 +935,7 @@ function start_miner()
 		}*/
 
 		if(!preg_match("/--currency/",$flags)) {
-			$flags .= " --currency monero7 ";
+			$flags .= " --currency cryptonight_v8 ";
 		}
 
 		if(!preg_match("/--cpu/",$flags)) {
@@ -958,18 +958,29 @@ function start_miner()
 		shell_exec("su - ethos -c \"cp /opt/ethos/etc/xmr-stak-config.txt /var/run/ethos/$miner-config.txt\"");
 		shell_exec("su - ethos -c \"cp /opt/ethos/etc/xmr-stak-pools.txt /var/run/ethos/$miner-pools.txt\"");
 
-		if($driver == "nvidia" && !preg_match("/--nvidia/",$flags)){
-   			$stakgpu = " --noAMD --nvidia /var/run/ethos/".$miner."-nvidia.txt ";
+		if ($driver == "nvidia") {
+			$stakgpu = " --noAMD ";
+
+		 	if (!preg_match("/--nvidia/",$flags)) {
+   			$stakgpu .= "--nvidia /var/run/ethos/".$miner."-nvidia.txt ";
+   		}
 		}
-	 	if ($driver == "fglrx" || $driver == "amdgpu" && !preg_match("/--amd/",$flags)){
-			$stakgpu = " --noNVIDIA --amd /var/run/ethos/".$miner."-amd.txt ";
-		}
+	 	else {
+	 		$stakgpu = " --noNVIDIA ";
+
+	 		if(!preg_match("/--amd/",$flags)) {
+	 			$stakgpu .= "--amd /var/run/ethos/".$miner."-amd.txt ";
+	 		}
+	 	}
+
 		if (!preg_match("/(-C | --poolconf )/",$flags)){
 			$stakpoolconf = " --poolconf /var/run/ethos/".$miner."-pools.txt";
 		}
+
 		if (!preg_match("/(-c | --config )/",$flags)){
 			$stakconf = "--config /var/run/ethos/".$miner."-config.txt";
 		}
+
 		$config_string = $stakconf . $stakpoolconf . $stakgpu;
 
 	}
@@ -1070,86 +1081,32 @@ function start_miner()
 		$flags = "-profile=ETHOS -usercfg=".$lolconfig_path." ".$flags;
 
 	}
-	
-	
-	/*******************************
-	 *  BMINER
-	 ********************************/
-	if($miner == "bminer"){
-	    $devices = implode(",",select_gpus());
-            $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
-	    if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != ""){
-	        $mine_with = "-devices " . preg_replace(" ", ",", $devices);
-	    }
-	    if(preg_match("/(--stratum(\s+).*)/", $flags, $stratum_matches)){
-	        $coin = explode(" ", $stratum_matches[0]);
-	        $coinstratum = $coin[1];
-	        switch($coinstratum){
-	            case "eth":
-	            case "ethash":
-	            case "ethereum":
-	                if($stratumtype == "miner"){
-	                    $stratum = "ethash";
-	                } elseif($stratumtype == "coinotron"){
-	                    $stratum = "ethstratum";
-	                } else {
-	                    $stratum = "ethproxy";
-	                }
-                        if(($poolemail != "") && (preg_match("/nanopool.org/",$proxypool1))){
-                                $poolemail = trim(`echo $poolemail | sed -e 's/@/%40/'`);
-				$worker .= "%2F" . $poolemail;
-                        }
-	                break;
-	            case "c31":
-	            case "cuckatoo31":
-	                $stratum = "cuckatoo31";
-	                break;
-	            case "c29":
-	            case "cuckaroo29":
-	                $stratum = "cuckaroo29";
-	                break;
-	            case "aeternity":
-	                $stratum = "aeternity";
-	                break;
-	            case "zhash":
-	                $stratum = "zhash";
-	                break;
-	            case "bytom":
-	            case "tensority":
-	                $stratum = "tensority";
-	                break;
-	            case "beam":
-	                $stratum = "beam";
-	                break;
-	            case "equihash1445":
-	                $stratum = "equihash1445";
-	                if(!preg_match("/-pers/",$flags)){
-	                    $flags .= " -pers auto";
-	                }
-	                break;	                
-	        }
-	        $flags = str_replace("--stratum " . $coinstratum, "", $flags);
-	    } else {
-	        $stratum = "cuckaroo29";
-	    }
-	    if($namedisabled != "disabled"){
-	        if((preg_match("/(sparkpool.com|grinmint.com)/",$proxypool1)) && (preg_match("/(cuckaroo29|cuckatoo31)/", $stratum))) {
-	            $proxywallet .= "%2F" . $worker;
-	        } else {
-	            $proxywallet .= "." . $worker;
-	        }
-	    }
-	    if(preg_match("/(--secure(\s).*)/", $flags, $secure_matches)){
-	        $secure = explode(" ", $secure_matches[0]);
-	        $ssl = $secure[1];
-	        if($ssl == "true"){
-	            $stratum .= "+ssl";
-	        }
-	        $flags = str_replace("--secure " . $ssl, "", $flags);
-	    }
-	    $config_string = "-uri " . $stratum . "://" . $proxywallet . ":" . $poolpass1 . "@" . $proxypool1;
-	}
-	
+
+        /*******************************
+        * MINI-Z
+        ********************************/
+        if ($miner == "miniz") {
+		$apiport = select_api_port();
+		$devices = implode(" ",select_gpus());
+                if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
+                        $mine_with = "-cd $devices";
+                }
+		if(!preg_match("/--par/",$flags)){
+			$flags .= " --par 150,5";
+		}
+                if(!preg_match("/--pers/",$flags)){
+                        $flags .= " --smart-pers";
+                }
+		if($namedisabled != "disabled"){
+			$proxywallet .= $worker;
+		}
+		$pools = "--url " . $proxywallet . "@" . $proxypool1 . " -p $poolpass1";
+		if($proxypool2 != ""){
+			$pools .= " --url " . $proxywallet . "@" . $proxypool2 . " -p $poolpass2";
+		}
+		$extraflags = " --latency --gpu-line";
+        }
+
 	//begin miner commandline buildup
 
 	$miner_path['avermore'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.avermore -dmS avermore /opt/miners/avermore/avermore";
@@ -1175,9 +1132,7 @@ function start_miner()
 	$miner_path['teamredminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.teamredminer -l -L -dmS teamredminer /opt/miners/teamredminer/teamredminer";
 	$miner_path['ewbf-equihash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-equihash -l -L -dmS ewbf-equihash /opt/miners/ewbf-equihash/ewbf-equihash";
 	$miner_path['lolminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.lolminer -l -L -dmS lolminer /opt/miners/lolminer/lolMiner";
-	$miner_path['grin-miner'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.grin-miner -l -L -dmS grin-miner /opt/miners/grin-miner/grin-miner";
-	$miner_path['bminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.bminer -l -L -dmS bminer /opt/miners/bminer/bminer";
-		
+	$miner_path['miniz'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.miniz -l -L -dmS miniz /opt/miners/miniz/miniZ";
 			
 	$start_miners = select_gpus();
 
@@ -1210,7 +1165,7 @@ function start_miner()
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
-		$miner_params['bminer'] = $flags . " " . $config_string ." ". $mine_with;
+		$miner_params['miniz'] = $flags . " " . $pools;
 
 		$miner_suffix['avermore'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['dstm-zcash'] = " " . $mine_with . " " . $extraflags;
@@ -1234,7 +1189,7 @@ function start_miner()
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
 		$miner_suffix['teamredminer'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['lolminer'] = "";
-		$miner_suffix['bminer'] = "";
+		$miner_suffix['miniz'] = $extraflags;
 		
 		$command = "su - ethos -c \"" . escapeshellcmd($miner_path[$miner] . " " . $miner_params[$miner]) . " $miner_suffix[$miner]\"";
 		$command = str_replace('\#',"#",$command);
@@ -1270,4 +1225,3 @@ function start_miner()
 }
 
 ?>
-

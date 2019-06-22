@@ -28,12 +28,10 @@ fi
 f.validminers(){
 		case "$DRIVER" in
 			amdgpu | fglrx )
-				VALIDMINERS="avermore claymore claymore-xmr claymore-zcash claymore-legacy cgminer-skein ethminer ethminer-single 
-				optiminer-zcash progpowminer progpowminer-single sgminer-gm sgminer-gm-xmr xmr-stak xtl-stak teamredminer lolminer grin-miner bminer"
+				VALIDMINERS="avermore claymore claymore-xmr claymore-zcash claymore-legacy cgminer-skein ethminer ethminer-single optiminer-zcash progpowminer progpowminer-single sgminer-gm sgminer-gm-xmr xmr-stak xtl-stak teamredminer lolminer"
 			;;
 			nvidia )
-				VALIDMINERS="ccminer claymore dstm-zcash ethminer ethminer-single ewbf-equihash ewbf-zcash nevermore 
-				optiminer-zcash progpowminer progpowminer-single xmr-stak xtl-stak lolminer grin-miner bminer"
+				VALIDMINERS="ccminer claymore dstm-zcash ethminer ethminer-single ewbf-equihash ewbf-zcash nevermore optiminer-zcash progpowminer progpowminer-single xmr-stak xtl-stak lolminer miniz"
 			;;
 			cpu )
 				VALIDMINERS="wolf-xmr-cpu"
@@ -107,7 +105,7 @@ f.proxywallet(){
 	fi
 }
 f.poolemail(){
-		POOLEMAIL=$(grep -m 1 -Poi "^\s*poolemail\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs )
+		POOLEMAIL=$(grep -m 1 -Poi "^\s*poolemail\s+$HOSTNAME\s+\K(.*)(?=#?)" "$CONF" | xargs )		
 		if [ -z "$POOLEMAIL" ];then
 			POOLEMAIL=$(grep -m 1 -Poi "^\s*poolemail\s+\K(.*)(?=#?)" "$CONF" | xargs )
 		fi
@@ -434,4 +432,3 @@ case "$1" in
 	 	exit 1
 	;;
 esac
-

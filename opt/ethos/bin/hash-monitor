@@ -97,7 +97,7 @@ function check_alive($hashes) {
 	$mem = trim(`/opt/ethos/sbin/ethos-readdata mem`);
 	$crashed = array();
 	$mems = explode(" ", $mem);
-	$miner = trim(`/opt/ethos/sbin/ethos-readconf miner`);	
+
 
 	foreach($gpus as $i) {
 		$m = ((isset($mems[$i])) ? $mems[$i] : 0);
@@ -243,16 +243,8 @@ function get_hashrates(){
 		
 		if($miner == "optiminer-zcash"){
 			$raw = trim(`tail -400 /var/run/miner.output | grep -Poi "(?<=\[GPU$i\]\s\s)(\d+\.\d+\sI\/s\s)(\d+.\d+)" | cut -d" " -f 3 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);	
-		}																         
-
-		if($miner == "grin-miner"){
-			$raw = trim(`tail -300 /var/run/miner.output | egrep "Device $i" | grep "Graphs per second: " | grep -Poi "(?<=second:)\s((\d+)(\.\d+)?)" | sed 's/ //g' | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
 		}
-
-		if($miner == "bminer"){
-			$raw = trim(`tail -300 /var/run/miner.output | egrep "GPU $i" | grep -Po "(?<=Speed: )[0-9]+.[0-9][0-9]*" | tail -1`);
-		}
-
+		
 		if($miner == "wolf-xmr-cpu"){
 			$raw = trim(`tail -300 /var/run/miner.output | grep accepted | cut -d "," -f 2 | cut -d " " -f 2 | tail -100 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`)/$instances;
 		}
@@ -294,6 +286,9 @@ function get_hashrates(){
 		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled"){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
 		}
+		if ($miner == "miniz"){
+			$raw = trim(preg_replace('#\\x1b[[][^A-Za-z]*[A-Za-z]#', '', `tail -50 /var/run/miner.output | grep "$i>" | tr '*' ' ' | tail -1 | cut -d ' ' -f12 | sed 's/[)(]/ /g' | cut -d ' ' -f1`));
+		}
 
 		if($last_mod_secs < 300){
 			$miner_hash[$i] = sprintf('%05.2f', 0.00 + $raw);
@@ -310,4 +305,3 @@ function get_hashrates(){
 	return array($miner_hash, $dualminer_hash, $invalid_shares_per_gpu_array);
 }
 ?>
-
