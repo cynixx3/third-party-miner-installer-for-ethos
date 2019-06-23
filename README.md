@@ -46,19 +46,19 @@ This script was designed for ease of use. You can run a single command to instal
 **NOTICE: YOU SET THE LAST TWO WORDS** to what you want to do. Where the miner is the name of the miner branch in this repo and the actions are install, update, or revert
 IE for a full **install of bminer example** or an update of all files run:
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) bminer install`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miniz install`
 
 ### Updating
 The miner can be easily updated when new releases are out by just changing the action argument to "update"
 IE to only **update the bminer example** program to the latest release run:
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) bminer update`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miniz update`
 
 ### UnInstalling
 The miner can be easily uninstalled by changing the action argument to "revert"
 IE to **uninstall bminer example** run:
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) bminer revert`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miniz revert`
 
 ## ethOS Config Sample
 Here is an example of how to add bminer to ethos. These instructions will apply to any miner simply by changing "bminer" to the miner you want.
@@ -66,11 +66,11 @@ Here is an example of how to add bminer to ethos. These instructions will apply 
 ### Set the miner
 You can use the miner on your local config or globally on a remote config
 ```
-globalminer bminer
+globalminer miniz
 ```
 OR in a remote config to set just one rig
 ```
-miner c94e13 bminer
+miner c94e13 miniz
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
@@ -85,11 +85,11 @@ poolpass2 x
 ```
 OR to make it specific to this miner program in a remote config
 ```
-ubqminer=proxywallet walletORusername
-ubqminer=proxypool1 pool.com:port
-ubqminer=proxypool2 pool.com:port
-ubqminer=poolpass1 x
-ubqminer=poolpass2 x
+miniz=proxywallet walletORusername
+miniz=proxypool1 pool.com:port
+miniz=proxypool2 pool.com:port
+miniz=poolpass1 x
+miniz=poolpass2 x
 ```
 OR to make it specific to this rig
 ```
@@ -98,29 +98,6 @@ rigpool1 c94e13 pool.com:port
 rigpool2 c94e13 pool.com:port
 rigpoolpass1 c94e13 x
 rigpoolpass2 c94e13 x
-```
-###IMPORTANT Bminer specific flags
-You now can specify what algo you want to mine, using CUSTOM flags -- e.g. ```bminer=flags --stratum eth``` will mine ethash-daggermoto.
-
-Full list of stratum types
-```
-eth/ethash/ethereum -- ethash-daggermoto algorithms
-c29/cuckaroo29 -- Grin c29 algorithm *DEFAULT*
-c31/cuckatoo31 -- Grin c31 algorithm
-aeternity -- Aeternity (cuckoo) algorithm, similar to c29
-equihash1445 -- for mining equihash 144/5, you may specify your "-pers BitcoinZ" in your flags or leave it as auto (default)
-beam -- for mining equihash 150/5 Beam coin
-zhash -- for mining equihash 144.5 Bitcoin Gold specific, no personalization string needed
-```
-If you would like to use an SSL connection your would specify it in your flags like 
-```bminer=flags --secure true``` 
-or combine them
-```bminer=flags --stratum eth --secure true```
-
-NOTES:
-Some miners allow you to use a single cpu thread, for these you can set
-```
-globalminer bminer-single
 ```
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
 
