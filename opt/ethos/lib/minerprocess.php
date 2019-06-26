@@ -1088,7 +1088,7 @@ function start_miner()
 	        $flags = str_replace($flag_matches[1], "", $flags);
 	    }
 	    
-	    $flags = "--profile ETHOS --usercfg ".$lolconfig_path." --devices " . $selgpu .$flags;
+	    $flags = "--profile ETHOS --usercfg ".$lolconfig_path." --devices " . $selgpu . " " .$flags;
 	    
 	}
 	
