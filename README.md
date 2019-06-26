@@ -135,13 +135,13 @@ screen -x
 ```
 To disconnect from a screen session without killing the miner use the key combination `ctrl+a d` where you press ctrl and a a the same time, release, then press d. Using the ctrl+c key combination will kill the miner, not the screen session and create an interesting situation where rebooting is the easiest fix (alternative is `ctrl+a k y`, checking for live sessions with `screen -ls` and killing them if found, then restarting the miner with the `screen -dmS ...` command above.)
 
-### Installing the miner-manager (optional)
-If you plan to use this often you can download the miner-manager script, give it execute permissions. To install simply copy paste the command:
+### Installing the miner-manager (optional) (This does not install a miner, just the script)
+If you plan to use this often you can download the miner-manager script and give it execute permissions. To install simply copy paste the command:
 ```
 sudo wget https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager -O /usr/bin/miner-manager
 sudo chmod +x /usr/bin/miner-manager
 ```
-and use it with `miner-manager miner action` To update the manager script just repeat the first command.
+When installed you can use it with `miner-manager miner action` instead of the larger bash <(curl ... commands above. To update the manager script just repeat the first command.
 
 ### Farms
 You are limited to installing 30 miners an hour as this script makes 2 API querries per install. With authenticated requests you get enough to install on 2,500 miners per hour per user.
