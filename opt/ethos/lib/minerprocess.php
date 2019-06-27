@@ -1031,7 +1031,7 @@ function start_miner()
 	            "APIPORT"=>$apiport
 	        ),
 	        "ETHOS"=>array(
-	            "COIN"=>"ZER",
+	            "COIN"=>"BEAM",
 	            "POOLS"=>array()
 	        )
 	    );
@@ -1052,12 +1052,17 @@ function start_miner()
                 }
             }
 
-	    //read coin from flags and remove option from flags
-	    if(preg_match("/(--coin(\s+).*)/", $flags, $coin_matches)) {
-	        $coin = explode(" ", $coin_matches[0]);
-	        $lolconfig["ETHOS"]["COIN"] = $coin[1];
-	        $flags = str_replace($coin_matches[1], "", $flags);
-	    }
+            //read coin from flags and remove option from flags
+            if(preg_match("/(--coin(\s+).*)/", $flags)) {
+                $coin = trim(`echo $flags | grep -Poi '(?<=--coin )[a-z]+'`);
+                $lolconfig["ETHOS"]["COIN"] = $coin;
+                $flags = str_replace("--coin $coin", "", $flags);
+            }
+
+            if(preg_match("/(--tls(\s+).*)/", $flags)) {
+                $secure = trim(`echo $flags | grep -Poi '(?<=--tls )[0-1]'`);
+                $flags = str_replace("--tls $secure", "", $flags);
+            }
 
 	    //set pool array
 	    foreach($poolarr as $poolidx=>$pool) {
@@ -1069,7 +1074,8 @@ function start_miner()
 	                    "POOL"=>$pool_matches[2],
 	                    "PORT"=>$pool_matches[3],
 	                    "USER"=>$proxywallet,
-	                    "PASS"=>(($poolpass == "") ? "x" : $poolpass)
+	                    "PASS"=>(($poolpass == "") ? "x" : $poolpass),
+                            "TLS"=>(($secure == "") ? "0" : $secure)
 	                );
 	            }
 	        }
@@ -1088,7 +1094,7 @@ function start_miner()
 	        $flags = str_replace($flag_matches[1], "", $flags);
 	    }
 	    
-	    $flags = "--profile ETHOS --usercfg ".$lolconfig_path." --devices " . $selgpu . " " .$flags;
+	    $flags = "--profile ETHOS --usercfg " . $lolconfig_path . " --devices " . $selgpu . " " . $flags;
 	    
 	}
 	
