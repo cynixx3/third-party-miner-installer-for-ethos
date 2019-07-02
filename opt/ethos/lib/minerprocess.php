@@ -1054,7 +1054,7 @@ function start_miner()
 
             //read coin from flags and remove option from flags
             if(preg_match("/(--coin(\s+).*)/", $flags)) {
-                $coin = trim(`echo $flags | grep -Poi '(?<=--coin )[a-z]+'`);
+                $coin = trim(`echo $flags | grep -Poi '(?<=--coin )[a-z].*+'`);
                 $lolconfig["ETHOS"]["COIN"] = $coin;
                 $flags = str_replace("--coin $coin", "", $flags);
             }
