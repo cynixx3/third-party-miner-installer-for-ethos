@@ -776,6 +776,9 @@ function start_miner()
 		if(!preg_match("/-log/", $config_string)){
 		    $config_string .= " -log 0 ";
 		}
+                if(!preg_match("/-wdog/",$config_string)) {
+                    $config_string .= " -wdog 0 ";
+                }
                 $pools = " -pool $proxypool1 -wal $proxywallet -pass $poolpass1 ";
                 if($proxypool2 != "") {
                     $pools .= " -pool2 $proxypool2 -wal2 $proxywallet -pass2 $poolpass2 ";
