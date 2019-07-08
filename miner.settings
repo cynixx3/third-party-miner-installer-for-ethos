@@ -1,3 +1,4 @@
+# Get the miner from https://miniz.ch/download/#latest-version
 # Using Default settings
 #GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
-#RELEASE_SHASUM="5caaa5cc4bfd44dd99a9b8d6fb4930d52005f51271259fb0e86ca48344591a1a"
+RELEASE_SHASUM="cf2b1df8de2f52a73e3f596b4164bcfc00bb8bd01896e8d12b4fbf46bba8e676"
