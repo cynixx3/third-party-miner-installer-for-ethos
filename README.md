@@ -14,7 +14,7 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 - [NVIDIA] - [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) - Latest (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) - Latest
 - [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner) - Latest (miner only, run manually in /opt/miners/zilminer/)
-- [NVIDIA] - [miniz](https://miniz.ch/) - repo hosted version v1.3n5
+- [NVIDIA] - [miniz](https://miniz.ch/) - repo hosted version v1.4o
 - [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - Hard Linked v15.5
 - [AMD,NVIDIA] - [claymore](https://bitcointalk.org/index.php?topic=1433925.0) - Hard Linked v14.6
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) - Custom Compiled v2.2.1
