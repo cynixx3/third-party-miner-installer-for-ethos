@@ -765,10 +765,10 @@ function start_miner()
                 if($driver == "nvidia"){
                     $config_string .= " -nvidia ";
                 } else {
-                    $config_string .= " -amd ";
+                    $config_string .= " -amd -altinit";
                 }
                 if(!preg_match("/-gser/",$config_string)) {
-                    $config_string .= " -gser 2 ";
+                    $config_string .= " -gser 0 ";
                 }
                 if ($worker != "") {
                     $config_string .= " -worker " . $worker . " ";
