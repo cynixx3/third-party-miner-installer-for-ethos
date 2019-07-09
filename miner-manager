@@ -39,11 +39,16 @@ elif [ "$GITHUB_USERNAME" ] ; then
 fi
 
 # Get miner files and setup temporary opt/
+if [[ "$MINER_BRANCH" =~ "^ccminer$" ]] ; then 
+  $DOWNLOAD_BRANCH="ccminer-tpruvot" 
+else
+  $DOWNLOAD_BRANCH="$MINER_BRANCH"
+fi
 f.PREPMINER(){
   echo "Getting latest release of miner"
   if [ -z "$DOWNLOAD_URL" ] ; then 
     DOWNLOAD_URL=$(curl "$GIT_LOGIN" -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
-    | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
+    | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
     | grep -vE '(osx|txt)' \
     | head -1 )
