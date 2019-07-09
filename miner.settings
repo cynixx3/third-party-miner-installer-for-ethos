@@ -1,2 +1,3 @@
 # Using Default settings
 GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
+HOOK_PREP_MINER="/opt/miners/ccminer/ccminer --version | grep ccminer > /opt/miners/ccminer/ccminer-version.txt"
