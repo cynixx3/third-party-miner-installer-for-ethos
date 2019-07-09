@@ -40,9 +40,9 @@ fi
 
 # Get miner files and setup temporary opt/
 if [[ "$MINER_BRANCH" =~ "^ccminer$" ]] ; then 
-  $DOWNLOAD_BRANCH="ccminer-tpruvot" 
+  DOWNLOAD_BRANCH="ccminer-tpruvot" 
 else
-  $DOWNLOAD_BRANCH="$MINER_BRANCH"
+  DOWNLOAD_BRANCH="$MINER_BRANCH"
 fi
 f.PREPMINER(){
   echo "Getting latest release of miner"
