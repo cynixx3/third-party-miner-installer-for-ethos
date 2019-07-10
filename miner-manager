@@ -22,12 +22,6 @@ GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 #RELEASE_SHASUM="sha256sum of archive"
 #DEPENDS="URL URL"
 
-# Check Github API rate limit
-if [ "$(curl -is https://api.github.com/rate_limit | grep -m1 ^X-RateLimit-Remaining | cut -d : -f 2 | sed 's/\r//g')" -le 2 ] ; then
-  echo "You have installed the maximum number of rigs github allows. You need to wait until $(date -d @"$(curl -is https://api.github.com/rate_limit | grep ^X-RateLimit-Reset: | cut -d : -f 2)" +"%r") or add GitHub authentication."
-  exit 19
-fi
-
 # Assemble API user login
 if [ -f /home/ethos/.gituser ] ; then
   source <(grep -m2 ^GITHUB_.*=".*"$ /home/ethos/.gituser)
@@ -36,6 +30,12 @@ if [ "$GITHUB_PASSWORD" ] ; then
   GIT_LOGIN=" --user $GITHUB_USERNAME:$GITHUB_PASSWORD"
 elif [ "$GITHUB_USERNAME" ] ; then
   GIT_LOGIN=" --user $GITHUB_USERNAME"
+fi
+
+# Check Github API rate limit
+if [ "$(curl -is $GIT_LOGIN https://api.github.com/rate_limit | grep -m1 ^X-RateLimit-Remaining | cut -d : -f 2 | sed 's/\r//g')" -le 2 ] ; then
+  echo "You have installed the maximum number of rigs github allows. You need to wait until $(date -d @"$(curl -is https://api.github.com/rate_limit | grep ^X-RateLimit-Reset: | cut -d : -f 2)" +"%r") or add GitHub authentication."
+  exit 19
 fi
 
 # Get miner files and setup temporary opt/
