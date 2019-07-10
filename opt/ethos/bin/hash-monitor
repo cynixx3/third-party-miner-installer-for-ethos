@@ -183,8 +183,8 @@ function get_hashrates(){
 		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);	
 	}
 	
-	if ($miner == "t-rex") {
-		$raw_trx_stats = @json_decode(trim(`echo 'summary' | socat -t 15 stdio tcp-connect:127.0.0.1:4068`), true);
+	if ($miner == "nbminer") {
+		$raw_nbminer_stats = json_decode(file_get_contents("http://127.0.0.1:4028/api/v1/status"), true);
 	}
 
 	for($i = 0;$i < $instances; $i++){
@@ -291,11 +291,8 @@ function get_hashrates(){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
 		}
 		
-		if ($miner == "t-rex") {
-			$raw = $raw_trx_stats["gpus"][$i]["hashrate_minute"];
-			if ($raw > 1000*1000) {
-				$raw = $raw / 1000 / 1000;
-			}
+		if ($miner == "nbminer") {
+			$raw = $raw_nbminer_stats["miner"]["devices"][$i]["hashrate"];
 		}
 
 		if($last_mod_secs < 300){
