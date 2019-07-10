@@ -1,6 +1,0 @@
-logfile /var/run/miner.output
-chdir /opt/miners/t-rex
-caption always
-caption string "%{= RW} $STY | %c:%s | host:%H | load:%l | Return to terminal: Ctrl-A D"
-multiuser on
-acladd root
