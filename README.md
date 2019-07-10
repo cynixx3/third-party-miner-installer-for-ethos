@@ -3,19 +3,9 @@
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
 ### List of currently supported miners
-	* [AMD] lolminer 0.7a (equihash 150/5 only)
-	* [AMD] teamredminer
-	* [AMD] xmrig-amd 
-	* [AMD] wildrig-multi
-	* [NVIDIA] cryptodredge
-	* [NVIDIA] grin-miner
-	* [NVIDIA] t-rex
-	* [AMD,NVIDIA] energiminer
-	* [AMD,NVIDIA] gringoldminer (miner only, /opt/miners/gringoldminer/)
-	* [AMD,NVIDIA] phoenixminer
-	* [AMD,NVIDIA] ubqminer
-	* [AMD,NVIDIA] xmr-stak -- hashrate reporting fix for multiple threads
-	* [AMD,CPU,NVIDIA] soliditysha3miner
+	* 
+	* SEE MASTER BRANCH
+	* 
 
 ### ONLY ONE MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten on the installation of each miner.
@@ -43,7 +33,7 @@ source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-ins
 Where the miner is the branch in the repo and the actions are install, update, or revert
 IE for a full install of t-rex or an update of all files run:
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) t-rex install
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) nbminer install
 ```
 
 ### Updating
@@ -51,7 +41,7 @@ source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-ins
 The miner can be easily updated when new releases are out by just changing the action argument to "update"
 IE to only update the t-rex program to the latest release run:
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) t-rex update
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) nbminer update
 ```
 
 ### UnInstalling
@@ -60,7 +50,7 @@ The miner can be easily uninstalled by changing the action argument to "revert"
 IE to uninstall t-rex run:
 
 ```
-source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) t-rex revert
+source <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) nbminer revert
 ```
 
 ## Config Sample
@@ -69,11 +59,11 @@ Here is an example of how to add t-rex to ethos. These instructions will apply t
 ### Set the miner
 You can use the miner on your local config or globally on a remote config
 ```
-globalminer t-rex
+globalminer nbminer
 ```
 OR in a remote config to set just one rig
 ```
-miner c94e13 t-rex
+miner c94e13 nbminer
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
@@ -88,11 +78,11 @@ poolpass2 x
 ```
 OR to make it specific to this miner program in a remote config
 ```
-t-rex=proxywallet walletORusername
-t-rex=proxypool1 pool.com:port
-t-rex=proxypool2 pool.com:port
-t-rex=poolpass1 x
-t-rex=poolpass2 x
+nbminer=proxywallet walletORusername
+nbminer=proxypool1 pool.com:port
+nbminer=proxypool2 pool.com:port
+nbminer=poolpass1 x
+nbminer=poolpass2 x
 ```
 OR to make it specific to this rig
 ```
@@ -104,10 +94,6 @@ rigpoolpass2 c94e13 x
 ```
 
 NOTES:
-Some miners allow you to use a single cpu thread, for these you can set
-```
-globalminer t-rex-single
-```
 Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
 
 ## Development
