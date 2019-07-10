@@ -14,7 +14,7 @@ ALLOW="$(cat /opt/ethos/etc/allow.file)"
 # Either install the miner-manager and add a github.com user / pass here
 # or add the two lines to a file /home/ethos/.gituser and you can continue to use the source command or via install. 
 #GITHUB_USERNAME="GitUser"
-#GITHUB_PASSWORD="GitPassword
+#GITHUB_PASSWORD="GitPassword"
 
 # Default miner.settings
 TMP_DIR="/tmp/newminer"
