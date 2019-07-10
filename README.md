@@ -153,8 +153,10 @@ To authenticate, simply either use a file (/home/ethos/.gituser) or use the vari
 - GITHUB_USERNAME
 - GITHUB_PASSWORD
 
+An example file is in this [repository](https://github.com/cynixx3/third-party-miner-installer-for-ethos/blob/master/.gituser) but is not installed by default.
+
 ## Development
-If you are a developer please check the [developers](https://github.com/cynixx3/third-party-miner-installer-for-ethos/blob/master/DEVELOPERS.md) guide for information on how to add your miner to ethos and / or this repo.
+If you are a developer please check the [developers guide](https://github.com/cynixx3/third-party-miner-installer-for-ethos/blob/master/DEVELOPERS.md) for information on how to add your miner to ethos and this repo.
 
 ### Contributing
 Any setting changes to the miner-manager (like an updated release) should be made to the miner.settings file in each miners branch of this repo.
