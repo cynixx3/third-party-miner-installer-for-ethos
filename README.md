@@ -10,7 +10,7 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 - [NVIDIA] - [ccminer](https://github.com/tpruvot/ccminer) - Custom Compiled v2.3.1
 - [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) - Latest
 - [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - Custom Compiled v1.0.2 (AMD limited to a single GPU)
-- [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - Latest (miner only, run manually in /opt/miners/nbminer/)
+- [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - Latest -- full integration 2019/07/10
 - [NVIDIA] - [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) - Latest (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) - Latest
 - [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner) - Latest (miner only, run manually in /opt/miners/zilminer/)
