@@ -1108,6 +1108,10 @@ function start_miner()
 	            case "cuckaroo29":
 	                $stratum = "cuckaroo29";
 	                break;
+	            case "c29d":
+	            case "cuckarood29":
+	                $stratum = "cuckaroo29d";
+	                break;
 	            case "aeternity":
 	                $stratum = "aeternity";
 	                break;
