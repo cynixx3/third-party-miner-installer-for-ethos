@@ -2,26 +2,9 @@
 This **_UNOFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
 ### List of currently supported miners [click name to get miner specific information]
-- [AMD] - [cast-xmr](https://github.com/glph3k/cast_xmr)
-- [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5027811.0)
-- [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) 
-- [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0)
-- [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0)
-- [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - (AMD limited to a single GPU)
-- [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - (miner only, run manually in /opt/miners/nbminer/)
-- [NVIDIA] - [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) - (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
-- [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0)
-- [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner/) - (miner only, run manually in /opt/miners/zilminer/)
-- [AMD,NVIDIA] - [bminer](https://www.bminer.me/)
-- [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0)
-- [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - (miner only, run manually in /opt/miners/gringoldminer/)
-- [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - (*updated, fully integrated)
-- [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - 0.7a (equihash 150/5 only, Beam)
-- [AMD,NVIDIA] - [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) - (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
-- [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0)
-- [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0)
-- [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - hashrate reporting fix for multiple threads
-- [AMD,CPU,NVIDIA] - [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner)
+- 
+- ***** SEE MASTER BRANCH ****
+- 
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
@@ -105,6 +88,7 @@ You now can specify what algo you want to mine, using CUSTOM flags -- e.g. ```bm
 Full list of stratum types
 ```
 eth/ethash/ethereum -- ethash-daggermoto algorithms
+c29d/cuckaroo29d -- Grin c29 algorithm (July 2019 Hardfork)
 c29/cuckaroo29 -- Grin c29 algorithm *DEFAULT*
 c31/cuckatoo31 -- Grin c31 algorithm
 aeternity -- Aeternity (cuckoo) algorithm, similar to c29
