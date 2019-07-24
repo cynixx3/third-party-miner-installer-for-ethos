@@ -1,39 +1,44 @@
 # Miner Manager for ethOS
 This **_OFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
 
-### List of currently supported miners [click name to get miner specific information]
-- [AMD] - [cast-xmr](https://github.com/glph3k/cast_xmr) - Hard Linked v1.7.1
-- [AMD] - [teamredminer](https://bitcointalk.org/index.php?topic=5059817.0) - Latest
-- [AMD] - [xcash-amd](https://github.com/X-CASH-official/XCASH_AMD_Miner) - Custom Compiled v1 (miner only, run manually in /opt/miners/xcash-amd/)
-- [AMD] - [xmrig-amd](https://github.com/xmrig/xmrig-amd) - Latest
-- [AMD] - [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) - Latest
-- [NVIDIA] - [ccminer](https://github.com/tpruvot/ccminer) - Custom Compiled v2.3.1
-- [NVIDIA] - [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) - Latest
-- [NVIDIA] - [grin-miner](https://github.com/mimblewimble/grin-miner) - Custom Compiled v1.0.2 (AMD limited to a single GPU)
-- [NVIDIA] - [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) - Latest -- full integration 2019/07/10
-- [NVIDIA] - [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) - Latest (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
-- [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) - Latest
-- [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner) - Latest (miner only, run manually in /opt/miners/zilminer/)
-- [NVIDIA] - [miniz](https://miniz.ch/) - Hard Linked v1.4o
-- [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - Hard Linked v15.7.1
-- [AMD,NVIDIA] - [claymore](https://bitcointalk.org/index.php?topic=1433925.0) - Hard Linked v14.6
-- [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) - Custom Compiled v2.2.1
-- [AMD,NVIDIA] - [ethminer](https://github.com/ethereum-mining/ethminer) - Custom Compiled v18.0
-- [AMD,NVIDIA] - [gminer](https://github.com/develsoftware/GMinerRelease) - Latest
-- [AMD,NVIDIA] - [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) - Latest (miner only, run manually in /opt/miners/gringoldminer/)
-- [AMD,NVIDIA] - [grinpro](https://grinpro.io/) - Hard Linked v1.2
-- [AMD,NVIDIA] - [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) - Latest
-- [AMD,NVIDIA] - [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) - Custom Compiled v2.0a (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
-- [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) - Hard Linked v4.2c
-- [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) - Latest
-- [AMD,NVIDIA] - [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) - Custom Compiled v1
-- [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - Custom Compiled v2.10.6
-- [AMD,CPU,NVIDIA] - [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) - Latest
+### List of currently supported miners 
 
 *key*
-Latest = Miner programs are downloaded directly from developers release source. You can update when the developer releases the miner.
-Hard Linked = We link to the miner program version directly, either from the developers source or this repo. You can update when we link to the new version.
-Custom Compiled = We had to compile these miners from code to work on ethOS. You can update when we compile the new version.
+- :heavy_check_mark: = Fully integrated into ethOS for configuration and hash reporting.
+- :x: = Only miner program is included and may not be able to be configured or report hash with ethOS. You will need to run the miner manually in /opt/miners/MINERNAME and monitor it with your own solution. 
+- :rocket: = Miner programs are downloaded directly from developers release source. You can update as soon as the developer releases the miner.
+- :link: = We link to the miner program version directly, either from the developers source or this repo. You can update when we update the link to the new version.
+- :snail: = We had to compile these miners from code to work on ethOS using the [miner-builder](https://github.com/cynixx3/docker-ethos-open-source-miner-builder). You can update only after we compile and link the new version.
+
+Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (click name to get miner specific information) | Notes
+------------ | ------------- | ------------ | ------------- | ----
+:heavy_check_mark: | :link: v1.7.1 | AMD | [cast-xmr](https://github.com/glph3k/cast_xmr) | Hard Linked **v1.7.1**
+:heavy_check_mark: | :rocket: | AMD | [teamredminer](https://bitcointalk.org/index.php?topic=5059817.0) | Latest
+:x: | :snail: v1 | AMD | [xcash-amd](https://github.com/X-CASH-official/XCASH_AMD_Miner) | Custom Compiled **v1** (miner only, run manually in /opt/miners/xcash-amd/)
+:heavy_check_mark: | :rocket: | AMD | [xmrig-amd](https://github.com/xmrig/xmrig-amd) | Latest
+:heavy_check_mark: | :rocket: | AMD | [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) | Latest
+:heavy_check_mark: | :snail: v2.3.1 | NVIDIA | [ccminer](https://github.com/tpruvot/ccminer) | Custom Compiled **v2.3.1**
+:heavy_check_mark: | :rocket: | NVIDIA | [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) | Latest
+:heavy_check_mark: | :snail: v1.0.2 | NVIDIA | [grin-miner](https://github.com/mimblewimble/grin-miner) | Custom Compiled **v1.0.2** (AMD limited to a single GPU)
+:heavy_check_mark: | :rocket: | NVIDIA | [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) | Latest -- full integration 2019/07/10
+:x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | Latest (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
+:heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | Latest
+:x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | Latest (miner only, run manually in /opt/miners/zilminer/)
+:heavy_check_mark: | :link: v1.4o | NVIDIA | [miniz](https://miniz.ch/) | Hard Linked **v1.4o**
+:heavy_check_mark: | :link: v15.7.1 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Hard Linked **v15.7.1**
+:heavy_check_mark: | :link: v14.6 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | Hard Linked **v14.6**
+:heavy_check_mark: | :snail: v2.2.1 | AMD NVIDIA | [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) | Custom Compiled **v2.2.1**
+:heavy_check_mark: | :snail: v18.0 | AMD NVIDIA | [ethminer](https://github.com/ethereum-mining/ethminer) | Custom Compiled **v18.0**
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [gminer](https://github.com/develsoftware/GMinerRelease) | Latest
+:x: | :rocket: | AMD NVIDIA | [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) | Latest (miner only, run manually in /opt/miners/gringoldminer/)
+:heavy_check_mark: | :link: v1.2 | AMD NVIDIA | [grinpro](https://grinpro.io/) | Hard Linked **v1.2**
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) | Latest
+:x: | :snail: v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | Custom Compiled **v2.0a** (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
+:heavy_check_mark: | :link: v4.2c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | Hard Linked **v4.2c**
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) | Latest
+:heavy_check_mark: | :snail: v1 | AMD NVIDIA | [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) | Custom Compiled **v1**
+:heavy_check_mark: | :snail: v2.10.6 | AMD NVIDIA | [xmr-stak](https://github.com/fireice-uk/xmr-stak) | Custom Compiled **v2.10.6**
+:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | Latest
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
