@@ -14,7 +14,7 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 - [NVIDIA] - [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) - Latest (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
 - [NVIDIA] - [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) - Latest
 - [NVIDIA] - [zilminer](https://github.com/DurianStallSingapore/ZILMiner) - Latest (miner only, run manually in /opt/miners/zilminer/)
-- [NVIDIA] - [miniz](https://miniz.ch/) - repo hosted version v1.4o
+- [NVIDIA] - [miniz](https://miniz.ch/) - Hard Linked v1.4o
 - [AMD,NVIDIA] - [bminer](https://www.bminer.me/) - Hard Linked v15.7.1
 - [AMD,NVIDIA] - [claymore](https://bitcointalk.org/index.php?topic=1433925.0) - Hard Linked v14.6
 - [AMD,NVIDIA] - [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) - Custom Compiled v2.2.1
@@ -27,8 +27,13 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 - [AMD,NVIDIA] - [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) - Hard Linked v4.2c
 - [AMD,NVIDIA] - [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) - Latest
 - [AMD,NVIDIA] - [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) - Custom Compiled v1
-- [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - Custom Compiled v2.10.5 - hashrate reporting fix for multiple threads
+- [AMD,NVIDIA] - [xmr-stak](https://github.com/fireice-uk/xmr-stak) - Custom Compiled v2.10.6
 - [AMD,CPU,NVIDIA] - [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) - Latest
+
+*key*
+Latest = Miner programs are downloaded directly from developers release source. You can update when the developer releases the miner.
+Hard Linked = We link to the miner program version directly, either from the developers source or this repo. You can update when we link to the new version.
+Custom Compiled = We had to compile these miners from code to work on ethOS. You can update when we compile the new version.
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
