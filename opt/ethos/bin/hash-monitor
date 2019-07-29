@@ -182,7 +182,7 @@ function get_hashrates(){
 	if ($miner == "teamredminer")	{
                 `echo "devs|" | socat -t 15 stdio tcp-connect:127.0.0.1:4028 > /var/run/ethos/miner.dump`;
                 $teamred_av = explode(" ",trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a "MHS av" | cut -d"=" -f2 | xargs`));
-                if(preg_match("/cn/",`cat /tmp/minercmd`)){
+                if(preg_match("/(cn|grin)/",`cat /tmp/minercmd`)){
                         $teamred_av = explode(" ",trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a "KHS av" | cut -d"=" -f2 | awk '{print $1*1000}' | xargs`));
                 }
                 $teamred_hwerror = trim(`cat /var/run/ethos/miner.dump | tr ',' '\n' | grep -a "Hardware Errors"| cut -d"=" -f2 | xargs`);
