@@ -34,7 +34,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :link: v1.2 | AMD NVIDIA | [grinpro](https://grinpro.io/) | Hard Linked **v1.2**
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) | Latest
 :x: | :snail: v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | Custom Compiled **v2.0a** (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
-:heavy_check_mark: | :link: v4.2c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | Hard Linked **v4.2c**
+:heavy_check_mark: | :link: v4.5c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | Hard Linked **v4.5c**
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) | Latest
 :heavy_check_mark: | :snail: v1 | AMD NVIDIA | [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) | Custom Compiled **v1**
 :heavy_check_mark: | :snail: v2.10.7 | AMD NVIDIA | [xmr-stak](https://github.com/fireice-uk/xmr-stak) | Custom Compiled **v2.10.7**
