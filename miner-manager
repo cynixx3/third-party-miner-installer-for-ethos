@@ -30,6 +30,8 @@ if [ "$GITHUB_PASSWORD" ] ; then
   GIT_LOGIN=" --user $GITHUB_USERNAME:$GITHUB_PASSWORD"
 elif [ "$GITHUB_USERNAME" ] ; then
   GIT_LOGIN=" --user $GITHUB_USERNAME"
+else
+  GIT_LOGIN=""
 fi
 
 # Check Github API rate limit
@@ -46,6 +48,18 @@ else
 fi
 f.PREPMINER(){
   echo "Getting latest release of miner"
+#TODO test use of third argument to find specific miner version (downgrade) 
+#  if [ -z "$DOWNLOAD_URL" -a "$3" ] ; then 
+#    DOWNLOAD_URL=$(curl "$GIT_LOGIN" -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
+#    | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
+#    | cut -d '"' -f 4 \
+#    | grep -vE '(osx|txt)' \
+#    | greg "$3" )
+#    if [ -z "$DOWNLOAD_URL" ] ; then 
+#      echo "WARNING: Unable to find $MINER_BRANCH version $3. Defaulting to latest version"
+#    fi
+#  fi
+# 
   if [ -z "$DOWNLOAD_URL" ] ; then 
     DOWNLOAD_URL=$(curl "$GIT_LOGIN" -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
     | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
@@ -246,8 +260,8 @@ ${AVAILABLE_MINERS[@]}" | sed -E 's/ +"name": "([a-z0-9\-]+?)", ?/ \1\n/g'
 mapfile -t AVAILABLE_MINERS < <(curl "$GIT_LOGIN" -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | grep -Ev '(ethos|master)')
 
 # TODO add logging
-if [ "$#" -ne "2" ] ; then
-  f.HELP "Wrong number of arguments, must be 2 arguments miner and action, please refer to https://github.com/cynixx3/third-party-miner-installer-for-ethos"
+if [ "$#" -lt "2" -o "$#" -gt "3" ] ; then
+  f.HELP "Wrong number of arguments, must have 2 arguments, a miner and action, please refer to https://github.com/cynixx3/third-party-miner-installer-for-ethos"
   exit 1
 elif ! [[ "${AVAILABLE_MINERS[@]}" == *"\"$MINER_BRANCH\""* ]] ; then
   f.HELP "Invalid miner selected, Please choose from the list below"
