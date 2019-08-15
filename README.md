@@ -18,6 +18,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :rocket: | AMD | [xmrig-amd](https://github.com/xmrig/xmrig-amd) | Latest
 :heavy_check_mark: | :rocket: | AMD | [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) | Latest
 :heavy_check_mark: | :snail: v2.3.1 | NVIDIA | [ccminer](https://github.com/tpruvot/ccminer) | Custom Compiled **v2.3.1**
+:x: | :snail: 1.1.23 | NVIDIA | [ccminer-Zcoin](https://github.com/zcoinofficial/ccminer) | Custom Compiled **v1.1.23**
 :heavy_check_mark: | :rocket: | NVIDIA | [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) | Latest
 :heavy_check_mark: | :snail: v1.0.2 | NVIDIA | [grin-miner](https://github.com/mimblewimble/grin-miner) | Custom Compiled **v1.0.2** (AMD limited to a single GPU)
 :heavy_check_mark: | :rocket: | NVIDIA | [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) | Latest -- full integration 2019/07/10
@@ -32,6 +33,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [gminer](https://github.com/develsoftware/GMinerRelease) | Latest
 :x: | :rocket: | AMD NVIDIA | [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) | Latest (miner only, run manually in /opt/miners/gringoldminer/)
 :heavy_check_mark: | :link: v1.2 | AMD NVIDIA | [grinpro](https://grinpro.io/) | Hard Linked **v1.2**
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [kbminer](https://github.com/mcarloai/minerbabe-kbminer) | Grin, AE, VDS
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) | Latest
 :x: | :snail: v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | Custom Compiled **v2.0a** (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
 :heavy_check_mark: | :link: v4.5c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | Hard Linked **v4.5c**
