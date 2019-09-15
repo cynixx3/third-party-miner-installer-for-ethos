@@ -1,2 +1,2 @@
-GIT_USER_REPO="xmrig/xmrig-amd"
+GIT_USER_REPO="bogdanadnan/ninjarig"
 #DEPENDS=(http://security.ubuntu.com/ubuntu/pool/main/g/gcc-4.8/gcc-4.8-base_4.8.4-2ubuntu1~14.04.4_amd64.deb https://launchpad.net/~ubuntu-toolchain-r/+archive/ubuntu/test/+build/14981774/+files/gcc-8-base_8.1.0-5ubuntu1~14.04_amd64.deb)
