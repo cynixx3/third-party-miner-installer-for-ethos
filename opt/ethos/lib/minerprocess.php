@@ -994,7 +994,7 @@ function start_miner()
 		}
 
 		if(!preg_match("/(-a[\s]|--algo)/",$flags)) {
-			$flags .= " --algo x16rv2 ";
+			$flags .= " --algo cnr ";
 		}
 
 		$pools="-o $proxypool1 -u $proxywallet$worker -p $poolpass1 ";
