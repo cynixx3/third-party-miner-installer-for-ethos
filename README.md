@@ -25,7 +25,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | Latest (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
 :heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | Latest
 :x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | Latest (miner only, run manually in /opt/miners/zilminer/)
-:heavy_check_mark: | :link: v1.4o | NVIDIA | [miniz](https://miniz.ch/) | Hard Linked **v1.4o**
+:heavy_check_mark: | :link: v1.5r | NVIDIA | [miniz](https://miniz.ch/) | Hard Linked **v1.5r**
 :heavy_check_mark: | :link: v15.7.1 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Hard Linked **v15.7.1**
 :heavy_check_mark: | :link: v14.7 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | Hard Linked **v14.7**
 :heavy_check_mark: | :snail: v2.2.1 | AMD NVIDIA | [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) | Custom Compiled **v2.2.1**
