@@ -287,7 +287,7 @@ function get_hashrates(){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
 		}
 		if ($miner == "miniz"){
-			$raw = trim(preg_replace('#\\x1b[[][^A-Za-z]*[A-Za-z]#', '', `tail -50 /var/run/miner.output | grep "$i>" | cut -d '\`' -f2 | sed 's/[)*(]/ /g' | awk -F"Sol/s" '{print $1}' | sed 's/ //' | rev | cut -d' ' -f2 | rev |  tail -1`));
+			$raw = trim(`tail -50 /var/run/miner.output | grep "$i>" | tr '*' ' ' | sed 's/[)*(]/ /g' | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | grep -Po "[0-9]+\.[0-9]+\s[0-9]+\.[0-9]+\sSol\/s" | cut -d' ' -f1 | tail -1`);
 		}
 
 		if($last_mod_secs < 300){
