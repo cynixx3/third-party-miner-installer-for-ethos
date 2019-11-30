@@ -1082,10 +1082,10 @@ function start_miner()
 	}
 	
 	/********************************
-	 * XMRIG-AMD
+	 * XMRIG
 	 ********************************/
 	
-	if ($miner == "xmrig-amd") {
+	if ($miner == "xmrig") {
 	    delete_old_api_port();
 	    $apiport = select_api_port();
 	    // shell_exec("cp /opt/ethos/etc/xmrig-amd-config.json /var/run/ethos/xmrig-config.json");
@@ -1093,27 +1093,22 @@ function start_miner()
 	    if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != ""){
 	        $mine_with = "--opencl-devices $devices";
 	    }
-	    
-	    $extraflags .= "--api-port $apiport --print-time 15";
+	    if(!preg_match("/-t|--threads/", $flags)){
+		$flags .= " --no-cpu";
+            }
+	    $extraflags .= "--opencl --http-port $apiport --print-time 15";
 	    if(!preg_match("/--donate-level/", $flags)) { $flags .= " --donate-level 5"; }
 	    if($stratumtype == "nicehash") { $flags .= " --nicehash"; }
-	    if(!preg_match("/-a/", $flags)) { $flags .= " -a cryptonight"; }
-	    if(preg_match("/--variant (\S*).*/", $flags, $matches)) {
-	        $variant = $matches[1]; } else {
-	            $variant = " -1";
-	        }
-	        
-	        // always show worker here
-	        $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
-	        $flags .= " --rig-id " . $worker;
-	        // only worker.wallet when name enabled
-	        if($namedisabled != true) { $proxywallet .= ".$worker";}
-	        
-	        $pools="-o $proxypool1 -u $proxywallet -p $poolpass1 --variant $variant";
-	        
-	        if($proxypool2 != "") {
-	            $pools .= " -o $proxypool2 -u $proxywallet -p $poolpass2 --variant $variant ";
-	        }
+	    if(!preg_match("/(-a|--coin)/", $flags)) { $flags .= " --coin monero"; }
+            // always show worker here
+            $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
+            $flags .= " --rig-id " . $worker;
+            // only worker.wallet when name enabled
+            if($namedisabled != true) { $proxywallet .= ".$worker";}
+            $pools="-o $proxypool1 -u $proxywallet -p $poolpass1 ";
+            if($proxypool2 != "") {
+                $pools .= " -o $proxypool2 -u $proxywallet -p $poolpass2 ";
+            }
 	        
 	}
 
@@ -1142,7 +1137,7 @@ function start_miner()
 	$miner_path['teamredminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.teamredminer -l -L -dmS teamredminer /opt/miners/teamredminer/teamredminer";
 	$miner_path['ewbf-equihash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-equihash -l -L -dmS ewbf-equihash /opt/miners/ewbf-equihash/ewbf-equihash";
 	$miner_path['lolminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.lolminer -l -L -dmS lolminer /opt/miners/lolminer/lolMiner";
-	$miner_path['xmrig-amd'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.xmrig-amd -l -L -dmS xmrig-amd /opt/miners/xmrig-amd/xmrig-amd";
+	$miner_path['xmrig'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.xmrig -l -L -dmS xmrig /opt/miners/xmrig/xmrig";
 	
 			
 	$start_miners = select_gpus();
@@ -1176,7 +1171,7 @@ function start_miner()
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
-		$miner_params['xmrig-amd'] = $flags ." ". $pools;
+		$miner_params['xmrig'] = $flags ." ". $pools;
 		
 		$miner_suffix['avermore'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['dstm-zcash'] = " " . $mine_with . " " . $extraflags;
@@ -1200,7 +1195,7 @@ function start_miner()
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
 		$miner_suffix['teamredminer'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['lolminer'] = "";
-		$miner_suffix['xmrig-amd'] = " ". $mine_with ." ". $extraflags;
+		$miner_suffix['xmrig'] = " ". $mine_with ." ". $extraflags;
 		
 		$command = "su - ethos -c \"" . escapeshellcmd($miner_path[$miner] . " " . $miner_params[$miner]) . " $miner_suffix[$miner]\"";
 		$command = str_replace('\#',"#",$command);
