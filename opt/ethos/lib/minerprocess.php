@@ -1105,6 +1105,12 @@ function start_miner()
             $flags .= " --rig-id " . $worker;
             // only worker.wallet when name enabled
             if($namedisabled != true) { $proxywallet .= ".$worker";}
+	    if(preg_match("/nanopool.org|nicehash.com/",$proxypool1)){
+                $proxywallet .= "." . $worker;
+                if(($poolemail != "") && (preg_match("/nanopool.org/",$proxypool1))){
+                    $proxywallet .= "/" . $poolemail;
+                }
+            }
             $pools="-o $proxypool1 -u $proxywallet -p $poolpass1 ";
             if($proxypool2 != "") {
                 $pools .= " -o $proxypool2 -u $proxywallet -p $poolpass2 ";
