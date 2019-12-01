@@ -1,2 +1,2 @@
 GIT_USER_REPO="fireice-uk/xmr-stak"
-HOOK_PREP_MINER="if [ -e /opt/miners/xmr-stak/xmr-stak-rx ] ; then mv /opt/miners/xmr-stak/xmr-stak-rx /opt/miners/xmr-stak/xmr-stak ; fi"
+HOOK_PREP_MINER="mv /opt/miners/xmr-stak/xmr-stak-rx /opt/miners/xmr-stak/xmr-stak"
