@@ -47,20 +47,21 @@ else
   DOWNLOAD_BRANCH="$MINER_BRANCH"
 fi
 f.PREPMINER(){
-  echo "Getting latest release of miner"
-#TODO test use of third argument to find specific miner version (downgrade) 
-#  if [ -z "$DOWNLOAD_URL" -a "$3" ] ; then 
-#    DOWNLOAD_URL=$(curl "$GIT_LOGIN" -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
-#    | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
-#    | cut -d '"' -f 4 \
-#    | grep -vE '(osx|txt)' \
-#    | greg "$3" )
-#    if [ -z "$DOWNLOAD_URL" ] ; then 
-#      echo "WARNING: Unable to find $MINER_BRANCH version $3. Defaulting to latest version"
-#    fi
-#  fi
-# 
+  if [ -z "$DOWNLOAD_URL" -a "$3" ] ; then 
+    echo "Getting $3 version of $MINER_BRANCH"
+    DOWNLOAD_URL=$(curl "$GIT_LOGIN" -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
+    | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
+    | cut -d '"' -f 4 \
+    | grep -vE '(osx|txt)' \
+    | greg "$3" \
+    | head -1 )
+    if [ -z "$DOWNLOAD_URL" ] ; then 
+      echo "WARNING: Unable to find $MINER_BRANCH version $3. Defaulting to latest version"
+    fi
+  fi
+ 
   if [ -z "$DOWNLOAD_URL" ] ; then 
+    echo "Getting latest release of miner"
     DOWNLOAD_URL=$(curl "$GIT_LOGIN" -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
     | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
