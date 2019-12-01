@@ -7,6 +7,7 @@
 MINER_BRANCH="$1"
 CMD="$0"
 ACTION="$2"
+VERSION="$3"
 ALLOW="$(cat /opt/ethos/etc/allow.file)"
 
 # Github limits public api requests to 60 per hour, this script does 2 calls per install maxing out at 30 miner installs per hour
@@ -47,16 +48,16 @@ else
   DOWNLOAD_BRANCH="$MINER_BRANCH"
 fi
 f.PREPMINER(){
-  if [ -z "$DOWNLOAD_URL" -a "$3" ] ; then 
-    echo "Getting $3 version of $MINER_BRANCH"
+  if [ -z "$DOWNLOAD_URL" -a -n "$VERSION" ] ; then 
+    echo "Getting version $VERSION of $MINER_BRANCH"
     DOWNLOAD_URL=$(curl "$GIT_LOGIN" -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
     | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
     | grep -vE '(osx|txt)' \
-    | greg "$3" \
+    | grep "$VERSION" \
     | head -1 )
     if [ -z "$DOWNLOAD_URL" ] ; then 
-      echo "WARNING: Unable to find $MINER_BRANCH version $3. Defaulting to latest version"
+      echo "WARNING: Unable to find $MINER_BRANCH version $VERSION. Defaulting to latest version"
     fi
   fi
  
