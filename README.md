@@ -12,35 +12,36 @@ This **_OFFICIAL_** miner manager will install, update, or revert these unsuppor
 
 Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (click name to get miner specific information) | Notes
 ------------ | ------------- | ------------ | ------------- | ----
-:heavy_check_mark: | :link: v1.7.1 | AMD | [cast-xmr](https://github.com/glph3k/cast_xmr) | Hard Linked **v1.7.1**
-:heavy_check_mark: | :rocket: | AMD | [teamredminer](https://bitcointalk.org/index.php?topic=5059817.0) | Latest
-:x: | :snail: v1 | AMD | [xcash-amd](https://github.com/X-CASH-official/XCASH_AMD_Miner) | Custom Compiled **v1** (miner only, run manually in /opt/miners/xcash-amd/)
-:heavy_check_mark: | :rocket: | AMD | [xmrig-amd](https://github.com/xmrig/xmrig-amd) | Latest
-:heavy_check_mark: | :rocket: | AMD | [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) | Latest
-:heavy_check_mark: | :snail: v2.3.1 | NVIDIA | [ccminer](https://github.com/tpruvot/ccminer) | Custom Compiled **v2.3.1**
-:x: | :snail: 1.1.23 | NVIDIA | [ccminer-Zcoin](https://github.com/zcoinofficial/ccminer) | Custom Compiled **v1.1.23**
-:heavy_check_mark: | :rocket: | NVIDIA | [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) | Latest
-:heavy_check_mark: | :snail: v1.0.2 | NVIDIA | [grin-miner](https://github.com/mimblewimble/grin-miner) | Custom Compiled **v1.0.2** (AMD limited to a single GPU)
-:heavy_check_mark: | :rocket: | NVIDIA | [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) | Latest -- full integration 2019/07/10
-:x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | Latest (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
-:heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | Latest
-:x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | Latest (miner only, run manually in /opt/miners/zilminer/)
+:heavy_check_mark: | :link: v1.7.1 | AMD | [cast-xmr](https://github.com/glph3k/cast_xmr) | CryptoNight
+:heavy_check_mark: | :rocket: | AMD | [teamredminer](https://bitcointalk.org/index.php?topic=5059817.0) | EtHash, CryptoNight, x16rv2, MTP, Lyra2z
+:x: | :snail: v1 | AMD | [xcash-amd](https://github.com/X-CASH-official/XCASH_AMD_Miner) | Xcash (miner only, run manually in /opt/miners/xcash-amd/)
+:heavy_check_mark: | :rocket: | AMD | [xmrig-amd](https://github.com/xmrig/xmrig-amd) | cryptonight, cryptonight-light, cryptonight-heavy
+:heavy_check_mark: | :rocket: | AMD | [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) | x16rv2, squa, MTP, MTP-TCR, timetravel, and more
+:heavy_check_mark: | :snail: v2.3.1 | NVIDIA | [ccminer](https://github.com/tpruvot/ccminer) | Sia, NeoScrypt, x16, and more
+:x: | :snail: 1.1.23 | NVIDIA | [ccminer-Zcoin](https://github.com/zcoinofficial/ccminer) | Zcoin
+:heavy_check_mark: | :rocket: | NVIDIA | [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) | Chukwa, CryptoLightV7, Lyra2zz, MTP, X16RV2, and more
+:heavy_check_mark: | :snail: v1.0.2 | NVIDIA | [grin-miner](https://github.com/mimblewimble/grin-miner) | Grin (AMD limited to a single GPU)
+:heavy_check_mark: | :rocket: | NVIDIA | [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) | CKB, GRIN, AE, SERO, SIPC, BFC, BTM, ETH, SWAP
+:x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
+:heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, mtp, lyra2z, timetravel, and more
+:x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | EtHash Zilliqa (miner only, run manually in /opt/miners/zilminer/)
 :heavy_check_mark: | :link: v1.5r | NVIDIA | [miniz](https://miniz.ch/) | Hard Linked **v1.5r**
 :heavy_check_mark: | :link: v15.8.7 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Hard Linked **v15.8.7**
-:heavy_check_mark: | :link: v14.7 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | Hard Linked **v14.7**
-:heavy_check_mark: | :snail: v2.2.1 | AMD NVIDIA | [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) | Custom Compiled **v2.2.1**
-:heavy_check_mark: | :snail: v18.0 | AMD NVIDIA | [ethminer](https://github.com/ethereum-mining/ethminer) | Custom Compiled **v18.0**
-:heavy_check_mark: | :rocket: | AMD NVIDIA | [gminer](https://github.com/develsoftware/GMinerRelease) | Latest
-:x: | :rocket: | AMD NVIDIA | [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) | Latest (miner only, run manually in /opt/miners/gringoldminer/)
-:heavy_check_mark: | :link: v1.2 | AMD NVIDIA | [grinpro](https://grinpro.io/) | Hard Linked **v1.2**
+:heavy_check_mark: | :link: v14.7 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | EtHash
+:heavy_check_mark: | :snail: v2.2.1 | AMD NVIDIA | [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) | Energi NRG
+:heavy_check_mark: | :snail: v18.0 | AMD NVIDIA | [ethminer](https://github.com/ethereum-mining/ethminer) | EtHash
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [gminer](https://github.com/develsoftware/GMinerRelease) | AE, BFC, Grin, EtHash
+:x: | :rocket: | AMD NVIDIA | [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) | Grin (miner only, run manually in /opt/miners/gringoldminer/)
+:heavy_check_mark: | :link: v1.2 | AMD NVIDIA | [grinpro](https://grinpro.io/) | Grin
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [kbminer](https://github.com/mcarloai/minerbabe-kbminer) | Grin, AE, VDS
-:heavy_check_mark: | :rocket: | AMD NVIDIA | [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) | Latest
-:x: | :snail: v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | Custom Compiled **v2.0a** (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
-:heavy_check_mark: | :link: v4.7c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | Hard Linked **v4.7c**
-:heavy_check_mark: | :rocket: | AMD NVIDIA | [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) | Latest
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) | Equihash / Beam & Grin
+:x: | :snail: v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
+:heavy_check_mark: | :link: v4.7c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) | Ethereum based Ubiq
 :heavy_check_mark: | :snail: v1 | AMD NVIDIA | [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) | Custom Compiled **v1**
-:heavy_check_mark: | :snail: v2.10.7 | AMD NVIDIA | [xmr-stak](https://github.com/fireice-uk/xmr-stak) | Custom Compiled **v2.10.7**
-:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | Latest
+:heavy_check_mark: | :snail: v2.10.7 | AMD NVIDIA | [xmr-stak](https://github.com/fireice-uk/xmr-stak) | RandomX and CryptoNight
+:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | SHA3 EIP918 tokens
+:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [xmrig](https://github.com/xmrig/xmrig) | CryptoNight RandomX and Argon2 
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
