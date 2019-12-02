@@ -86,15 +86,17 @@ The miner-manager can downgrade a miner by adding a third argument, this works f
 
 Or allow you to select a specific version
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmr-stak update amd`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmr-stak install amd`
 
 Where xmr-stak has a cpu version by default but you can select amd or nvidia. 
 
-`xmr-stak-rx-linux-1.0.1-cpu.tar.xz
+```
+xmr-stak-rx-linux-1.0.1-cpu.tar.xz
 xmr-stak-rx-linux-1.0.1-cpu_cuda-nvidia.tar.xz
-xmr-stak-rx-linux-1.0.1-cpu_opencl-amd.tar.xz`
+xmr-stak-rx-linux-1.0.1-cpu_opencl-amd.tar.xz
+```
 
-Or allow you to downgrade and select a specific version
+Or allow you to downgrade and select a specific version by being more specific.
 
 `bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmr-stak update 1.0.0-cpu_opencl-amd`
 
