@@ -79,6 +79,25 @@ IE to **uninstall wildrig-multi example** run:
 
 `bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) wildrig-multi revert`
 
+### Downgrading / Version selection
+The miner-manager can downgrade a miner by adding a third argument, this works for both the install and update arguments
+
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) phoenixminer update 4.5c`
+
+Or allow you to select a specific version
+
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmr-stak update amd`
+
+Where xmr-stak has a cpu version by default but you can select amd or nvidia. 
+
+`xmr-stak-rx-linux-1.0.1-cpu.tar.xz
+xmr-stak-rx-linux-1.0.1-cpu_cuda-nvidia.tar.xz
+xmr-stak-rx-linux-1.0.1-cpu_opencl-amd.tar.xz`
+
+Or allow you to downgrade and select a specific version
+
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmr-stak update 1.0.0-cpu_opencl-amd`
+
 ## ethOS Config Sample
 Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "ubqminer" to the miner you want.
 
