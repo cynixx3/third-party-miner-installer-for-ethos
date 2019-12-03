@@ -60,7 +60,7 @@ You need to be running ethos 1.3.3 to install a miner with this script.
 ### Installing the miners
 This script was designed for ease of use. You can run a single command to install, update, or remove any miner on this repo and any dependencies with it.
 
-[Below](README.md#installing-the-miner-manager-optional) are instructions to install the miner-manager script if you think you will use it often, or you can skip installing the manager and just run the script from the github repo in which case the command would look like **NON WORKING EXAMPLE**
+[Below](README.md#installing-the-miner-manager-optional-this-does-not-install-a-miner-just-the-script) are instructions to install the miner-manager script if you think you will use it often, or you can skip installing the manager and just run the script from the github repo in which case the command would look like **NON WORKING EXAMPLE**
 
 `bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action`
 
