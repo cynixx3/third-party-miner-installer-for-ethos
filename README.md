@@ -1,5 +1,7 @@
 # Miner Manager for ethOS
-This **_OFFICIAL_** miner manager will install, update, or revert these unsupported miners to ethOS version **1.3.3**
+This **_OFFICIAL_** miner manager will install, update, or revert these miners to ethOS version **1.3.3** 
+
+Estimated read time: 10 minutes ([Jump to TL:DR](README.md#TL;DR))
 
 ### List of currently supported miners 
 
@@ -16,17 +18,17 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :rocket: | AMD | [teamredminer](https://bitcointalk.org/index.php?topic=5059817.0) | EtHash, CryptoNight, x16rv2, MTP, Lyra2z
 :x: | :snail: v1 | AMD | [xcash-amd](https://github.com/X-CASH-official/XCASH_AMD_Miner) | Xcash (miner only, run manually in /opt/miners/xcash-amd/)
 :heavy_check_mark: | :rocket: | AMD | [xmrig-amd](https://github.com/xmrig/xmrig-amd) | cryptonight, cryptonight-light, cryptonight-heavy
-:heavy_check_mark: | :rocket: | AMD | [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) | x16rv2, squa, MTP, MTP-TCR, timetravel, and more
+:heavy_check_mark: | :rocket: | AMD | [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) | x16rv2, Squa, MTP, MTP-TCR, timetravel, and more
 :heavy_check_mark: | :snail: v2.3.1 | NVIDIA | [ccminer](https://github.com/tpruvot/ccminer) | Sia, NeoScrypt, x16, and more
 :x: | :snail: 1.1.23 | NVIDIA | [ccminer-Zcoin](https://github.com/zcoinofficial/ccminer) | Zcoin
 :heavy_check_mark: | :rocket: | NVIDIA | [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) | Chukwa, CryptoLightV7, Lyra2zz, MTP, X16RV2, and more
 :heavy_check_mark: | :snail: v1.0.2 | NVIDIA | [grin-miner](https://github.com/mimblewimble/grin-miner) | Grin (AMD limited to a single GPU)
-:heavy_check_mark: | :rocket: | NVIDIA | [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) | CKB, GRIN, AE, SERO, SIPC, BFC, BTM, ETH, SWAP
+:heavy_check_mark: | :rocket: | NVIDIA | [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) | CKB, Grin, AE, Sero, SIPC, BFC, BTM, ETH, SWAP
 :x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
-:heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, mtp, lyra2z, timetravel, and more
+:heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, MTP, Lyra2z, timetravel, and more
 :x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | EtHash Zilliqa (miner only, run manually in /opt/miners/zilminer/)
-:heavy_check_mark: | :link: v1.5r | NVIDIA | [miniz](https://miniz.ch/) | Hard Linked **v1.5r**
-:heavy_check_mark: | :link: v15.8.7 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Hard Linked **v15.8.7**
+:heavy_check_mark: | :link: v1.5r | NVIDIA | [miniz](https://miniz.ch/) | Equihash
+:heavy_check_mark: | :link: v15.8.7 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Equihash, EtHash, Bytom, Grin
 :heavy_check_mark: | :link: v14.7 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | EtHash
 :heavy_check_mark: | :snail: v2.2.1 | AMD NVIDIA | [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) | Energi NRG
 :heavy_check_mark: | :snail: v18.0 | AMD NVIDIA | [ethminer](https://github.com/ethereum-mining/ethminer) | EtHash
@@ -34,14 +36,14 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :x: | :rocket: | AMD NVIDIA | [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) | Grin (miner only, run manually in /opt/miners/gringoldminer/)
 :heavy_check_mark: | :link: v1.2 | AMD NVIDIA | [grinpro](https://grinpro.io/) | Grin
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [kbminer](https://github.com/mcarloai/minerbabe-kbminer) | Grin, AE, VDS
-:heavy_check_mark: | :rocket: | AMD NVIDIA | [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) | Equihash / Beam & Grin
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) | Equihash, Beam & Grin
 :x: | :snail: v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
 :heavy_check_mark: | :link: v4.7c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) | Ethereum based Ubiq
-:heavy_check_mark: | :snail: v1 | AMD NVIDIA | [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) | Custom Compiled **v1**
-:heavy_check_mark: | :snail: v2.10.7 | AMD NVIDIA | [xmr-stak](https://github.com/fireice-uk/xmr-stak) | RandomX and CryptoNight
 :heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | SHA3 EIP918 tokens
-:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [xmrig](https://github.com/xmrig/xmrig) | CryptoNight RandomX and Argon2 
+:heavy_check_mark: | :snail: v1 | AMD CPU NVIDIA | [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) | XCash
+:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [xmrig](https://github.com/xmrig/xmrig) | CryptoNight, RandomX and Argon2 
+:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [xmr-stak](https://github.com/fireice-uk/xmr-stak) | CryptoNight and RandomX
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
@@ -58,7 +60,7 @@ You need to be running ethos 1.3.3 to install a miner with this script.
 ### Installing the miners
 This script was designed for ease of use. You can run a single command to install, update, or remove any miner on this repo and any dependencies with it.
 
-[Below](#installing-the-miner-manager-optional) are instructions to install the miner-manager its-self if you think you will use it often, or you can skip installing the manager and just run the script from the github repo in which case the command would look like **NON WORKING EXAMPLE**
+[Below](README.md#installing-the-miner-manager-optional) are instructions to install the miner-manager its-self if you think you will use it often, or you can skip installing the manager and just run the script from the github repo in which case the command would look like **NON WORKING EXAMPLE**
 
 `bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action`
 
@@ -101,16 +103,16 @@ Or allow you to downgrade and select a specific version by being more specific.
 `bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmr-stak update 1.0.0-cpu_opencl-amd`
 
 ## ethOS Config Sample
-Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "ubqminer" to the miner you want.
+Here is an example of how to add phoenixminer to ethos. These instructions will apply to ANY miner simply by changing "phoenixminer" to the miner you want.
 
 ### Set the miner
 You can use the miner on your local config or globally on a remote config
 ```
-globalminer ubqminer
+globalminer phoenixminer
 ```
 OR in a remote config to set just one rig
 ```
-miner c94e13 ubqminer
+miner c94e13 phoenixminer
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
@@ -125,11 +127,11 @@ poolpass2 x
 ```
 OR to make it specific to this miner program in a remote config
 ```
-ubqminer=proxywallet walletORusername
-ubqminer=proxypool1 pool.com:port
-ubqminer=proxypool2 pool.com:port
-ubqminer=poolpass1 x
-ubqminer=poolpass2 x
+phoenixminer=proxywallet walletORusername
+phoenixminer=proxypool1 pool.com:port
+phoenixminer=proxypool2 pool.com:port
+phoenixminer=poolpass1 x
+phoenixminer=poolpass2 x
 ```
 OR to make it specific to this rig
 ```
@@ -145,7 +147,7 @@ Some miners allow you to use a single cpu thread, for these you can set
 ```
 globalminer ubqminer-single
 ```
-Some miners depend on a fallback pool, others do not use them. Best practice is to set both to avoid errors.
+Some miners depend on a fallback pool, others do not use them. Best practice is to set both pools to avoid errors.
 
 ## Manual config sample
 ethOS requires several file changes in order to intergrate a miner into its config and hash reporting features, when this code has not been created you can manually run a miner. In this example we will use grinpro, but you can suppliment it with the miner of your choosing.
@@ -163,13 +165,14 @@ screen -dmS miner /opt/miners/grinpro/GrinProMiner ignore-config=true stratum-ad
 ```
 The `2>&1 /var/run/ethos/miner.output` allows you to use `show miner` even in manual mode. Add any miner flags just as your pool or [miner](http://paste.ethosdistro.com/emozeriyog.tex) instructs. That's all you need to do.
 
+### About screen
 Screen is a linux program that runs an interactive terminal session that you can run independently, connect, and disconnect from. To connect to the miner session and interact with it use 
 ```
 screen -x
 ```
-To disconnect from a screen session without killing the miner use the key combination `ctrl+a d` where you press ctrl and a a the same time, release, then press d. Using the ctrl+c key combination will kill the miner, not the screen session and create an interesting situation where rebooting is the easiest fix (alternative is `ctrl+a k y`, checking for live sessions with `screen -ls` and killing them if found, then restarting the miner with the `screen -dmS ...` command above.)
+To disconnect from a screen session without killing the miner use the key combination `ctrl+a d` where you press ctrl and a the same time, release, then press d. Using the ctrl+c key combination will kill the miner, not the screen session and create an interesting situation where rebooting is the easiest fix (alternative is `ctrl+a k y`, checking for live sessions with `screen -ls` and killing them if found, then restarting the miner with the `screen -dmS ...` command above.)
 
-### Installing the miner-manager (optional) (This does not install a miner, just the script)
+## Installing the miner-manager (optional) (This does not install a miner, just the script)
 If you plan to use this often you can download the miner-manager script and give it execute permissions. To install simply copy paste the command:
 ```
 sudo wget https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager -O /usr/bin/miner-manager
@@ -219,3 +222,16 @@ If you got a new miner working using these tools or just improved an intergratio
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## TL;DR
+Step 1: To just install Phoenixminer on your rig Run in the terminal:
+
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) phoenixminer install`
+
+Step 2: Edit your config to match the miner you installed above:
+
+```
+globalminer phoenixminer
+```
+
+You're Done
