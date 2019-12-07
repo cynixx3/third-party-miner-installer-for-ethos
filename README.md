@@ -26,7 +26,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :rocket: | NVIDIA | [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) | CKB, Grin, AE, Sero, SIPC, BFC, BTM, ETH, SWAP
 :x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
 :heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, MTP, Lyra2z, timetravel, and more
-:x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | EtHash Zilliqa (miner only, run manually in /opt/miners/zilminer/)
+:x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | Ethereum based Zilliqa (miner only, run manually in /opt/miners/zilminer/)
 :heavy_check_mark: | :link: v1.5r | NVIDIA | [miniz](https://miniz.ch/) | Equihash
 :heavy_check_mark: | :link: v15.8.7 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Equihash, EtHash, Bytom, Grin
 :heavy_check_mark: | :link: v14.7 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | EtHash
@@ -43,7 +43,8 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | SHA3 EIP918 tokens
 :heavy_check_mark: | :snail: v1 | AMD CPU NVIDIA | [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) | XCash
 :heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [xmrig](https://github.com/xmrig/xmrig) | CryptoNight, RandomX and Argon2 
-:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [xmr-stak](https://github.com/fireice-uk/xmr-stak) | CryptoNight and RandomX
+:heavy_check_mark: | :snail: v2.10.8 | AMD CPU NVIDIA | [xmr-stak](https://github.com/fireice-uk/xmr-stak) | CryptoNight and 10+ varients
+:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [xmr-stak-rx](https://github.com/fireice-uk/xmr-stak) | RandomX
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
