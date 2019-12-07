@@ -280,7 +280,7 @@ function setup_pools($miner)
 
   switch($miner_syntax) {
   	case "lolminer":
-	  case "xmr-stak":
+	  case "xmr-stak-rx":
 	  case "xtl-stak":
 	  case "ewbf-equihash":
       $miner_syntax = "ewbf-zcash";
@@ -1110,7 +1110,7 @@ function start_miner()
 	$miner_path['sgminer-gm'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.sgminer-gm -dmS sgminer /opt/miners/sgminer-gm/sgminer-gm";
 	$miner_path['sgminer-gm-xmr'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.sgminer-gm-xmr -dmS sgminer /opt/miners/sgminer-gm/sgminer-gm-xmr";
 	$miner_path['wolf-xmr-cpu'] = "/opt/miners/wolf-xmr-cpu/wolf-xmr-cpu";
-	$miner_path['xmr-stak'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.xmr-stak -l -L -dmS xmr-stak /opt/miners/xmr-stak/xmr-stak";
+	$miner_path['xmr-stak-rx'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.xmr-stak-rx -l -L -dmS xmr-stak-rx /opt/miners/xmr-stak-rx/xmr-stak-rx";
 	$miner_path['xtl-stak'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.xtl-stak -l -L -dmS xtl-stak /opt/miners/xtl-stak/xtl-stak";
 	$miner_path['teamredminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.teamredminer -l -L -dmS teamredminer /opt/miners/teamredminer/teamredminer";
 	$miner_path['ewbf-equihash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-equihash -l -L -dmS ewbf-equihash /opt/miners/ewbf-equihash/ewbf-equihash";
@@ -1143,7 +1143,7 @@ function start_miner()
 		$miner_params['progpowminer'] =  $config_string . " " . $selecteddevicetype . " " . $start_miner;
 		$miner_params['progpowminer-single'] = $config_string;
 		$miner_params['wolf-xmr-cpu'] = "-o $proxypool1 -p $poolpass1 -u $proxywallet$worker -t $threads";
-		$miner_params['xmr-stak'] = $flags ." ". $config_string ." ". $pools;
+		$miner_params['xmr-stak-rx'] = $flags ." ". $config_string ." ". $pools;
 		$miner_params['xtl-stak'] = $flags ." ". $config_string ." ". $pools;
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
@@ -1167,7 +1167,7 @@ function start_miner()
 		$miner_suffix['progpowminer'] = " 2>&1 | /usr/bin/tee -a /var/run/miner.output >> /var/run/miner.$start_miner.output &";
 		$miner_suffix['progpowminer-single'] = " >> /var/run/miner.output 2>&1 &";
 		$miner_suffix['wolf-xmr-cpu'] = " 2>&1 | /usr/bin/tee -a /var/run/miner.output &";
-		$miner_suffix['xmr-stak'] = " " . $extraflags;
+		$miner_suffix['xmr-stak-rx'] = " " . $extraflags;
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
 		$miner_suffix['teamredminer'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['lolminer'] = "";
