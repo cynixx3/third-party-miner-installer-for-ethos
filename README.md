@@ -40,11 +40,12 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :x: | :snail: v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
 :heavy_check_mark: | :link: v4.7c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) | Ethereum based Ubiq
+:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [ninjarig](https://github.com/turtlecoin/ninjarig) | Argon2 (Turtle Coin)
 :heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | SHA3 EIP918 tokens
 :heavy_check_mark: | :snail: v1 | AMD CPU NVIDIA | [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) | XCash
 :heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [xmrig](https://github.com/xmrig/xmrig) | CryptoNight, RandomX and Argon2 
 :heavy_check_mark: | :snail: v2.10.8 | AMD CPU NVIDIA | [xmr-stak](https://github.com/fireice-uk/xmr-stak) | CryptoNight and 10+ varients
-:heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [xmr-stak-rx](https://github.com/fireice-uk/xmr-stak) | RandomX
+:x: | :rocket: | AMD CPU NVIDIA | [xmr-stak-rx](https://github.com/fireice-uk/xmr-stak) | RandomX
 
 ### ONLY ONE ADDITIONAL MINER CAN BE INSTALLED AT A TIME
 ethOS files are overwritten for the installation of each miner even though miners can be left in place with (update).
