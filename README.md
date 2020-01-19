@@ -27,7 +27,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, MTP, Lyra2z, timetravel, and more
 :x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | Ethereum based Zilliqa (miner only, run manually in /opt/miners/zilminer/)
 :heavy_check_mark: | :link: v1.5r | NVIDIA | [miniz](https://miniz.ch/) | Equihash
-:heavy_check_mark: | :link: v15.8.7 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Equihash, EtHash, Bytom, Grin
+:heavy_check_mark: | :link: v16.0.1 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Equihash, EtHash, Bytom, Grin
 :heavy_check_mark: | :link: v14.7 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | EtHash
 :heavy_check_mark: | :snail: v2.2.1 | AMD NVIDIA | [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) | Energi NRG
 :heavy_check_mark: | :snail: v18.0 | AMD NVIDIA | [ethminer](https://github.com/ethereum-mining/ethminer) | EtHash
@@ -38,7 +38,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) | Equihash, Beam & Grin
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) | CKB, Grin, AE, Sero, SIPC, BFC, BTM, ETH, SWAP
 :x: | :snail: v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/)
-:heavy_check_mark: | :link: v4.8c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash
+:heavy_check_mark: | :link: v4.9c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [ubqminer](https://bitcointalk.org/index.php?topic=1763606.0) | Ethereum based Ubiq
 :heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [ninjarig](https://github.com/turtlecoin/ninjarig) | Argon2 (Turtle Coin)
 :heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | SHA3 EIP918 tokens
