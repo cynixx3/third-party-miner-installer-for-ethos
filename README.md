@@ -20,7 +20,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :rocket: | AMD | [xmrig-amd](https://github.com/xmrig/xmrig-amd) | cryptonight, cryptonight-light, cryptonight-heavy
 :heavy_check_mark: | :rocket: | AMD | [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) | x16rv2, Squa, MTP, MTP-TCR, timetravel, and more
 :heavy_check_mark: | :snail: v2.3.1 | NVIDIA | [ccminer](https://github.com/tpruvot/ccminer) | Sia, NeoScrypt, x16, and more
-:x: | :snail: 1.1.23 | NVIDIA | [ccminer-Zcoin](https://github.com/zcoinofficial/ccminer) | Zcoin
+:x: | :snail: 1.3.1 | NVIDIA | [ccminer-Zcoin](https://github.com/zcoinofficial/ccminer) | Zcoin
 :heavy_check_mark: | :rocket: | NVIDIA | [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) | Chukwa, CryptoLightV7, Lyra2zz, MTP, X16RV2, and more
 :heavy_check_mark: | :snail: v1.0.2 | NVIDIA | [grin-miner](https://github.com/mimblewimble/grin-miner) | Grin (AMD limited to a single GPU)
 :x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
