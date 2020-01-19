@@ -22,7 +22,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :snail: v2.3.1 | NVIDIA | [ccminer](https://github.com/tpruvot/ccminer) | Sia, NeoScrypt, x16, and more
 :x: | :snail: 1.3.1 | NVIDIA | [ccminer-Zcoin](https://github.com/zcoinofficial/ccminer) | Zcoin
 :heavy_check_mark: | :rocket: | NVIDIA | [cryptodredge](https://bitcointalk.org/index.php?topic=4807821.0) | Chukwa, CryptoLightV7, Lyra2zz, MTP, X16RV2, and more
-:heavy_check_mark: | :snail: v1.0.2 | NVIDIA | [grin-miner](https://github.com/mimblewimble/grin-miner) | Grin (AMD limited to a single GPU)
+:heavy_check_mark: | :snail: v3.0.0 | NVIDIA | [grin-miner](https://github.com/mimblewimble/grin-miner) | Grin (AMD limited to a single GPU)
 :x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
 :heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, MTP, Lyra2z, timetravel, and more
 :x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | Ethereum based Zilliqa (miner only, run manually in /opt/miners/zilminer/)
