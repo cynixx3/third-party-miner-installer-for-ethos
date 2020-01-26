@@ -187,12 +187,16 @@ You are limited to installing 30 miners an hour as this script makes 2 API querr
 
 See [GitHub API Documentation](https://developer.github.com/v3/#rate-limiting) for more information.
 
-To authenticate, simply either use a file (/home/ethos/.gituser) or use the variables after installing the manager. These environmental variables are currently:
+To authenticate, either use a file (/home/ethos/.gituser) or use the variables after installing the miner-manager. These environmental variables are currently:
 
 - GITHUB_USERNAME
 - GITHUB_PASSWORD
 
 An example file is in this [repository](https://github.com/cynixx3/third-party-miner-installer-for-ethos/blob/master/.gituser) but is not installed by default.
+
+You must use a valid github.com user for this.
+
+It is recommended to use your Personal Access Token as the GITHUB_PASSWORD for your privacy over https. You can get a PAT from GitHub by going to the User Icon in the upper right corner > Settings > Developer Options > [Personal access token](https://github.com/settings/tokens) > "Generate new token" button > Note "miner-manager" > select Scope of "read:packages" > Generate token. You can now use this token as your GITHUB_PASSWORD in .gituser or the miner-manager file directly. If you loose the token just delete the current PAT and make a new one. 
 
 ## Development
 If you are a developer please check the [developers guide](https://github.com/cynixx3/third-party-miner-installer-for-ethos/blob/master/DEVELOPERS.md) for information on how to add your miner to ethos and this repo.
