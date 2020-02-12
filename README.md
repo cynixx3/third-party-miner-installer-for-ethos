@@ -26,7 +26,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/)
 :heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, MTP, Lyra2z, timetravel, and more
 :x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | Ethereum based Zilliqa (miner only, run manually in /opt/miners/zilminer/)
-:heavy_check_mark: | :link: v1.5s | NVIDIA | [miniz](https://miniz.ch/) | Equihash
+:heavy_check_mark: | :link: v1.5t | NVIDIA | [miniz](https://miniz.ch/) | Equihash
 :heavy_check_mark: | :link: v16.0.5 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Equihash, EtHash, Bytom, Grin
 :heavy_check_mark: | :link: v15.0 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | EtHash
 :heavy_check_mark: | :snail: v2.2.1 | AMD NVIDIA | [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) | Energi NRG
