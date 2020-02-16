@@ -31,7 +31,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :link: v15.0 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | EtHash
 :heavy_check_mark: | :snail: v2.2.1 | AMD NVIDIA | [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) | Energi NRG
 :heavy_check_mark: | :snail: v18.0 | AMD NVIDIA | [ethminer](https://github.com/ethereum-mining/ethminer) | EtHash
-:heavy_check_mark: | :rocket: | AMD NVIDIA | [gminer](https://github.com/develsoftware/GMinerRelease) | AE, BFC, Grin, EtHash
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [gminer](https://bitcointalk.org/index.php?topic=5034735.0) | AE, BFC, Grin, EtHash
 :x: | :rocket: | AMD NVIDIA | [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) | Grin (miner only, run manually in /opt/miners/gringoldminer/)
 :heavy_check_mark: | :link: v1.2 | AMD NVIDIA | [grinpro](https://grinpro.io/) | Grin
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [kbminer](https://github.com/mcarloai/minerbabe-kbminer) | Grin, AE, VDS
