@@ -37,7 +37,7 @@ fi
 
 # Check Github API rate limit
 if [ "$(curl -is $GIT_LOGIN https://api.github.com/rate_limit | grep -m1 ^X-Ratelimit-Remaining | cut -d : -f 2 | sed 's/\r//g')" -le 2 ] ; then
-  echo "You have installed the maximum number of rigs github allows. You need to wait until $(date -d "$(curl -is https://api.github.com/rate_limit | grep ^X-RateLimit-Reset: | cut -d : -f 2)" +"%r") or add GitHub authentication."
+  echo "You have installed the maximum number of rigs github allows. You need to wait until $(date -d "@$(curl -is https://api.github.com/rate_limit | grep ^X-Ratelimit-Reset: | cut -d : -f 2)" +%r) or add GitHub authentication."
   exit 19
 fi
 
