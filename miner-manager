@@ -236,7 +236,7 @@ f.INSTALL(){
     sed "/#Installed/d" -i /home/ethos/remote.conf
   fi
 
-  if [ "$HOOK_INSTALL" ] ; then $HOOK_INSTALL ; fi
+  if [ "$HOOK_INSTALL" ] ; then ${HOOK_INSTALL[@]} ; fi
 
   echo "Restarting services and miner"
   sudo service ethos-miner-daemon restart
