@@ -1084,14 +1084,15 @@ function start_miner()
 		if($namedisabled != "disabled"){
                         if(preg_match("/(cuckatoo|cuckaroo)/",$flags) && preg_match("/(sparkpool.com|grinmint.com)/",$proxypool1)){
                                 $worker = trim(`echo $worker | sed 's/./\//'`);
-                                print("here!");
                         }
                         $proxywallet .= $worker;
 		}
-		$pools = "-o $proxypool1 -u $proxywallet" . ":" . "$poolpass1 ";
-		if($proxypool2 != ""){
-			$pools .= "-o1 $proxypool2 -u1 $proxywallet" . ":" . "$poolpass2 ";
+		if(!preg_match("/nicehash/",$proxypool1)){
+			$proxywallet .= ":" . $poolpass1;
+		} elseif ($stratumtype == "nicehash" && preg_match("/-a eth/",$flags)){
+			$proxypool1 = preg_replace("/stratum/", "nicehash", $proxypool1);
 		}
+		$pools = "-o $proxypool1 -u $proxywallet";
 		$extraflags = " --no-watchdog --api 127.0.0.1:4028";
     }
 
