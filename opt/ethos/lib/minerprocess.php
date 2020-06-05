@@ -1129,6 +1129,13 @@ function start_miner()
 	            case "beam":
 	                $stratum = "beam";
 	                break;
+		    case "rvn";
+	            case "raven":
+	                $stratum = "raven";
+	                break;
+	            case "sero":
+	                $stratum = "sero";
+	                break;
 	            case "equihash1445":
 	                $stratum = "equihash1445";
 	                if(!preg_match("/-pers/",$flags)){
