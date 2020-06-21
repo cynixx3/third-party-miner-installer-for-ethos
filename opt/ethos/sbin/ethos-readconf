@@ -28,7 +28,7 @@ fi
 f.validminers(){
 		case "$DRIVER" in
 			amdgpu | fglrx )
-				VALIDMINERS="avermore claymore claymore-xmr claymore-zcash claymore-legacy cgminer-skein ethminer ethminer-single optiminer-zcash progpowminer progpowminer-single sgminer-gm sgminer-gm-xmr xmr-stak xtl-stak teamredminer lolminer xmrig-amd"
+				VALIDMINERS="avermore claymore claymore-xmr claymore-zcash claymore-legacy cgminer-skein ethminer ethminer-single optiminer-zcash progpowminer progpowminer-single sgminer-gm sgminer-gm-xmr xmr-stak xtl-stak teamredminer lolminer srbminer"
 			;;
 			nvidia )
 				VALIDMINERS="ccminer claymore dstm-zcash ethminer ethminer-single ewbf-equihash ewbf-zcash nevermore optiminer-zcash progpowminer progpowminer-single xmr-stak xtl-stak lolminer"
