@@ -23,33 +23,33 @@ This script was designed for ease of use. You can run a single command to instal
 `bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) miner action`
 
 **NOTICE: YOU SET THE LAST TWO WORDS** to what you want to do. Where the miner is the name of the miner branch in this repo and the actions are install, update, or revert
-IE for a full **install of xmrig-amd example** or an update of all files run:
+IE for a full **install of srbminer example** or an update of all files run:
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmrig-amd install`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) srbminer install`
 
 ### Updating
 The miner can be easily updated when new releases are out by just changing the action argument to "update"
-IE to only **update the xmrig-amd example** program to the latest release run:
+IE to only **update the srbminer example** program to the latest release run:
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmrig-amd update`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) srbminer update`
 
 ### UnInstalling
 The miner can be easily uninstalled by changing the action argument to "revert"
-IE to **uninstall xmrig-amd example** run:
+IE to **uninstall srbminer example** run:
 
-`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) xmrig-amd revert`
+`bash <(curl -s https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/master/miner-manager) srbminer revert`
 
 ## ethOS Config Sample
-Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "xmrig-amd" to the miner you want.
+Here is an example of how to add ubqminer to ethos. These instructions will apply to any miner simply by changing "srbminer" to the miner you want.
 
 ### Set the miner
 You can use the miner on your local config or globally on a remote config
 ```
-globalminer xmrig-amd
+globalminer srbminer
 ```
 OR in a remote config to set just one rig
 ```
-miner c94e13 xmrig-amd
+miner c94e13 srbminer
 ```
 Where `c94e13` is your EthOS rig hostname. You can get **your** miners hostname by running the terminal command `hostname`
 
@@ -64,11 +64,11 @@ poolpass2 x
 ```
 OR to make it specific to this miner program in a remote config
 ```
-xmrig-amd=proxywallet walletORusername
-xmrig-amd=proxypool1 pool.com:port
-xmrig-amd=proxypool2 pool.com:port
-xmrig-amd=poolpass1 x
-xmrig-amd=poolpass2 x
+srbminer=proxywallet walletORusername
+srbminer=proxypool1 pool.com:port
+srbminer=proxypool2 pool.com:port
+srbminer=poolpass1 x
+srbminer=poolpass2 x
 ```
 OR to make it specific to this rig
 ```
