@@ -15,7 +15,10 @@ if($miner == "wolf-xmr-cpu") {
 }
 
 list($miner_hash, $dualminer_hash, $invalid_shares_per_gpu_array) = get_hashrates();
+
 $crashed_gpus = check_alive($miner_hash);
+
+if($miner == "srbminer"){ $crashed_gpus = null; };
 
 if (count($crashed_gpus) > 0) {
 	foreach ($crashed_gpus as $cg) {
@@ -26,6 +29,7 @@ if (count($crashed_gpus) > 0) {
 		}
 	}
 }
+print_r($miner_hash);
 
 $miner_hashes = array(implode(" ", $miner_hash), implode(" ",$dualminer_hash));
 
@@ -183,20 +187,9 @@ function get_hashrates(){
 		$raw_lolstats = @json_decode(`socat -t 15 stdio tcp-connect:127.0.0.1:42000`,TRUE);	
 	}
 	
-	if ($miner == "xmrig-amd") {
-                $xmrigstats = array();
-                $raw_xmrig = @json_decode(@file_get_contents("http://127.0.0.1:42000/1/threads"), TRUE);
-
-                foreach($raw_xmrig["threads"] as $thrdata) {
-                  $gpu = $thrdata["index"];
-                  $hash = floatval($thrdata["hashrate"][0]);
-
-                  if (!isset($xmrigstats[$gpu])) {
-                    $xmrigstats[$gpu] = 0.00;
-                  }
-
-                  $xmrigstats[$gpu] += $hash;
-                }
+	if ($miner == "srbminer") {
+                $srbminer = array();
+                $srbminer_stats = @json_decode(@file_get_contents("http://127.0.0.1:4028"), TRUE);
 	}
 
 	for($i = 0;$i < $instances; $i++){
@@ -299,14 +292,22 @@ function get_hashrates(){
 			$raw = floatval($raw_lolstats["GPU$i"]["Speed(60s)"]);
 		}
 		
-		if ($miner == "xmrig-amd") {
-                        $raw = floatval($xmrigstats[$i]);
+		if ($miner == "srbminer") {
+                        $rawvalue = $srbminer_stats["gpu_hashrate"][0]["GPU$i"];
+			if($rawvalue > 100000000){
+				$raw = $rawvalue/1000000000;
+			} 
+			if(($rawvalue < 100000000) && ($rawvalue > 100000)){ 
+				$raw = $rawvalue/1000000;
+			}
+			if(($rawvalue < 99999) && ($rawvalue >  10000)){
+				$raw = $rawvalue/1000;
+			};
 		}
 
 		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled"){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
 		}
-
 		if($last_mod_secs < 300){
 			$miner_hash[$i] = sprintf('%05.2f', 0.00 + $raw);
 		} else {
@@ -318,7 +319,6 @@ function get_hashrates(){
 			}
 		}
 	}
-
 	return array($miner_hash, $dualminer_hash, $invalid_shares_per_gpu_array);
 }
 ?>
