@@ -29,7 +29,6 @@ if (count($crashed_gpus) > 0) {
 		}
 	}
 }
-print_r($miner_hash);
 
 $miner_hashes = array(implode(" ", $miner_hash), implode(" ",$dualminer_hash));
 
