@@ -1,23 +1,6 @@
-# Default miner.settings
-# All config lines are optional and can be removed if not used
-
-# User/repo of github release repository this repository's release is the default if not defined
-GIT_USER_REPO="develsoftware/GMinerRelease"
+# can use again if developer returns to tar.gz archives instead of zip. 
+#GIT_USER_REPO="develsoftware/GMinerRelease"
 
 # If the miner is hosted at a wget friendly site besides github releases you can set the download url
 #DOWNLOAD_URL="https://github.com/develsoftware/GMinerRelease/releases/download/1.34/gminer_1_34_minimal_linux64.tar.xz"
-
-# you can do a version check, or omit it for git relase auto updates. Great for use with DOWNLOAD_URL
-#RELEASE_SHASUM="sha256sum of archive"
-
-# If the miner has dependencies then add each .deb url here
-#DEPENDS=(http://URL.deb http://URL.deb)
-
-# You can also use a series of Hooks in order to run function specific commands for the miner
-# These are generally not needed, be careful with using them.
-# HOOK_PREP_MINER=""
-# HOOK_PREP_ETHOS=""
-# HOOK_REVERT=""
-# HOOK_STUB=""
-# HOOK_INSTALL=""
 
