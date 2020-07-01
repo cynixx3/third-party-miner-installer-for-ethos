@@ -1,4 +1,4 @@
 # Get the miner from https://miniz.ch/download/#latest-version
 # cuda10
-DOWNLOAD_URL="https://miniz.ch/?smd_process_download=1&download_id=3370"
-RELEASE_SHASUM="296e9a905cb9db23a3a445a75ee5013d189257bb440a208aa240f7d2fc9950ef"
+DOWNLOAD_URL="https://miniz.ch/?smd_process_download=1&download_id=3764"
+RELEASE_SHASUM="38a796efa8f7dad7b2b0fda57a078b32a7523583359c671fdd17b5a39c777498"
