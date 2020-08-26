@@ -26,12 +26,12 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :x: | :rocket: | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/) | 0% ?
 :heavy_check_mark: | :rocket: | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, MTP, Lyra2z, timetravel, and more | 1% (3% for Tensority)
 :x: | :rocket: | NVIDIA | [zilminer](https://github.com/DurianStallSingapore/ZILMiner) | Ethereum based Zilliqa (miner only, run manually in /opt/miners/zilminer/) | 0%
-:heavy_check_mark: | :link: v1.5t | NVIDIA | [miniz](https://miniz.ch/) | Equihash | 2%
-:heavy_check_mark: | :link: v16.2.6 | AMD NVIDIA | [bminer](https://www.bminer.me/) | Equihash, EtHash, Blake, Bytom, Grin | 0.65% - 2%
+:heavy_check_mark: | :link: v1.6v5	| NVIDIA | [miniz](https://miniz.ch/) | Equihash | 2%
+:heavy_check_mark: | :link: 16.3.0	| AMD NVIDIA | [bminer](https://www.bminer.me/) | Equihash, EtHash, Blake, Bytom, Grin | 0.65% - 2%
 :heavy_check_mark: | :link: v15.0 | AMD NVIDIA | [claymore](https://bitcointalk.org/index.php?topic=1433925.0) | EtHash | 1% (0% for < 3gb GPU)
 :heavy_check_mark: | :snail: v2.2.1 | AMD NVIDIA | [energiminer](https://bitcointalk.org/index.php?topic=4912743.0) | Energi NRG | 0%
 :heavy_check_mark: | :snail: v18.0 | AMD NVIDIA | [ethminer](https://github.com/ethereum-mining/ethminer) | EtHash | 0%
-:heavy_check_mark: | :link: v2.11 | AMD NVIDIA | [gminer](https://bitcointalk.org/index.php?topic=5034735.0) | AE, BFC, Grin, EtHash, KAWPOW, and more | 0.65% - 5%
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [gminer](https://bitcointalk.org/index.php?topic=5034735.0) | AE, BFC, Grin, EtHash, KAWPOW, and more | 0.65% - 5%
 :x: | :rocket: | AMD NVIDIA | [gringoldminer](https://github.com/mozkomor/GrinGoldMiner) | Grin (discontinued miner only, run manually in /opt/miners/gringoldminer/) | 1%
 :heavy_check_mark: | :link: v1.2 | AMD NVIDIA | [grinpro](https://grinpro.io/) | Grin | 2%
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [kbminer](https://github.com/mcarloai/minerbabe-kbminer) | Grin, AE, VDS | 1% AE - 2% Grin
