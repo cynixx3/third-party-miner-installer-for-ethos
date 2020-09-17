@@ -1003,7 +1003,7 @@ function start_miner()
 			$pools .= " -o $proxypool2 -u $proxywallet$worker -p $poolpass2 ";
 		}
 		
-		$extraflags = "--api_listen 4028 --bus_reorder";
+		$extraflags = "--api_listen=4028 --bus_reorder";
 	}
 
 	/*******************************
