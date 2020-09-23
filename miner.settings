@@ -1,4 +1,4 @@
-#GIT_USER_REPO="develsoftware/GMinerRelease"
+GIT_USER_REPO="develsoftware/GMinerRelease"
 
 # If the miner is hosted at a wget friendly site besides github releases you can set the download url
 #DOWNLOAD_URL="https://github.com/develsoftware/GMinerRelease/releases/download/1.34/gminer_1_34_minimal_linux64.tar.xz"
