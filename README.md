@@ -38,7 +38,7 @@ Fully Integrated into ethOS | Update Path | Supported Hardware | Miner Program (
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [lolminer](https://bitcointalk.org/index.php?topic=4724735.0) | Equihash, Beam & Grin | 1%
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [nbminer](https://bitcointalk.org/index.php?topic=5099379.0) | CKB, Grin, AE, Sero, SIPC, BFC, BTM, ETH, SWAP | 0.65% - 3%
 :x: | :snail: v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/) | 0% ?
-:heavy_check_mark: | :link: v5.1c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash | 0.65% - 0.9% (dual)
+:heavy_check_mark: | :rocket: | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash | 0.65% - 0.9% (dual)
 :heavy_check_mark: | :rocket: | AMD NVIDIA | [ubqminer](https://github.com/ubiq/ubqminer) | Ethereum based Ubiq | 0% ?
 :heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [ninjarig](https://github.com/turtlecoin/ninjarig) | Argon2 (Turtle Coin) | 1% - 5% (configurable) 
 :heavy_check_mark: | :rocket: | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | SHA3 EIP918 tokens | 2% (1.5% min configurable)
