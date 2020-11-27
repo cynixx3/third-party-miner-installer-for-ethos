@@ -94,7 +94,7 @@ f.PREPMINER(){
 
   echo "Unpacking miner"
   SUBDIR=""
-  if tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -qv "^$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | head -n1 )" ; then
+  if tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -qv "^$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | sort | head -n1 )" ; then
     SUBDIR="--directory=$MINER_BRANCH"
     MINER_ARCHIVE_FOLDER="$MINER_BRANCH" 
     mkdir "$MINER_BRANCH"
