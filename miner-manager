@@ -36,7 +36,7 @@ else
 fi
 
 # Check Github API rate limit
-if [ "$(curl -is $GIT_LOGIN https://api.github.com/rate_limit | grep -m1 ^X-Ratelimit-Remaining | cut -d ' ' -f 2 | sed 's/\r//')" -le 2 ] ; then
+if [ "$(curl -iks $GIT_LOGIN https://api.github.com/rate_limit | grep -m1 ^X-Ratelimit-Remaining | cut -d ' ' -f 2 | sed 's/\r//')" -le 2 ] ; then
   echo "You have installed the maximum number of rigs github allows. You need to wait until $(date -d "@$(curl -is https://api.github.com/rate_limit | grep ^X-Ratelimit-Reset: | cut -d : -f 2)" +%r) or add GitHub authentication."
   exit 19
 fi
@@ -259,7 +259,7 @@ Usage $CMD [ Miner ] ( install | update | revert )
 Miners Available:"
 printf "%s\n" "${AVAILABLE_MINERS[@]//\"/}"
 }
-mapfile -t AVAILABLE_MINERS < <(curl $GIT_LOGIN -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches?per_page=100 | grep name | grep -Ev '(ethos|master)' | sed -E 's/ +"name": ("[a-z0-9\-]+?"), ?/ \1/g')
+mapfile -t AVAILABLE_MINERS < <(curl $GIT_LOGIN -ks https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethoyess/branches?per_page=100 | grep name | grep -Ev '(ethos|master)' | sed -E 's/ +"name": ("[a-z0-9\-]+?"), ?/ \1/g')
 
 # TODO add logging
 if [ "$#" -lt "2" -o "$#" -gt "3" ] ; then
@@ -271,7 +271,9 @@ elif ! [[ "${AVAILABLE_MINERS[@]}" == *"\"$MINER_BRANCH\""* ]] ; then
 fi
 
 # Get miner settings
-source <(curl $GIT_LOGIN -s "https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings")
+if ! source <(curl $GIT_LOGIN -s "https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings") ; then 
+  echo "You may have a security certificate issue."
+fi
 
 if [ -d "$TMP_DIR" ] ; then rm -rf "$TMP_DIR" ; fi
 echo "Move to a temporary work space"
