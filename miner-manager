@@ -23,6 +23,9 @@ GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 #RELEASE_SHASUM="sha256sum of archive"
 #DEPENDS="URL URL"
 
+# Setting date for https
+sudo date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"
+
 # Assemble API user login
 if [ -f /home/ethos/.gituser ] ; then
   source <(grep -m2 ^GITHUB_.*=".*"$ /home/ethos/.gituser)
