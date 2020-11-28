@@ -256,10 +256,10 @@ f.HELP (){
   echo "$1
 Usage $CMD [ Miner ] ( install | update | revert )
 
-Miners Available:
-${AVAILABLE_MINERS[@]}" | sed -E 's/ +"name": "([a-z0-9\-]+?)", ?/ \1\n/g'
+Miners Available:"
+printf "%s\n" "${AVAILABLE_MINERS[@]//\"/}"
 }
-mapfile -t AVAILABLE_MINERS < <(curl $GIT_LOGIN -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches?per_page=100 | grep name | grep -Ev '(ethos|master)')
+mapfile -t AVAILABLE_MINERS < <(curl $GIT_LOGIN -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches?per_page=100 | grep name | grep -Ev '(ethos|master)' | sed -E 's/ +"name": ("[a-z0-9\-]+?"), ?/ \1/g')
 
 # TODO add logging
 if [ "$#" -lt "2" -o "$#" -gt "3" ] ; then
