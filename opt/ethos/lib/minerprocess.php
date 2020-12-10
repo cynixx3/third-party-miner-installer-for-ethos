@@ -1079,7 +1079,7 @@ function start_miner()
 			$mine_with = "-d $devices";
 		}
 		if(!preg_match("/-a/",$flags)){
-			$flags .= " -a x16rv2 ";
+			$flags .= " -a ethash ";
 		}
 		$pools = "-o $proxypool1 -u $proxywallet$worker -p $poolpass1 ";
     }
