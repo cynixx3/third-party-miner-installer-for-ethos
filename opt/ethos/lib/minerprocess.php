@@ -1031,7 +1031,7 @@ function start_miner()
 	            "APIPORT"=>$apiport
 	        ),
 	        "ETHOS"=>array(
-	            "COIN"=>"BEAM",
+	            "COIN"=>"ETHASH",
 	            "POOLS"=>array()
 	        )
 	    );
