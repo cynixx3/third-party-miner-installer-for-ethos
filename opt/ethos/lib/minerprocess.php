@@ -264,6 +264,12 @@ $pool_syntax = array(
     "http"=>"%s",
     ""=>"%s"
   ),
+  "teamredminer"=>array(
+    "ssl"=>"stratum+ssl://%s",
+    "stratum+tcp"=>"stratum+tcp://%s",
+    "http"=>"%s",
+    ""=>"stratum+tcp://%s"
+  ),
   "default"=>array(
     "ssl"=>"ssl://%s",
     "stratum+tcp"=>"stratum+tcp://%s",
@@ -288,7 +294,7 @@ function setup_pools($miner)
 
     case "ethminer-single":
     case "progpowminer":
-    case "progpowminer-single";	  
+    case "progpowminer-single":
     	$miner_syntax = "ethminer";
     	break;
 	}
@@ -1003,10 +1009,7 @@ function start_miner()
 			$pools .= " -o $proxypool2 -u $proxywallet$worker -p $poolpass2 ";
 		}
 		
-		$extraflags = "--bus_reorder";
-		if(!preg_match("/--api_listen/",$flags)) {
-			$extraflags .= " --api_listen=4028";
-		}
+		$extraflags = "--api_listen=4028 --bus_reorder";
 	}
 
 	/*******************************
