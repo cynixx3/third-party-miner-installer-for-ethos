@@ -7,7 +7,15 @@
 MINER_BRANCH="$1"
 CMD="$0"
 ACTION="$2"
+VERSION="$3"
 ALLOW="$(cat /opt/ethos/etc/allow.file)"
+
+# Github limits public api requests to 60 per hour, this script does 2 calls per install maxing out at 30 miner installs per hour
+# by adding a github user and password you can install up to 2,500 miners per hour
+# Either install the miner-manager and add a github.com user / pass here
+# or add the two lines to a file /home/ethos/.gituser and you can continue to use the source command or via install. 
+#GITHUB_USERNAME="GitUser"
+#GITHUB_PASSWORD="GitPassword"
 
 # Default miner.settings
 TMP_DIR="/tmp/newminer"
@@ -15,14 +23,53 @@ GIT_USER_REPO="cynixx3/third-party-miner-installer-for-ethos"
 #RELEASE_SHASUM="sha256sum of archive"
 #DEPENDS="URL URL"
 
+# Setting date for https
+sudo date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"
+
+# Assemble API user login
+if [ -f /home/ethos/.gituser ] ; then
+  source <(grep -m2 ^GITHUB_.*=".*"$ /home/ethos/.gituser)
+fi
+if [ "$GITHUB_PASSWORD" ] ; then 
+  GIT_LOGIN=" --user $GITHUB_USERNAME:$GITHUB_PASSWORD"
+elif [ "$GITHUB_USERNAME" ] ; then
+  GIT_LOGIN=" --user $GITHUB_USERNAME"
+else
+  GIT_LOGIN=""
+fi
+
+# Check Github API rate limit
+if [ "$(curl -iks $GIT_LOGIN https://api.github.com/rate_limit | grep -m1 ^X-Ratelimit-Remaining | cut -d ' ' -f 2 | sed 's/\r//')" -le 2 ] ; then
+  echo "You have installed the maximum number of rigs github allows. You need to wait until $(date -d "@$(curl -is https://api.github.com/rate_limit | grep ^X-Ratelimit-Reset: | cut -d : -f 2)" +%r) or add GitHub authentication."
+  exit 19
+fi
+
 # Get miner files and setup temporary opt/
+if [[ "$MINER_BRANCH" =~ "^ccminer$" ]] ; then 
+  DOWNLOAD_BRANCH="ccminer-tpruvot" 
+else
+  DOWNLOAD_BRANCH="$MINER_BRANCH"
+fi
 f.PREPMINER(){
-  echo "Getting latest release of miner"
-  if [ -z "$DOWNLOAD_URL" ] ; then 
-    DOWNLOAD_URL=$(curl -s https://api.github.com/repos/$GIT_USER_REPO/releases \
-    | grep -i "browser_download_url.*$MINER_BRANCH.*t.*z" \
+  if [ -z "$DOWNLOAD_URL" -a -n "$VERSION" ] ; then 
+    echo "Getting version $VERSION of $MINER_BRANCH"
+    DOWNLOAD_URL=$(curl $GIT_LOGIN -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
+    | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
-    | grep -vE '(osx|txt)' \
+    | grep -vE '(osx|txt|sha256)' \
+    | grep "$VERSION" \
+    | head -1 )
+    if [ -z "$DOWNLOAD_URL" ] ; then 
+      echo "WARNING: Unable to find $MINER_BRANCH version $VERSION. Defaulting to latest version"
+    fi
+  fi
+ 
+  if [ -z "$DOWNLOAD_URL" ] ; then 
+    echo "Getting latest release of miner"
+    DOWNLOAD_URL=$(curl $GIT_LOGIN -s "https://api.github.com/repos/$GIT_USER_REPO/releases" \
+    | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
+    | cut -d '"' -f 4 \
+    | grep -vE '(osx|txt|sha256)' \
     | head -1 )
   fi
   COMPRESSION=$(echo "$DOWNLOAD_URL" | grep -oP 't[argxb.]{1,4}z2?$')
@@ -50,13 +97,13 @@ f.PREPMINER(){
 
   echo "Unpacking miner"
   SUBDIR=""
-  if tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -qv "^$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | head -n1 )" ; then
+  if tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -qv "^$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | sort | head -n1 )" ; then
     SUBDIR="--directory=$MINER_BRANCH"
     MINER_ARCHIVE_FOLDER="$MINER_BRANCH" 
     mkdir "$MINER_BRANCH"
     echo "WARNING: tarbomb detected. Opening in subdirectory, $MINER_BRANCH."
   else
-    MINER_ARCHIVE_FOLDER=$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | grep -vE '(kernel|plugin)' | sort -u | tail -n1) || echo "failed to find archive folder"
+    MINER_ARCHIVE_FOLDER=$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | grep -vE '(kernel|plugin|log.|doc)' | sort -u | tail -n1) || echo "failed to find archive folder"
   fi
   if ! tar "$CT" -xf "$MINER_BRANCH.$COMPRESSION" "$SUBDIR" ; then
     echo "Unable to extract files package. Please check your access to git then try again."
@@ -91,13 +138,15 @@ f.CHECKDPKG(){
 
 # Get Replacement ethos files that enable miner operation and install miner specific dependencies
 f.PREPETHOS(){
-if [ "${VER//./}" -ne 133 ] ; then
-  echo "Unable to install due to current ethOS version, try \"update\" instead to install just the miner or update ethOS."
-  exit 14
-fi
+  if [ "${VER//./}" -ne 133 ] ; then
+    echo "Unable to install due to current ethOS version, try \"update\" instead to install just the miner or update ethOS."
+    exit 14
+  fi
   echo "Download and unpack files needed by ethOS"
-#todo add ethos version checking
-  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b "$MINER_BRANCH"
+  if ! git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b "$MINER_BRANCH" ; then
+    echo "git clone download failed. Please check your firewall or git access and try again."
+    exit 15
+  fi 
 
   if [ -f "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos/$MINER_BRANCH.stub.conf" ] ; then
     mkdir -p "$TMP_DIR/home/ethos/"
@@ -140,11 +189,14 @@ fi
 
 # Gather stock ethOS files in temporary opt/ and install stock packages
 f.REVERT(){
-if [ "${VER//./}" -lt 132 ] ; then
-  echo "Unable to revert, stock files are not ready for your miner version. Please try \`sudo ethos-update reupdate\`"
-  exit 14
-fi
-  git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos
+  if [ "${VER//./}" -lt 132 ] ; then
+    echo "Unable to revert, stock files are not ready for your miner version. Please try \`sudo ethos-update reupdate\`"
+    exit 16
+  fi
+  if ! git clone https://github.com/cynixx3/third-party-miner-installer-for-ethos.git -b ethos ; then
+    echo "git clone download failed. Please check your firewall or git access and try again."
+    exit 17
+  fi 
   mkdir -p "$TMP_DIR/opt/ethos"
   rsync -a --delete "$TMP_DIR/third-party-miner-installer-for-ethos/opt/ethos-$VER/" "$TMP_DIR/opt/ethos"
   chmod 775 "$TMP_DIR"/opt/ethos/bin/* "$TMP_DIR"/opt/ethos/sbin/* 
@@ -171,7 +223,8 @@ fi
 f.INSTALL(){
   echo "Stopping the miner"
   /opt/ethos/bin/disallow
-  ps uax | grep -E "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|lolminer|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|$MINER_BRANCH" | grep -Ev '(curl|update-miner|miner-manager|develop|grep)' | awk '{print $2}' | sudo xargs kill -9
+  MPID="$(ps uax | grep -E "avermore|ccminer|cgminer-skein|claymore|dstm-zcash|ethminer|ewbf-equihash|ewbf-zcash|lolminer|nevermore|optiminer-zcash|progpowminer|sgminer-gm|teamredminer|xmr-stak|xtl-stak|$MINER_BRANCH" | grep -Ev '(bash|source|curl|update-miner|miner-manager|develop|grep)' | awk '{print $2}' )"
+  if [ "$MPID" ] ; then sudo kill -9 $MPID ; fi
   
   echo "Installing miner"
   sudo rsync -av "$TMP_DIR/opt/" /opt
@@ -180,12 +233,13 @@ f.INSTALL(){
     if [ "$HOOK_STUB" ] ; then $HOOK_STUB ; fi
   fi
   if [[ "$ACTION" == "install" ]] && [[ -d "$TMP_DIR/opt/ethos" ]] ; then
-    echo "#Installed $MINER_BRANCH ethOS files" >> /home/ethos/remote.conf
+    sed "/#Installed/d" -i /home/ethos/remote.conf
+    printf "\n#Installed $MINER_BRANCH ethOS files on %s" "$(date)" >> /home/ethos/remote.conf
   elif [[ "$ACTION" == "revert" ]] && [[ -d "$TMP_DIR/opt/ethos" ]] ; then
-    sed "/#Installed $MINER_BRANCH/d" -i /home/ethos/remote.conf
+    sed "/#Installed/d" -i /home/ethos/remote.conf
   fi
 
-  if [ "$HOOK_INSTALL" ] ; then $HOOK_INSTALL ; fi
+  if [ "$HOOK_INSTALL" ] ; then ${HOOK_INSTALL[@]} ; fi
 
   echo "Restarting services and miner"
   sudo service ethos-miner-daemon restart
@@ -205,21 +259,24 @@ f.HELP (){
   echo "$1
 Usage $CMD [ Miner ] ( install | update | revert )
 
-Miners Available:
-$(curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | cut -d '"' -f 4 | grep -Ev '(ethos|master)')"
+Miners Available:"
+printf "%s\n" "${AVAILABLE_MINERS[@]//\"/}"
 }
+mapfile -t AVAILABLE_MINERS < <(curl $GIT_LOGIN -ks https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches?per_page=100 | grep name | grep -Ev '(ethos|master)' | sed -E 's/ +"name": ("[a-z0-9\-]+?"), ?/ \1/g')
 
 # TODO add logging
-if [ "$#" -ne "2" ] ; then
-  f.HELP "Wrong number of arguments, must be 2 arguments miner and action, please refer to https://github.com/cynixx3/third-party-miner-installer-for-ethos"
+if [ "$#" -lt "2" -o "$#" -gt "3" ] ; then
+  f.HELP "Wrong number of arguments, must have 2 arguments, a miner and action, please refer to https://github.com/cynixx3/third-party-miner-installer-for-ethos"
   exit 1
-elif ! [[ "$(curl -s https://api.github.com/repos/cynixx3/third-party-miner-installer-for-ethos/branches | grep name | grep -Ev '(ethos|master)')" == *"\"$MINER_BRANCH\""* ]] ; then
+elif ! [[ "${AVAILABLE_MINERS[@]}" == *"\"$MINER_BRANCH\""* ]] ; then
   f.HELP "Invalid miner selected, Please choose from the list below"
   exit 2
 fi
 
 # Get miner settings
-source <(curl -s "https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings")
+if ! source <(curl $GIT_LOGIN -s "https://raw.githubusercontent.com/cynixx3/third-party-miner-installer-for-ethos/$MINER_BRANCH/miner.settings") ; then 
+  echo "You may have a security certificate issue."
+fi
 
 if [ -d "$TMP_DIR" ] ; then rm -rf "$TMP_DIR" ; fi
 echo "Move to a temporary work space"
@@ -242,9 +299,6 @@ case "$2" in
   revert)
     f.REVERT
     rm -rf "/opt/miners/$MINER_BRANCH"
-    if [ -f "/home/ethos/$MINER_BRANCH.stub.conf" ] ; then
-      rm "/home/ethos/$MINER_BRANCH.stub.conf"
-    fi
     f.INSTALL
     f.CLEANUP
   ;;
