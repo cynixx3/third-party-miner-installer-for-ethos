@@ -1080,8 +1080,17 @@ function start_miner()
 		}
 		if(!preg_match("/-a/",$flags)){
 			$flags .= " -a ethash ";
-		}
-		$pools = "-o $proxypool1 -u $proxywallet$worker -p $poolpass1 ";
+        }
+        
+        if($namedisabled != "disabled") {
+            $proxywallet .= $worker;
+        }
+
+        if($poolemail != "" && preg_match("/(ethosdistro.com|nanopool.org)/", $proxypool1)) {
+            $proxywallet .= $poolemail;
+        }
+
+		$pools = "-o $proxypool1 -u $proxywallet -p $poolpass1 ";
     }
 
 	//begin miner commandline buildup
