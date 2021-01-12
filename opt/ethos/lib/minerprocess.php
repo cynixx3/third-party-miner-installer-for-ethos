@@ -1086,10 +1086,6 @@ function start_miner()
             $proxywallet .= $worker;
         }
 
-        if($poolemail != "" && preg_match("/(ethosdistro.com|nanopool.org)/", $proxypool1)) {
-            $proxywallet .= $poolemail;
-        }
-
 		$pools = "-o $proxypool1 -u $proxywallet -p $poolpass1 ";
     }
 
