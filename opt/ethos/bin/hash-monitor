@@ -300,9 +300,18 @@ function get_hashrates(){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);
 		}
 
-		if($miner == "gminer") {
-			$raw = $gminerstats[$i];
-		}
+                if($miner == "gminer") {
+                    $hashes = intval($gminerstats[$i]);
+                    if($hashes > 1000000){
+                        $raw = $gminerstats[$i] * 0.000001;
+                    }
+                    elseif($hashes >= 999 && $hashes <= 999999){
+                        $raw = $gminerstats[$i] * 0.001;
+                    } else {
+                        $raw = $hashes;
+                    }
+                }
+
 		
 		if($last_mod_secs < 300){
 			$miner_hash[$i] = sprintf('%05.2f', 0.00 + $raw);
