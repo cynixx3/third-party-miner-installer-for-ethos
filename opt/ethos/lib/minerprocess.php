@@ -1085,8 +1085,10 @@ function start_miner()
         if($namedisabled != "disabled") {
             $proxywallet .= $worker;
         }
+        
+        $extraflags .= "--worker " + preg_replace('.', '', $worker);
 
-		$pools = "-o $proxypool1 -u $proxywallet -p $poolpass1 ";
+		$pools = "-o $proxypool1 -u $proxywallet -p $poolpass1 $extraflags";
     }
 
 	//begin miner commandline buildup
