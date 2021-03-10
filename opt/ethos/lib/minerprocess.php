@@ -1098,7 +1098,13 @@ function start_miner()
                         $mine_with = "-d $devices";
                 }
                 if(!preg_match("/-a|--algo/",$flags)) {
-                        $flags .= " -a grincuckaroo29 ";
+                    if(preg_match("/(rvn|raven)/", $proxypool1)){
+                        $flags .= " -a kawpow";
+                    } elseif(preg_match("/etc/", $proxypool1)){
+                        $flags .= " -a etchash";
+                    } else {
+                        $flags .= " -a ethash ";
+                    }
                 }
                 if($namedisabled != "disabled"){
                     if(preg_match("/fairpool.xyz/",$proxypool1)){
