@@ -1086,7 +1086,7 @@ function start_miner()
             $proxywallet .= $worker;
         }
         
-        $extraflags .= "--worker " + preg_replace('.', '', $worker);
+        $extraflags .= "--worker " . preg_replace('.', '', $worker);
 
 		$pools = "-o $proxypool1 -u $proxywallet -p $poolpass1 $extraflags";
     }
