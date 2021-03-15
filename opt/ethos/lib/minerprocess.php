@@ -1074,21 +1074,21 @@ function start_miner()
     * T-REX
     ********************************/
     if ($miner == "t-rex") {
-		$devices = implode(",",select_gpus());
-		if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
-			$mine_with = "-d $devices";
-		}
-		if(!preg_match("/-a/",$flags)){
-			$flags .= " -a ethash ";
+	$devices = implode(",",select_gpus());
+	if(trim(`/opt/ethos/sbin/ethos-readconf selectedgpus`) != "") {
+		$mine_with = "-d $devices";
+	}
+	if(!preg_match("/-a/",$flags)){
+		$flags .= " -a ethash ";
         }
         
         if($namedisabled != "disabled") {
             $proxywallet .= $worker;
         }
         
-        $extraflags .= "--worker " . preg_replace('.', '', $worker);
+        $extraflags = "--worker " . preg_replace('/\./', '', $worker);
 
-		$pools = "-o $proxypool1 -u $proxywallet -p $poolpass1 $extraflags";
+	$pools = "-o $proxypool1 -u $proxywallet -p $poolpass1 $extraflags";
     }
 
 	//begin miner commandline buildup
