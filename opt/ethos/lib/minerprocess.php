@@ -1111,9 +1111,9 @@ function start_miner()
 	    
         $nanoconfig = array();
         $nanoconfig += ["devices"=>$selgpu];
-        $nanoconfig += ["watchdog"=>false];
+        $nanoconfig += ["watchdog"=>"false"];
         $nanoconfig += ["mport"=> "-" . $apiport];
-        $nanoconfig += ["sendHashrate"=>true];
+        $nanoconfig += ["sendHashrate"=>"true"];
         $nanoconfig += ["coin"=>"ETH"];
 
         if(preg_match('/--coin/', $flags)){
