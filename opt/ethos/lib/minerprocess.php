@@ -1097,6 +1097,66 @@ function start_miner()
 	    $flags = "--profile ETHOS --json " . $lolconfig_path . " --devices " . $selgpu . " " . $flags;
 	    
 	}
+
+	/*******************************
+	* NANOMINER
+	********************************/
+	if ($miner == "nanominer") {
+	    $devices = select_gpus();
+	    $selgpu = implode(",", select_gpus());
+	    delete_old_api_port();
+	    $apiport = select_api_port();
+	    $nanoconfig_path = "/var/run/ethos/nanominer_config.file";
+        shell_exec("rm $nanoconfig_path");
+	    
+        $nanoconfig = array();
+        $nanoconfig += ["devices"=>$selgpu];
+        $nanoconfig += ["watchdog"=>false];
+        $nanoconfig += ["mport"=> "-" . $apiport];
+        $nanoconfig += ["sendHashrate"=>true];
+        $nanoconfig += ["coin"=>"ETH"];
+
+        if(preg_match('/--coin/', $flags)){
+            $coin = trim(`echo $flags | grep -Poi '(?<=--coin )[a-z].*+'`);
+            $nanoconfig["coin"] = strtoupper($coin);
+            $flags = str_replace("--coin $coin", "", $flags);
+        }
+
+        if(preg_match('/(--algo)/', $flags)){
+            $algo = trim(`echo $flags | grep -Poi '(?<=--algo )[a-z].*+'`);
+            $algoArr = array("algo"=>"[" . $algo . "]");
+            $nanoconfig = $algoArr + $nanoconfig;
+            $flags = str_replace("--algo $algo", "", $flags);
+            unset($nanoconfig["coin"]);
+        }
+
+        if($namedisabled !== "disabled"){
+            $worker = `/opt/ethos/sbin/ethos-readconf worker`;
+            if($worker !== ""){
+                $nanoconfig += ["rigName"=>preg_replace("/\./", "", $worker)];
+            }
+        }
+
+        if($poolemail !== ""){
+            $nanoconfig += ["email"=>$poolemail];
+        }
+
+        // Add wallet and pools
+        $nanoconfig += ["wallet"=>$proxywallet];
+        $nanoconfig += ["pool1"=>$proxypool1];
+        if($proxypool2 !== ""){
+            $nanoconfig += ["pool2"=>$proxypool2];
+        }
+
+        // build up config
+        foreach($nanoconfig as $param=>$value){
+            if($param == "algo"){
+                `echo $value >> $nanoconfig_path`;
+                continue;
+            }
+            `echo "$param=$value" >> $nanoconfig_path`;
+        }
+	}
 	
 	//begin miner commandline buildup
 
@@ -1123,6 +1183,7 @@ function start_miner()
 	$miner_path['teamredminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.teamredminer -l -L -dmS teamredminer /opt/miners/teamredminer/teamredminer";
 	$miner_path['ewbf-equihash'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.ewbf-equihash -l -L -dmS ewbf-equihash /opt/miners/ewbf-equihash/ewbf-equihash";
 	$miner_path['lolminer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.lolminer -l -L -dmS lolminer /opt/miners/lolminer/lolMiner";
+	$miner_path['nanominer'] = "/usr/bin/screen -c /opt/ethos/etc/screenrc.nanominer -l -L -dmS nanominer /opt/miners/nanominer/nanominer /var/run/ethos/nanominer_config.file";
 		
 			
 	$start_miners = select_gpus();
@@ -1156,6 +1217,7 @@ function start_miner()
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
+		$miner_params['nanominer'] = "";
 
 		$miner_suffix['avermore'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['dstm-zcash'] = " " . $mine_with . " " . $extraflags;
@@ -1178,7 +1240,7 @@ function start_miner()
 		$miner_suffix['xmr-stak'] = " " . $extraflags;
 		$miner_suffix['xtl-stak'] = " " . $extraflags;
 		$miner_suffix['teamredminer'] = " " . $mine_with . " " . $extraflags;
-		$miner_suffix['lolminer'] = "";
+		$miner_suffix['nanominer'] = "";
 		
 		$command = "su - ethos -c \"" . escapeshellcmd($miner_path[$miner] . " " . $miner_params[$miner]) . " $miner_suffix[$miner]\"";
 		$command = str_replace('\#',"#",$command);

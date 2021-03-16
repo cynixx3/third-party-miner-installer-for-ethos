@@ -183,6 +183,19 @@ function get_hashrates(){
 		$raw_lolstats = @json_decode(@file_get_contents("http://127.0.0.1:42000/summary"),TRUE);
 	}
 
+    if($miner == "nanominer"){
+        $nanostats = array();
+        $raw_nanominer_stats = @json_decode(@file_get_contents("http://127.0.0.1:9090/stats"),TRUE);
+        foreach($raw_nanominer_stats["Algorithms"][0] as $algo){
+                foreach(array_keys($algo) as $stats){
+                        if(preg_match("/GPU/", $stats)){
+                                $gpu = explode(" ", $stats);
+                                $nanostats += [$gpu[1]=>$algo[$stats]["Hashrate"]];
+                        }
+                }
+        };
+    }
+
 	for($i = 0;$i < $instances; $i++){
 		if(preg_match("/(ccminer|nevermore)/",$miner)){
 			
@@ -225,8 +238,7 @@ function get_hashrates(){
 		}
 		
 		if(preg_match("/(ethminer$|progpowminer$)/", $miner)){
-			$raw = trim(`tail -$tail /var/run/miner.$i.output | sed 's,\x1B\[[0-9;]*[a-zA-Z],,g' | tr -s ' ' | grep Speed | cut -d" " -f6 | tail -100 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'
-`);
+			$raw = trim(`tail -$tail /var/run/miner.$i.output | sed 's,\x1B\[[0-9;]*[a-zA-Z],,g' | tr -s ' ' | grep Speed | cut -d" " -f6 | tail -100 | awk '{ sum += $1; n++ } END { if (n > 0) printf "%.2f",sum / n; }'`);
 		}
 		
 		if(preg_match("/(eth|progpow)miner-single/", $miner)){
@@ -282,6 +294,22 @@ function get_hashrates(){
 		if ($miner == "lolminer") {
 			$raw = $raw_lolstats["GPUs"][$i]["Performance"];
 		}
+
+        if($miner == "nanominer"){
+            $hashes = $nanostats[$i];
+            if($hashes == ""){
+                $raw = 0;
+                continue;
+            }
+            if($hashes > 1000000){
+                $raw = $nanostats[$i] * 0.000001;
+            }
+            elseif($hashes >= 999 && $hashes <= 999999){
+                $raw = $nanostats[$i] * 0.001;
+            } else {
+                $raw = $hashes;
+            } 
+        }
 
 		if (($miner == "claymore" || $miner == "claymore-legacy") && $dualminer_status == "enabled"){
 			$dualminer_hash[$i] = (($last_mod_secs < 300) ? sprintf('%05.2f', 0.00 + $dualminer_raw) : 0);

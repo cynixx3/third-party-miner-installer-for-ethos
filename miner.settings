@@ -1,1 +1,2 @@
-GIT_USER_REPO="Lolliedieb/lolMiner-releases"
+GIT_USER_REPO="nanopool/nanominer"
+HOOK_INSTALL="echo '3.3.2' > /opt/miners/nanominer/version.txt"
