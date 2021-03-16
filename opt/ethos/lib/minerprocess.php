@@ -1131,7 +1131,7 @@ function start_miner()
         }
 
         if($namedisabled !== "disabled"){
-            $worker = `/opt/ethos/sbin/ethos-readconf worker`;
+            $worker = trim(`/opt/ethos/sbin/ethos-readconf worker`);
             if($worker !== ""){
                 $nanoconfig += ["rigName"=>preg_replace("/\./", "", $worker)];
             }
