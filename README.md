@@ -4,6 +4,8 @@ This **_OFFICIAL_** miner manager will install, update, or revert these miners t
 
 These instructions were written for the average NON linux PC user (thats you!)
 
+These instructions were written for the average NON linux PC user (thats you!)
+
 Estimated read time: 10 minutes ([Jump to TL:DR](README.md#tldr))
 
 ### List of currently supported miners
