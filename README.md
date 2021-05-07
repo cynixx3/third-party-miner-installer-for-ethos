@@ -45,7 +45,7 @@ _key_
 | ✔️ | 🔗 v5.5c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash | 0.65% - 0.9% (dual) |
 | ✔️ | 🚀 | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | SHA3 EIP918 tokens | 2% (1.5% min configurable) |
 | ✔️ | 🚀 | AMD | [teamredminer](https://bitcointalk.org/index.php?topic=5059817.0) | EtHash, CryptoNight, x16rv2, MTP, Lyra2z and more | 0.75% - 3% |
-| ✔️ | 🚀 | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, MTP, Lyra2z, timetravel, and more | 1% (3% for Tensority) |
+| ✔️ | 🔗 v0.20.3 | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, MTP, Lyra2z, timetravel, and more | 1% (3% for Tensority) |
 | ✔️ | 🚀 | AMD NVIDIA | [ubqminer](https://github.com/ubiq/ubqminer) | Ethereum based Ubiq | 0% |
 | ✔️ | 🚀 | AMD | [wildrig-multi](https://bitcointalk.org/index.php?topic=5023676.0) | x16rv2, Squa, MTP, MTP-TCR, timetravel, and more | 2% (optional flag change) |
 | ✔️ | 🐌 v1 | AMD CPU NVIDIA | [xcash-all](https://github.com/X-CASH-official/XCASH_ALL_Miner) | XCash | 0% |
