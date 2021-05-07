@@ -1,3 +1,5 @@
-GIT_USER_REPO="trexminer/T-Rex"
+#GIT_USER_REPO="trexminer/T-Rex"
+DOWNLOAD_URL="https://trex-miner.com/download/t-rex-0.20.3-linux.tar.gz"
+RELEASE_SHASUM="e1ade18610e3ac4dc1bae61a24ae590d85813d23"
 DEPENDS=(http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.12_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.12_amd64.deb)
 HOOK_INSTALL=(sudo ln -s /usr/local/cuda-10.0/lib64/libnvrtc.so.10.0 /usr/local/cuda-10.0/lib64/libnvrtc.so)
