@@ -103,7 +103,7 @@ f.PREPMINER(){
     mkdir "$MINER_BRANCH"
     echo "WARNING: tarbomb detected. Opening in subdirectory, $MINER_BRANCH."
   else
-    MINER_ARCHIVE_FOLDER=$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | grep -vE '(kernel|plugin|log.|doc)' | sort -u | tail -n1) || echo "failed to find archive folder"
+    MINER_ARCHIVE_FOLDER=$(tar "$CT" -tf "$MINER_BRANCH.$COMPRESSION" | grep -oP '^.*\/' | grep -vE '(kernel|plugin|log.|doc|web|licenses|scripts|lib)' | sort -u | tail -n1) || echo "failed to find archive folder"
   fi
   if ! tar "$CT" -xf "$MINER_BRANCH.$COMPRESSION" "$SUBDIR" ; then
     echo "Unable to extract files package. Please check your access to git then try again."
