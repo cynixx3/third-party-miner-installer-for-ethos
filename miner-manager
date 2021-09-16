@@ -53,7 +53,7 @@ fi
 f.PREPMINER(){
   if [ -z "$DOWNLOAD_URL" -a -n "$VERSION" ] ; then 
     echo "Getting version $VERSION of $MINER_BRANCH"
-    DOWNLOAD_URL=$(curl $GIT_LOGIN -s "https://api.github.com/repos/$GIT_USER_REPO/releases?per_page=100 " \
+    DOWNLOAD_URL=$(curl $GIT_LOGIN -s "https://api.github.com/repos/$GIT_USER_REPO/releases?per_page=100" \
     | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
     | grep -vE '(osx|txt|sha256)' \
@@ -66,7 +66,7 @@ f.PREPMINER(){
  
   if [ -z "$DOWNLOAD_URL" ] ; then 
     echo "Getting latest release of miner"
-    DOWNLOAD_URL=$(curl $GIT_LOGIN -s "https://api.github.com/repos/$GIT_USER_REPO/releases?per_page=100 " \
+    DOWNLOAD_URL=$(curl $GIT_LOGIN -s "https://api.github.com/repos/$GIT_USER_REPO/releases?per_page=100" \
     | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
     | grep -vE '(osx|txt|sha256|cuda)' \
