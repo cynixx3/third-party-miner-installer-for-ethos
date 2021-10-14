@@ -1150,7 +1150,7 @@ function start_miner()
 		$miner_params['teamredminer'] = $flags ." ". $pools;
 		$miner_params['ewbf-equihash'] = "--config /var/run/ethos/ewbf-equihash.conf";
 		$miner_params['lolminer'] = $flags;
-		$miner_params['t-rex'] = $flags ." -J --api-bind-http 0 ". $pools;
+		$miner_params['t-rex'] = $flags ." ". $pools;
 
 		$miner_suffix['avermore'] = " " . $mine_with . " " . $extraflags;
 		$miner_suffix['dstm-zcash'] = " " . $mine_with . " " . $extraflags;
