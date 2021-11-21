@@ -184,7 +184,7 @@ function get_hashrates(){
 	}
 	
 	if ($miner == "t-rex") {
-		$raw_trex_json = @json_decode(trim(`echo 'summary' | socat -t 15 stdio tcp-connect:127.0.0.1:4068`), true);
+		$raw_trex_json = @json_decode(@file_get_contents("http://127.0.0.1:4067/summary"),true);
 		$trexstats = array();
                 $raw_trex_stats = $raw_trex_json['gpus'];
                 foreach($raw_trex_stats as $id){
