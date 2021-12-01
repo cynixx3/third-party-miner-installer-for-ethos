@@ -42,7 +42,7 @@ _key_
 | ✔️ | 🚀 | AMD CPU NVIDIA | [ninjarig](https://github.com/turtlecoin/ninjarig) | Argon2 (Turtle Coin) | 1% - 5% (configurable) |
 | ❌ | 🚀 | NVIDIA | [nodecore-pow-cuda-miner](https://github.com/VeriBlock/nodecore-pow-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-cuda-miner/) | 0% |
 | ❌ | 🐌 v2.0a | AMD NVIDIA | [nodecore-pow-amd-cuda-miner](https://github.com/monkins1010/nodecore-pow-AMD-cuda-miner#command-line-arguments) | VeriBlock (miner only, run manually in /opt/miners/nodecore-pow-amd-cuda-miner/) | 0% |
-| ✔️ | 🔗 v5.8c | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash | 0.65% - 0.9% (dual) |
+| ✔️ | 🔗 v5.9d | AMD NVIDIA | [phoenixminer](https://bitcointalk.org/index.php?topic=2647654.0) | EtHash | 0.65% - 0.9% (dual) |
 | ✔️ | 🚀 | AMD CPU NVIDIA | [soliditysha3miner](https://github.com/lwYeo/SoliditySHA3Miner) | SHA3 EIP918 tokens | 2% (1.5% min configurable) |
 | ✔️ | 🚀 | AMD | [teamredminer](https://bitcointalk.org/index.php?topic=5059817.0) | EtHash, CryptoNight, x16rv2, MTP, Lyra2z and more | 0.75% - 3% |
 | ✔️ | 🚀 | NVIDIA | [t-rex](https://bitcointalk.org/index.php?topic=4432704.0) | x16rv2, MTP, Lyra2z, timetravel, and more | 1% (3% for Tensority) |
