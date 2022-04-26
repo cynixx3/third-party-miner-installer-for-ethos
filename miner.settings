@@ -1,5 +1,5 @@
 # get it from https://bitcointalk.org/index.php?topic=2647654.0 , https://phoenixminer.info/downloads/
-DOWNLOAD_URL="https://phoenixminer.info/downloads/PhoenixMiner_5.9d_Linux.tar.gz"
+DOWNLOAD_URL="https://phoenixminer.info/downloads/PhoenixMiner_6.1b_Linux.tar.gz"
 #GIT_USER_REPO="PhoenixMiner-download/PhoenixMiner"
 DEPENDS=(http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.4.0-6ubuntu1~16.04.12_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.4.0-6ubuntu1~16.04.12_amd64.deb)
 HOOK_INSTALL="/bin/rm -f /opt/miners/phoenixminer/epools.txt"
