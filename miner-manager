@@ -56,7 +56,7 @@ f.PREPMINER(){
     DOWNLOAD_URL=$(curl $GIT_LOGIN -s "https://api.github.com/repos/$GIT_USER_REPO/releases?per_page=100" \
     | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
-    | grep -vE '(osx|txt|sha256)' \
+    | grep -vE '(osx|txt|sha256|armhf)' \
     | grep "$VERSION" \
     | head -1 )
     if [ -z "$DOWNLOAD_URL" ] ; then 
@@ -69,7 +69,7 @@ f.PREPMINER(){
     DOWNLOAD_URL=$(curl $GIT_LOGIN -s "https://api.github.com/repos/$GIT_USER_REPO/releases?per_page=100" \
     | grep -i "browser_download_url.*$DOWNLOAD_BRANCH.*t.*z" \
     | cut -d '"' -f 4 \
-    | grep -vE '(osx|txt|sha256|cuda)' \
+    | grep -vE '(osx|txt|sha256|cuda|armhf)' \
     | head -1 )
   fi
   COMPRESSION=$(echo "$DOWNLOAD_URL" | grep -oP 't[argxb.]{1,4}z2?$')
