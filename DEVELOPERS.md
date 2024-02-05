@@ -62,7 +62,7 @@ The miner-manager script also has optional hooks for you to run miner specific c
 3. add your /opt/ethos files
 4. set the config options needed in miner.settings
 5. change readme install, update, revert, and config examples
-6. `git comit -am "initial comit"
+6. `git commit -am "initial comit"
 7. submit a pull request
 8. test and recommit any any changes 
 
